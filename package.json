@@ -1,0 +1,23 @@
+{
+  "name": "entregables",
+  "version": "1.0.0",
+  "description": "Se crea constructor de la clase ProductManager\r dentro del mismo se llama al método addProduct() que verifica condiciones para añadir el producto al array this.product[].",
+  "main": "ProductManager.js",
+  "scripts": {
+    "start": "nodemon ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/palazzid88/entregable-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/palazzid88/entregable-backend/issues"
+  },
+  "homepage": "https://github.com/palazzid88/entregable-backend#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

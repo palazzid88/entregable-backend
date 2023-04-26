@@ -76,27 +76,53 @@ class ProductManager {
 
 
 
-const product1 = {
-    title: "untitulo1",
-    description: "unadescription1",
+const product7 = {
+    title: "untitulo7",
+    description: "unadescription7",
     price: 200,
-    thumbnail: "unathumbnail1",
-    code: 123,
+    thumbnail: "unathumbnail7",
+    code: 321,
     stock: 100
 }
 
 
-const product2 = {
-    title: "untitulo2",
-    description: "unadescription2",
+const product8 = {
+    title: "titulo8",
+    description: "description8",
     price: 200,
-    thumbnail: "unathumbnail2",
-    code: 456,
+    thumbnail: "unathumbnail8",
+    code: 234,
+    stock: 100
+}
+
+
+const product9 = {
+    title: "titulo9",
+    description: "description9",
+    price: 200,
+    thumbnail: "unathumbnail9",
+    code: 457,
+    stock: 100
+}
+
+
+const product10 = {
+    title: "titulo10",
+    description: "description10",
+    price: 200,
+    thumbnail: "unathumbnail10",
+    code: 765,
     stock: 100
 }
 
 const productManager = new ProductManager("products.json");
-productManager.addProduct(product1);
-// productManager.deleteProduct(1);
+productManager.addProduct(product7);
+productManager.addProduct(product8);
+productManager.addProduct(product9);
+productManager.addProduct(product10);
+
+// productManager.deleteProduct();
 // productManager.getProductById(1);
 // productManager.updateProduct(1, product2);
+
+module.exports = ProductManager;
