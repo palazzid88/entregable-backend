@@ -34,7 +34,7 @@ class ProductManager {
 
     getProductById(id) {
         const products = this.getProducts();
-        const product = products.find((prod)=> prod.id === id);
+        const product = products.find((prod)=> prod.id == id);
         if (!product) {
             throw new Error (`no existe producto con ID:`);
         }
@@ -116,11 +116,13 @@ const product10 = {
 }
 
 const productManager = new ProductManager("products.json");
+
+/*
 productManager.addProduct(product7);
 productManager.addProduct(product8);
 productManager.addProduct(product9);
 productManager.addProduct(product10);
-
+*/
 // productManager.deleteProduct();
 // productManager.getProductById(1);
 // productManager.updateProduct(1, product2);
