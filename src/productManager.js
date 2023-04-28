@@ -36,7 +36,7 @@ class ProductManager {
         const products = this.getProducts();
         const product = products.find((prod)=> prod.id == id);
         if (!product) {
-            throw new Error (`no existe producto con ID:`);
+            return (`no existe producto con ID:`);
         }
         return product
     }
@@ -46,7 +46,7 @@ class ProductManager {
         const products = this.getProducts();
         const index = products.findIndex((prod)=> prod.id == id);
         if (index == -1) {
-            throw new Error(`el producto con ID ${id} no existe`)
+            return (`el producto con ID ${id} no existe`)
         }
         products[index] = {...updateProduct, id};
         this.saveProducts(products);
@@ -57,7 +57,7 @@ class ProductManager {
         const products = this.getProducts();
         const index = products.findIndex((prod)=> prod.id == id);
         if (index === -1){
-            throw new Error (`No existe producto con ${id}`);
+            return (`No existe producto con ${id}`);
         }
         products.splice(index, 1);
         this.saveProducts(products);
@@ -68,7 +68,7 @@ class ProductManager {
         const data = JSON.stringify(products, null, 2);
         fs.writeFileSync(this.path, data, err=> {
             if (err) {
-                throw new Error (`error`)
+                return (`error`)
             }
         });
       }

@@ -1,31 +1,46 @@
 const express = require('express');
 const ProductManager = require('./productManager'); 
-//=> se exporta importa clase ProductManager
 const { parse } = require('path');
 const { stringify } = require('querystring');
+const { error } = require('console');
 const app = express()
 const port = 8080;
 const path = "./products.json" 
-//=> se declara ruta JSON
-const  productManager = new ProductManager (path) 
-//=> se crea instancia de ProductManager
+const  productManager = new ProductManager (path)
 
-//productManager => inicia con 10 objetos en products.json
+const alumno = {
+  nombre: "David",
+  apellido: "Palazzi",
+  curso: "Backend",
+  comisión: 51380 
+}
 
-//=> endpoints "todos los productos"
+
+//#### GET HOME #### 
+app.get('/', (req, res) => {
+  res.json(alumno)
+});
+
+
+//#### GET PRODUCTS ####
 app.get('/products', (req, res) => {
     const products = productManager.getProducts()
     res.send(products)
 });
 
-//=> endpoints "productos por id" => en método productById(), en productManager.js, 
-//   se cambia === por ==, dado a que el ID del endpoint es string.
+
+//#### GET PRODUCT POR ID ####
 app.get('/products/:id', (req, res) => {
     const id = req.params.id; //=> este dato devuelve un string
     console.log(id) 
-    const products = productManager.getProductById(id) //=> pasa el id en string como parámetro para el método
-    res.json(products)
+    const products = productManager.getProductById(id)
+    if (!products) {
+      return res.status(201).json("usuario no encontrado")
+    }
+    return res.status(201).json(products)
 });
+
+//### POST ###
 
 
 app.listen(port, () => {
