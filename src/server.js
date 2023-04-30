@@ -1,5 +1,5 @@
 const express = require('express');
-const ProductManager = require('./productManager'); 
+const ProductManager = require("./productManager")
 const { parse } = require('path');
 const { stringify } = require('querystring');
 const { error } = require('console');
@@ -17,27 +17,45 @@ const alumno = {
 
 
 //#### GET HOME #### 
-app.get('/', (req, res) => {
-  res.json(alumno)
+app.get('/', async (req, res) => {
+  try {
+    res.status(200).json(alumno)
+  } catch (error) {
+      res.status(404).json({message: "página no encontrada"})    
+  }
 });
 
 
 //#### GET PRODUCTS ####
-app.get('/products', (req, res) => {
-    const products = productManager.getProducts()
-    res.send(products)
+app.get('/api/products', async (req, res) => {
+  try {
+    const { limit } = req.query;
+      const products = await productManager.getProducts()
+      if (limit) {
+        res.status(200).json(products.slice(0, limit));
+      } else {
+        res.status(200).json(products);
+      }
+  } catch (error) {
+        res.status(500).json({ message: 'hubo un error'})    
+  }
 });
 
 
 //#### GET PRODUCT POR ID ####
-app.get('/products/:id', (req, res) => {
-    const id = req.params.id; //=> este dato devuelve un string
+app.get('/api/products/:id', async (req, res) => {
+  try {
+    const { id } = req.params; //=> este dato devuelve un string
     console.log(id) 
-    const products = productManager.getProductById(id)
+    const products = await productManager.getProductById(id)
     if (!products) {
-      return res.status(201).json("usuario no encontrado")
-    }
-    return res.status(201).json(products)
+      res.status(404).json("usuario no encontrado")
+    } else {
+      res.status(200).json(products)
+    }    
+  } catch (error) {
+    res.status(500).json({message: 'error id'})
+  }
 });
 
 //### POST ###

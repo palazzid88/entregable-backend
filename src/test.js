@@ -87,15 +87,15 @@ const product4 = {
 
 
 const productManager = new ProductManager();
-productManager.getProducts()
+// productManager.getProducts()
 //product.getProducts();
 
 // product.getProductsById();
-console.log(productManager.addProduct(product), "product");
-console.log(productManager.addProduct(product2), "product2");
-console.log(productManager.addProduct(product3), "product3");
-console.log(productManager.addProduct(product4), "product4");
+// console.log(productManager.addProduct(product), "product");
+// console.log(productManager.addProduct(product2), "product2");
+// console.log(productManager.addProduct(product3), "product3");
+// console.log(productManager.addProduct(product4), "product4");
 
 
 
-console.log(productManager, "array");
+// console.log(productManager, "array");

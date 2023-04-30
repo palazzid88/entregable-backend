@@ -1,22 +1,31 @@
-### Test.js - ENTREGABLE #1 ###
+### server.js - ENTREGABLE 3 ###
+
+* Se crea server.js donde se ejecuta express.js.
+* en carpeta img se encuentran las capturas de pantalla de las resoluciones en Postman
+* Dentro de la ejecución de express se crea métodos:
+
+# //=> GET HOME:
+Devuelve obj Alumno en direccion ("/")
+
+# //=> GET PRODUCTS:
+Devuelve todos los objetos, siempre y cuando no posea un query.limit, en ese caso devuelve la cantidad de objetos de limit.
+
+# //=> GET PRODUCTS POR ID:
+Devuelve el producto del ID declarado en ("/api/products/ID"), en caso de no encontrarlo envía un error.
 
 
-Se crea constructor de la clase ProductManager
-dentro del mismo se llama al método addProduct() que verifica condiciones para añadir el producto al array this.product[].
+# Información secundaria #
+* Se añade método deleteAll(); en constructor, que eimiina y vacía el arrary de productos JSON.
+* En help.md se guarda información importante de ayuda memoria.
+* En desafio3.md se encuentra la consigna del desafío.
 
-En caso de que el producto contenga un código distinto a los que ya se encuentren en el array, y posea todos los atributos en el mismo, podrá ser añadido al array => 
 
-* Se utiliza método some(), para comparar los códigos de los productos,
+#### FIN ENTREGABLE #3 ####
 
-* Se utiliza método every(), para verificar que existan todos los campos dentro del objeto, para ello lo compara con un patrón de atributos existeAtributo = [];
 
-En caso de que todas estas condiciones se cumplan, se le añade un id, con valor incremental a cada objeto, y se pushea a array=> this.products = [];
 
-Se ponen como ejemplo 4 productos en los que se prueban las distintas alternativas de la condición.
 
-Por último se crea una instancia new ProductManager.
-
-### productManager.js - ENTREGABLE 2 ####
+### productManager.js - ENTREGABLE 2 ###
 
 
 Se crea una clase con un constructor ProductManager, que recibe como parámetro this.path, se asigna un id static.
@@ -45,6 +54,32 @@ Se llama al método saveProducts(), quien convierte en string los datos del obje
 El método saveProducts(),
     Es un método para reutilizar la carga de los productos, modificados, cargados, borrados, al JSON.
 (similar al método getProducts())
+
+
+### FIN ENTREGABLE #2 ###
+
+
+### Test.js - ENTREGABLE #1 ###
+
+
+Se crea constructor de la clase ProductManager
+dentro del mismo se llama al método addProduct() que verifica condiciones para añadir el producto al array this.product[].
+
+En caso de que el producto contenga un código distinto a los que ya se encuentren en el array, y posea todos los atributos en el mismo, podrá ser añadido al array => 
+
+* Se utiliza método some(), para comparar los códigos de los productos,
+
+* Se utiliza método every(), para verificar que existan todos los campos dentro del objeto, para ello lo compara con un patrón de atributos existeAtributo = [];
+
+En caso de que todas estas condiciones se cumplan, se le añade un id, con valor incremental a cada objeto, y se pushea a array=> this.products = [];
+
+Se ponen como ejemplo 4 productos en los que se prueban las distintas alternativas de la condición.
+
+Por último se crea una instancia new ProductManager.
+
+
+### FIN ENTREGABLE #1 ###
+
 
 
 

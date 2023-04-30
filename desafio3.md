@@ -35,3 +35,5 @@ eso debe devolver sólo el producto con id=2.
 
 => Se mandará a llamar desde el navegador a la url http://localhost:8080/products/34123123, //=> (Hecho a medias)
 al no existir el id del producto, debe devolver un objeto con un error indicando que el producto no existe.
+
+=> Se añade método clearAll(), para vacíar el contenido de this.path con "[]"

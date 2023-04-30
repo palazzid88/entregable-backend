@@ -32,3 +32,19 @@
     Establece el código de estado HTTP de la respuesta
 
 
+
+
+###### TODA PETICIÓN QUE SE HAGA DESDE EXPRESS SE DEBE REALIZAR ASINCRONICAMENTE ######
+###### EN LAS FUNCIONES DEBEN UTILIZARSE ASYNC-AWAIT ######
+
+
+## COMANDOS A EJECUTAR ##
+* npm init -y => crea carpeta package.json
+* npm i -g nodemom => monitorea los cambios 
+* package.json => dentro de debug => scripts => "start" => nodemon + nombre del archivo
+* npm start => ejecuta el nodemon que añadimos en el package.json
+* npm i express
+* crear el archivo .gitignore => con node_modules
+* los archivos .js dentro de src
+
+
