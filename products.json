@@ -88,5 +88,23 @@
     "code": 1010,
     "stock": 100,
     "id": 10
+  },
+  {
+    "title": "untitulo11",
+    "description": "unadescription11",
+    "price": 200,
+    "thumbnail": "unathumbnail11",
+    "code": 555,
+    "stock": 100,
+    "id": 11
+  },
+  {
+    "title": "untitulo12",
+    "description": "unadescription12",
+    "price": 200,
+    "thumbnail": "unathumbnail12",
+    "code": 122,
+    "stock": 100,
+    "id": 12
   }
 ]

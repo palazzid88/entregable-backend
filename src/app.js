@@ -1,31 +1,37 @@
 const express = require('express');
-const ProductManager = require("./productManager")
-const { parse } = require('path');
-const { stringify } = require('querystring');
-const { error } = require('console');
+const productRouter = require('./routes/product.router.js');
+const cartRouter = require('./routes/cart.router.js')
 const app = express()
 const port = 8080;
-const path = "./products.json" 
-const  productManager = new ProductManager (path)
 
-const alumno = {
-  nombre: "David",
-  apellido: "Palazzi",
-  curso: "Backend",
-  comisión: 51380 
-}
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 
+
+
+app.use('/api/products', productRouter)
+app.use('/api/carts', cartRouter)
+
+
+
+
+
+
+
+
+
+/*
 
 //#### GET HOME #### 
-app.get('/', async (req, res) => {
+app.use('/api/products', async (req, res) => {
   try {
     res.status(200).json(alumno)
   } catch (error) {
       res.status(404).json({message: "página no encontrada"})    
   }
 });
-
-
+*/
+/*
 //#### GET PRODUCTS ####
 app.get('/api/products', async (req, res) => {
   try {
@@ -58,6 +64,8 @@ app.get('/api/products/:id', async (req, res) => {
   }
 });
 
+
+*/
 //### POST ###
 
 

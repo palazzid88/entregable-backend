@@ -19,8 +19,13 @@ class ProductManager {
         }
     }
 
+    async createProduct() {
+        const product = await this.addProduct(req.body)
+    }
+
     async addProduct(product) {
         try {
+            console.log("recibe", product)
             let products = await this.getProducts();
             this.id = products.length +1;
             product.id = this.id;
@@ -37,10 +42,8 @@ class ProductManager {
         try {
             const products = await this.getProducts();
             const product = products.find((prod)=> prod.id == id);
-            console.log("getId", product)
             if (!product) {
-                console.log("no existe")
-                return  (`no existe producto con ID:`);
+                return  (`no existe producto con ID: ${id}` );
             }
             return product
         } 
@@ -54,7 +57,6 @@ class ProductManager {
             const products = await this.getProducts();
             const index = products.findIndex((prod)=> prod.id == id);
             if (index == -1) {
-                console.log("no existe")
                 return (`el producto con ID ${id} no existe`)
             }
             products[index] = {...updateProduct, id};
@@ -104,12 +106,12 @@ class ProductManager {
 
 }
 
-const product1 = {
-    title: "untitulo1",
-    description: "unadescription1",
+const product3 = {
+    title: "untitulo5",
+    description: "unadescription5",
     price: 200,
-    thumbnail: "unathumbnail1",
-    code: 111,
+    thumbnail: "unathumbnail5",
+    code: 555,
     stock: 100
 }
 
@@ -118,7 +120,7 @@ const productManager = new ProductManager("products.json");
 
 
 const asyncFn = async ()=> {
-    // await productManager.addProduct(product4)
+    // await productManager.addProduct(product3)
 }
 
 asyncFn()
