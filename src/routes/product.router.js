@@ -24,7 +24,6 @@ productRouter.get('/', async (req, res) => {
 productRouter.get('/:id', async (req, res) => {
     try {
         const { id } = req.params; //=> este dato devuelve un string
-        console.log(id) 
         const products = await productManager.getProductById(id)
         if (!products) {
           res.status(404).json("usuario no encontrado")
@@ -39,16 +38,47 @@ productRouter.get('/:id', async (req, res) => {
 productRouter.post('/', async (req, res) => {
   try {
     const data = req.body
-    console.log("firstdata", data)
     const product = await productManager.addProduct(data)
-    console.log("data", data)
     res.status(201).json({
       success: true,
       payload: product
-    })
-    
+    })    
   } catch (error) {
       res.status(500).json({ message: "error" })    
+  }
+})
+
+productRouter.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    const products = await productManager.getProductById(id);
+    if (!products) {
+      res.status(404).json({ message: 'error' })      
+    }
+    else{
+      const prodUpdt = await productManager.updateProduct(id, data);
+      res.status(201).json({
+        succes: true,
+        message: `Producto con ID:${id} actualizado con éxito` 
+      })
+    }
+  } catch (error) {
+    res.status(500).json({message: 'error id'})
+  }
+}), 
+
+productRouter.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const products = await productManager.deleteProduct(id)
+      res.status(201).json({
+        succes: true,
+        message: `Se ha eliminado el producto con ID:${id}`
+      })
+    }
+   catch (error) {
+      res.status(500).json({message: 'error en ID'})
   }
 })
 

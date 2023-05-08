@@ -3,108 +3,130 @@
     "title": "untitulo1",
     "description": "unadescription1",
     "price": 200,
-    "thumbnail": "unathumbnail1",
+    "thumbnail": [
+      "./public/img/imgA, ./public/img/imgB, ./public/img/imgC"
+    ],
     "code": 111,
     "stock": 100,
-    "id": 1
+    "status": true,
+    "category": "category A",
+    "id": "1"
   },
   {
     "title": "untitulo2",
     "description": "unadescription2",
     "price": 200,
-    "thumbnail": "unathumbnail2",
+    "thumbnail": [
+      "./public/img/imgD, ./public/img/imgE, ./public/img/imgF"
+    ],
     "code": 222,
     "stock": 100,
-    "id": 2
+    "status": true,
+    "category": "category A",
+    "id": "2"
   },
   {
     "title": "untitulo3",
     "description": "unadescription3",
     "price": 200,
-    "thumbnail": "unathumbnail3",
+    "thumbnail": [
+      "./public/img/imgG, ./public/img/imgH, ./public/img/imgI"
+    ],
     "code": 333,
     "stock": 100,
-    "id": 3
+    "status": true,
+    "category": "category A",
+    "id": "3"
   },
   {
     "title": "untitulo4",
     "description": "unadescription4",
     "price": 200,
-    "thumbnail": "unathumbnail4",
+    "thumbnail": [
+      "./public/img/imgJ, ./public/img/imgK, ./public/img/imgL"
+    ],
     "code": 444,
     "stock": 100,
-    "id": 4
+    "status": true,
+    "category": "category B",
+    "id": "4"
   },
   {
     "title": "untitulo5",
     "description": "unadescription5",
     "price": 200,
-    "thumbnail": "unathumbnail5",
+    "thumbnail": [
+      "./public/img/imgM, ./public/img/imgN, ./public/img/imgO"
+    ],
     "code": 555,
     "stock": 100,
-    "id": 5
+    "status": true,
+    "category": "category B",
+    "id": "5"
   },
   {
     "title": "untitulo6",
     "description": "unadescription6",
     "price": 200,
-    "thumbnail": "unathumbnail6",
+    "thumbnail": [
+      "./public/img/imgP, ./public/img/imgQ, ./public/img/imgR"
+    ],
     "code": 666,
     "stock": 100,
-    "id": 6
+    "status": true,
+    "category": "category B",
+    "id": "6"
   },
   {
     "title": "untitulo7",
     "description": "unadescription7",
     "price": 200,
-    "thumbnail": "unathumbnail7",
+    "thumbnail": [
+      "./public/img/imgS, ./public/img/imgT, ./public/img/imgU"
+    ],
     "code": 777,
     "stock": 100,
-    "id": 7
+    "status": true,
+    "category": "category C",
+    "id": "7"
   },
   {
     "title": "untitulo8",
     "description": "unadescription8",
     "price": 200,
-    "thumbnail": "unathumbnail8",
+    "thumbnail": [
+      "./public/img/imgV, ./public/img/imgW, ./public/img/imgX"
+    ],
     "code": 888,
     "stock": 100,
-    "id": 8
+    "status": true,
+    "category": "category C",
+    "id": "8"
   },
   {
     "title": "untitulo9",
     "description": "unadescription9",
     "price": 200,
-    "thumbnail": "unathumbnail9",
+    "thumbnail": [
+      "./public/img/imgY, ./public/img/imgZ, ./public/img/imgAA"
+    ],
     "code": 999,
     "stock": 100,
-    "id": 9
+    "status": true,
+    "category": "category C",
+    "id": "9"
   },
   {
-    "title": "untitulo10",
-    "description": "unadescription10",
+    "title": "untituloPorPut7",
+    "description": "unadescriptionPorPut5",
     "price": 200,
-    "thumbnail": "unathumbnail10",
-    "code": 1010,
+    "thumbnail": [
+      "./public/img/img1, ./public/img/img2, ./public/img/img3"
+    ],
+    "code": 123,
     "stock": 100,
-    "id": 10
-  },
-  {
-    "title": "untitulo11",
-    "description": "unadescription11",
-    "price": 200,
-    "thumbnail": "unathumbnail11",
-    "code": 555,
-    "stock": 100,
-    "id": 11
-  },
-  {
-    "title": "untitulo12",
-    "description": "unadescription12",
-    "price": 200,
-    "thumbnail": "unathumbnail12",
-    "code": 122,
-    "stock": 100,
-    "id": 12
+    "status": true,
+    "category": "category E",
+    "id": "10"
   }
 ]

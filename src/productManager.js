@@ -25,11 +25,10 @@ class ProductManager {
 
     async addProduct(product) {
         try {
-            console.log("recibe", product)
             let products = await this.getProducts();
             this.id = products.length +1;
             product.id = this.id;
-            let newProduct = {...product, ...product.id};
+            let newProduct = {...product, id: this.id.toString()};
             products.push(newProduct);
             await this.saveProducts(products)
         }
@@ -43,12 +42,12 @@ class ProductManager {
             const products = await this.getProducts();
             const product = products.find((prod)=> prod.id == id);
             if (!product) {
-                return  (`no existe producto con ID: ${id}` );
+                throw new Error(`no existe producto con ID:${id}`)
             }
-            return product
+            return product;
         } 
         catch (error) {
-            return (error)
+            throw error;
         }
     }
 
@@ -56,15 +55,14 @@ class ProductManager {
         try {
             const products = await this.getProducts();
             const index = products.findIndex((prod)=> prod.id == id);
-            if (index == -1) {
-                return (`el producto con ID ${id} no existe`)
+            if (index === -1) {
+                throw new Error(`no existe producto con ID:${id}`)
             }
             products[index] = {...updateProduct, id};
             await this.saveProducts(products);
         }
-        catch (error) {
-            console.log("el ID no existe");
-            return (error)
+        catch (err) {
+            throw err;
         }
     }
 
@@ -72,15 +70,15 @@ class ProductManager {
         try {
             const products = await this.getProducts();
             const index = products.findIndex((prod)=> prod.id == id);
-            if (index === -1){
-                return (`No existe producto con ${id}`);
+            if (index === -1) {
+                throw new Error(`no existe producto con ID:${id}`)
             }
             products.splice(index, 1);
+
             await this.saveProducts(products);      
-        } catch (error) {
-            return (error)
-        }
-        
+        } catch (err) {
+            throw (err)
+        }        
     }
 
     async saveProducts(products) {
@@ -107,22 +105,24 @@ class ProductManager {
 }
 
 const product3 = {
-    title: "untitulo5",
-    description: "unadescription5",
+    title: "untitulo3",
+    description: "unadescription3",
     price: 200,
-    thumbnail: "unathumbnail5",
-    code: 555,
-    stock: 100
+    thumbnail: ["./public/img/imgG, ./public/img/imgH, ./public/img/imgI"],
+    code: 333,
+    stock: 100,
+    status: true,
+    category: "category A"
 }
 
 
 const productManager = new ProductManager("products.json");
 
 
-const asyncFn = async ()=> {
-    // await productManager.addProduct(product3)
-}
+// const asyncFn = async ()=> {
+//     await productManager.addProduct(product3)
+// }
 
-asyncFn()
+// asyncFn()
 
 module.exports = ProductManager;
