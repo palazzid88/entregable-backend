@@ -26,7 +26,7 @@ productRouter.get('/:id', async (req, res) => {
         const { id } = req.params; //=> este dato devuelve un string
         const products = await productManager.getProductById(id)
         if (!products) {
-          res.status(404).json("usuario no encontrado")
+          res.status(404).json("producto no encontrado")
         } else {
           res.status(200).json(products)
         }    
@@ -54,7 +54,7 @@ productRouter.put('/:id', async (req, res) => {
     const data = req.body;
     const products = await productManager.getProductById(id);
     if (!products) {
-      res.status(404).json({ message: 'error' })      
+      res.status(404).json({ message: 'no existe producto con ese ID' })      
     }
     else{
       const prodUpdt = await productManager.updateProduct(id, data);
@@ -64,7 +64,9 @@ productRouter.put('/:id', async (req, res) => {
       })
     }
   } catch (error) {
-    res.status(500).json({message: 'error id'})
+    res.status(500).json({
+      status: "error",
+      message: `no existe producto ese ID`})
   }
 }), 
 

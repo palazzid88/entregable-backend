@@ -47,15 +47,15 @@ Para el manejo de productos, el cual tendrá su router en /api/products/ , confi
 Para el carrito, el cual tendrá su router en /api/carts/, configurar dos rutas:
 
 * Las rutas:
-+ raíz POST /:
++ raíz POST /:(Hecho)
     - Deberá crear un nuevo carrito con la siguiente estructura:
         * Id:Number/String (A tu elección, de igual manera como con los productos, debes asegurar que nunca se dupliquen los ids y que este se autogenere).
         * products: Array que contendrá objetos que representen cada producto => {idCarrito: “100”, productos: []}
 
-+ La ruta GET /:cid
++ La ruta GET /:cid (Hecho)
     - Deberá listar los productos que pertenezcan al carrito con el parámetro cid proporcionados.
 
-+ POST /:cid/product/:pid 
++ POST /:cid/product/:pid (Hecho)
     - Deberá agregar el producto al arreglo “products” del carrito seleccionado, agregándose como un objeto bajo el siguiente formato:
         * product: SÓLO DEBE CONTENER EL ID DEL PRODUCTO (Es crucial que no agregues el producto completo)
         - idCarrito: “100”,

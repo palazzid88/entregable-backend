@@ -37,17 +37,18 @@ class ProductManager {
         }
     }
 
-    async getProductById(id) {
+    async getProductById(pid) {
         try {
             const products = await this.getProducts();
-            const product = products.find((prod)=> prod.id == id);
+            const product = products.find((prod)=> prod.id === pid);
+
             if (!product) {
-                throw new Error(`no existe producto con ID:${id}`)
+                return null
             }
             return product;
         } 
         catch (error) {
-            throw error;
+            return error
         }
     }
 
@@ -120,7 +121,7 @@ const productManager = new ProductManager("products.json");
 
 
 // const asyncFn = async ()=> {
-//     await productManager.addProduct(product3)
+//     await productManager.getProductById(100)
 // }
 
 // asyncFn()
