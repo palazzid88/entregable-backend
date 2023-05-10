@@ -117,16 +117,16 @@
     "id": "9"
   },
   {
-    "title": "untitulo15DesdePost",
-    "description": "unadescription11DesdePost",
+    "title": "untituloPorPut7",
+    "description": "unadescriptionPorPut5",
     "price": 200,
     "thumbnail": [
-      "./public/img/imgBA, ./public/img/imgBB, ./public/img/imgBC"
+      "./public/img/img1, ./public/img/img2, ./public/img/img3"
     ],
-    "code": 1111,
+    "code": 123,
     "stock": 100,
     "status": true,
-    "category": "category D",
+    "category": "category E",
     "id": "10"
   }
 ]

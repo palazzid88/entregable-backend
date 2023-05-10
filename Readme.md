@@ -1,5 +1,15 @@
 #### 1ER ENTREGA PROYECTO FINAL ####
 
+<=> ## REPORTE ## <=>
+# enlace de test en postman:
+
+* https://documenter.getpostman.com/view/27147400/2s93eZyX3k
+
+
+
+
+<=> ## CONSIGNA ## <=>
+
 # Se desarrollará un servidor que contenga los endpoints y servicios necesarios para gestionar los productos y carritos de compra en el e-commerce #
 
 
@@ -15,14 +25,14 @@ Desarrollar el servidor basado en Node.JS y express, que escuche en el puerto 80
 Para el manejo de productos, el cual tendrá su router en /api/products/ , configurar las siguientes rutas:
 
 * Las rutas:
-+ GET /: 
-    -  Deberá listar todos los productos de la base. Incluyendo la limitación ?limit del desafío anterior. (hecho)
++ GET /: (hecho)
+    -  Deberá listar todos los productos de la base. Incluyendo la limitación ?limit del desafío anterior.
 
-+ GET /:pid:
-    -  Deberá traer sólo el producto con el id proporcionado (hecho)
++ GET /:pid: (hecho)
+    -  Deberá traer sólo el producto con el id proporcionado 
 
-+ POST / 
-    -  Deberá agregar un nuevo producto con los campos: (hecho)
++ POST / (Hecho)
+    -  Deberá agregar un nuevo producto con los campos:
         * id: Number/String  A tu elección, el id NO se manda desde body, se autogenera como lo hemos visto desde los primeros entregables, asegurando que NUNCA se repetirán los ids en el archivo.
         * title:String,
         * description:String
@@ -36,9 +46,9 @@ Para el manejo de productos, el cual tendrá su router en /api/products/ , confi
         * Todos los campos son obligatorios, a excepción de thumbnails
 
 + PUT /:pid (hecho)
-    - deberá tomar un producto y actualizarlo por los campos enviados desde body. NUNCA se debe actualizar o eliminar el id al momento de hacer dicha actualización.
+    - deberá tomar un producto y actualizarlo por los campos enviados desde body. NUNCA se debe actualizar o eliminar el id al momento de hacer dicha actualización.(hecho)
 
-+ DELETE /:pid 
++ DELETE /:pid (Hecho)
     - Deberá eliminar el producto con el pid indicado.
 
 
@@ -65,9 +75,9 @@ Para el carrito, el cual tendrá su router en /api/carts/, configurar dos rutas:
 
 
 
-# PERSITENCIA #
+# PERSITENCIA # 
 * La persistencia de la información se implementará utilizando el file system, donde los archivos “productos.json” y “carrito.json”, respaldan la información.
-* No es necesario realizar ninguna implementación visual, todo el flujo se puede realizar por Postman o por el cliente de tu preferencia.
+* No es necesario realizar ninguna implementación visual, todo el flujo se puede realizar por Postman o por el cliente de tu preferencia. (hecho)
 
 
 
