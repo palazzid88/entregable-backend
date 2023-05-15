@@ -1,0 +1,31 @@
+<div>
+    <h1>Listado de productos</h1>
+    <ul></ul>
+    {{#each products}}
+        <li>{{this.title}}</li>
+        <li>{{this.description}}</li>
+        <li><img href={{this.thumbnail}}></img></li>
+    {{/each}}
+</div>
+<div>
+
+  <form action="/realTimeProducts" method="post">
+    <div>
+      <label for="product-name">Nombre del producto:</label>
+      <input type="text" id="product-name" name="productName" required>
+    </div>
+    <div>
+      <label for="product-description">Descripción:</label>
+      <textarea id="product-description" name="productDescription" required></textarea>
+    </div>
+    <div>
+      <label for="product-price">Precio:</label>
+      <input type="number" id="product-price" name="productPrice" required>
+    </div>
+    <div>
+      <label for="product-image">Dirección de la imagen:</label>
+      <input type="text" id="product-image" name="productImage" required>
+    </div>
+    <button type="submit">Enviar</button>
+  </form>
+</div>
