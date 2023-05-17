@@ -34,31 +34,38 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 // Peticiones API REST
-app.use('/api/products', productRouter)
-app.use('/api/carts', cartRouter)
-
+app.use('/api/products', productRouter);
+app.use('/api/carts', cartRouter);
 // Peticiones HTML
 app.use('/homeHandlebars', homeRouter);
-
 // Peticiones websocket
-app.use('/realTimeProducts', rtpRouter)
+app.use('/realTimeProducts', rtpRouter);
+
+
 
 const io = socketIO(httpServer);
-
 
 io.on('connection', (socket) => {
   console.log("se abrio un canal de socket");
 
+// Anidir productos a persistencia => recibe desde index.js
   socket.on("newProduct", async (prod) => {
     const newProduct = await productManager.addProduct(prod)
     console.log(newProduct)
     console.log("Nuevo producto recibido:", prod);
     const updatedProducts = await productManager.getProducts();
+
+// Retorna todos los productos actualizados al DOM 
     socket.emit("productListUpdated", updatedProducts);
+  })
 
+// Eliminar productos de persistencia
+  socket.on("deleteProdId", async (id) =>{
+    const deleteProd = await productManager.deleteProduct(id)
+    const updatedProducts = await productManager.getProducts();
 
-    // socket.emit("mensaje desde el back al front", { status: "success", message: "Producto recibido" });
-
+// Retorna todos los productos actualizados al DOM 
+    socket.emit("productListUpdated", updatedProducts)
   })
 })
 

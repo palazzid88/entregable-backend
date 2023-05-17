@@ -1,0 +1,74 @@
+{{!-- RENDER PRODUCTS DESDE EL BACKEND --}}
+
+<div>
+  <h1>Trek Bontrager</h1>
+</div>
+<div id="product-list">
+{{#each products}}
+<div class="card mb-3" style="">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src={{this.thumbnail}} class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p class="card-text">{{this.description}}</p>
+        <p class="card-text">{{this.price}}</p>
+        <p class="card-text">{{this.category}}</p>
+        <button type="submit" class="btn btn-primary" onclick="deleteProduct('{{this.id}}')">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}
+</div>
+
+
+
+{{!-- FORMULARIO PARA CARGA DE NUEVO PRODUCTO DESDE EL FRONTEND --}}
+
+<div class="container">
+  <div class="form-container">
+    <form action="/realTimeProducts" method="post">
+      <div class="mb-3">
+        <label for="product-name" class="form-label">Nombre del producto:</label>
+        <input type="text" id="product-name" name="productName" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="product-description" class="form-label">Descripción:</label>
+        <textarea id="product-description" name="productDescription" class="form-control" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="product-price" class="form-label">Precio:</label>
+        <input type="number" id="product-price" name="productPrice" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="product-image" class="form-label">Dirección de la imagen:</label>
+        <input type="text" id="product-image" name="productImage" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="product-code" class="form-label">código</label>
+        <input type="number" id="product-code" name="productCode" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="product-stock" class="form-label">stock</label>
+        <input type="number" id="product-stock" name="productStock" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="product-status" class="form-label">status</label>
+        <input type="text" id="product-status" name="productStatus" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="product-category" class="form-label">category</label>
+        <input type="text" id="product-category" name="productCategory" class="form-control" required>
+      </div>
+      <button type="submit" id="submit-btn" class="btn btn-primary">Enviar</button>
+    </form>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+

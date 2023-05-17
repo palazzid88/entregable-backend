@@ -9,3 +9,7 @@
     /* flex-wrap: wrap;
     justify-content: center; */
 }
+
+.form-container {
+    max-width: 500px;
+}

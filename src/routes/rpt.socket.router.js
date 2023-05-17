@@ -8,7 +8,7 @@ const productManager = new ProductManager (path);
 rtpRouter.get('/', async (req, res)=> {
     try {
         const products = await productManager.getProducts()
-        return res.render("products", { products })
+        return res.render("realtimeproducts", { products })
         
     } catch (error) {
         res.status(400).json({ msj: "error" })

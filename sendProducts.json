@@ -1,0 +1,134 @@
+[
+    {
+      "title": "Supercaliber 9.8",
+      "description": "La Supercaliber 9.8 es una bicicleta de competición para cross country diseñada para rodar a toda velocidad y subir a lo más alto del podio en la Copa del Mundo. Está equipada con nuestro exclusivo amortiguador IsoStrut integrado y con una horquilla ligera FOX que aporta una gran capacidad, una velocidad de vértigo y que absorbe los baches de los terrenos técnicos.",
+      "price": 200,
+      "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/supercaliber98xt_221-0e447f159d151d497816565239862092-1024-1024.webp",
+      "code": 111,
+      "stock": 100,
+      "status": true,
+      "category": "mtb",
+      "id": "1"
+    },
+    {
+      "title": "Trek marlin 4",
+      "description": "La Marlin 4 es la bicicleta ideal para iniciarse en los senderos. Es perfecta para los ciclistas que quieren iniciarse en el mountain bike y que buscan una bicicleta equipada con cubiertas taqueadas que, además, les permita desplazarse por la ciudad. Los frenos de disco, la suspensión delantera, el cambio de 21 velocidades y los soportes para portabultos y guardabarros hacen que esta bicicleta sea ideal tanto para los ciclistas que se inician en los senderos como para aquellos que van en bici a la universidad.",
+      "price": 300000,
+      "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/marlin-4-black1-7a82ce2b0e8a456d5d16551551882770-640-0.webp",
+      "code": 222,
+      "stock": 100,
+      "status": true,
+      "category": "mtb",
+      "id": "2"
+    },
+    {
+      "title": "Trek marlin 5",
+      "description": "La Marlin  5 es una bicicleta preparada para trail, ideal para las aventuras del día a día, ya sea por senderos o fuera de ellos. La horquilla de suspensión, la transmisión 2x8 y los soportes para el portabultos y la pata de cabra la convierten en la elección ideal para los ciclistas que se inician en el trail o para aquellos que buscan una bicicleta cómoda y estable para moverse por la ciudad con la robustez de una auténtica bicicleta de montaña.",
+      "price": 650000,
+      "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/marlin-5-gn21-38a84d914214c2f0d516560060430405-640-0.webp",
+      "code": 1234,
+      "stock": 100,
+      "status": true,
+      "category": "mtb",
+      "id": "3"
+    },
+    {
+      "title": "Trek x-Caliber 8",
+      "description": "La X-Caliber 8 es una bicicleta de cross country diseñada para rodar rápido y recorrer rutas largas por senderos. Se ha fabricado prestando especial atención a la calidad, al precio y a los componentes que marcan realmente una diferencia en el rendimiento. La transmisión Shimano 1x, la horquilla RockShox y los frenos de disco hidráulico la convierten en una excelente elección para los nuevos ciclistas de montaña y corredores de cross country que buscan velocidad y diversión en sus aventuras por los singletrack.",
+      "price": 750000,
+      "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/x-caliber-8-white11-29e6c22d4d512c9ca316551503850872-1024-1024.webp",
+      "code": 444,
+      "stock": 100,
+      "status": true,
+      "category": "mtb",
+      "id": "4"
+    },
+    {
+      "title": "Trek x-Caliber 9",
+      "description": "La X-Caliber 9 es el modelo tope de gama de la familia X-Caliber. Se trata de una bicicleta de montaña para cross country equipada con componentes diseñados para competir. La horquilla RockShox Recon, la transmisión Shimano XT/SLX 1x12 y el cassette con una amplia relación de desarrollos la convierten en una gran elección para los ciclistas que buscan rodar a toda velocidad por los singletrack con una bicicleta preparada para competir desde el primer momento.",
+      "price": 800000,
+      "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/xcaliber-9-bl1-6a9ddeb3ca680ef41f16560131383213-1024-1024.webp",
+      "code": 555,
+      "stock": 100,
+      "status": true,
+      "category": "mtb",
+      "id": "5"
+    },
+    {
+      "title": "Trek Top Fuel-7",
+      "description": "La Top Fuel 7 es una bicicleta de montaña de doble suspensión que combina la velocidad de una bicicleta de cross country con la diversión de una bicicleta de trail. Es eficiente en las subidas y rápida en los esprints, pero no le asustan los retos.",
+      "price": 3600000,
+      "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/topfuel-7-deorext_22-gn1-2c62068e95eeaefdab16561007844180-1024-1024.webp",
+      "code": 666,
+      "stock": 100,
+      "status": true,
+      "category": "mtb",
+      "id": "6"
+    },
+    {
+      "title": "Domane AL 2",
+      "description": "La Domane AL 2 Disc es una elección fantástica como primera bicicleta de ruta. El cuadro es ligero y estable, y ofrece una gran capacidad de respuesta para que puedas disfrutar con total seguridad de todas tus salidas en bici. Además, está fabricada con componentes fiables y frenos de disco que proporcionan una mejor potencia de frenada en todas las condiciones. Y, lo mejor de todo, el diseño centrado en el confort hace que cada salida sea más divertida que la anterior.",
+      "price": 2000000,
+      "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/domane-al-2-bl1-f11d343ef41a291a6016565291656239-1024-1024.webp",
+      "code": 777,
+      "stock": 100,
+      "status": true,
+      "category": "Ruta",
+      "id": "7"
+    },
+    {
+      "title": "Emonda SL 6",
+      "description": "La Émonda SL 6 Disc Pro es la primera bicicleta de ruta de carbono de la familia que combina ruedas ligeras de carbono con un cuadro ligero. La forma aerodinámica de los tubos, los frenos de disco y la transmisión de alto rendimiento hacen que sea la opción ideal para los amantes de la ruta que buscan una gran capacidad de manejo y mucha velocidad.",
+      "price": 2300000,
+      "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/emondasl6d-rd1-f410b3691d481acb4416567043203020-1024-1024.webp",
+      "code": 888,
+      "stock": 100,
+      "status": true,
+      "category": "Ruta",
+      "id": "8"
+    },
+    {
+      "title": "Madone SL 6",
+      "description": "La Madone SL 6 Disc ofrece un rendimiento aerodinámico avanzado y sensaciones de ser la bicicleta de competición definitiva. Incorpora ruedas aerodinámicas, una rótula IsoSpeed que absorbe las irregularidades de la carretera, potentes frenos de disco hidráulico, y una estética que invita a rodar a toda velocidad.",
+      "price": 4000000,
+      "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/madone-sl-6-red1-a2371d9a62c8b5bb1f16570488275801-1024-1024.webp",
+      "code": 999,
+      "stock": 100,
+      "status": true,
+      "category": "Ruta",
+      "id": "9"
+    },
+    {
+      "title": "Trek Fx 1",
+      "description": "La FX 1 es una bicicleta híbrida con un cuadro ligero de aluminio y componentes de calidad que te permiten rendir al máximo en cualquier situación. Es ideal para todos aquellos que buscan salir más, andar con toda la familia, hacer un poco de ejercicio o desplazarse al trabajo en una bicicleta versátil cubierta por una garantía de por vida.",
+      "price": 240000,
+      "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/10427951-7d8793d1c89bbfc2ca16577445245491-1024-1024.webp",
+      "code": 123,
+      "stock": 100,
+      "status": true,
+      "category": "Urbana",
+      "id": "10"
+    },
+    {
+      "title": "Specialized Epic",
+      "description": "Si ganar no es todo, definitivamente estamos haciendo algo mal. Durante 20 años, las Epic han llevado a más ciclistas a la cima del podio que cualquier otra bici de XC de doble suspensión. Ahora, con un amortiguador Brain más inteligente, más duro y mayor capacidad de respuesta, y con chasis más rígido y ligero, la nueva Epic enfocada en las carreras reduce aún más el tiempo entre la línea de salida y la meta.\n\n",
+      "price": "1200000",
+      "thumbnail": "https://www.specialized.com/medias/03-MTB-2197-FeaturedProduct-1800x1200-Epic.jpg?context=bWFzdGVyfGltYWdlc3wzMjk1ODl8aW1hZ2UvanBlZ3xpbWFnZXMvaGYzL2gxZS85MTU2MTAxMDc5MDcwLmpwZ3wyZjQ4YTdjNjY3YjczNzU5MzYxMWY1Y2NkZDYyNTZhN2MxOTFmNWUzN2FlNjAzNzUxYWUwY2JhZGU5YjdiNmIw",
+      "code": "1234566",
+      "stock": 100,
+      "status": "ok",
+      "category": "mtb ",
+      "id": "11"
+    },
+    {
+      "title": "Scott Scale 910",
+      "description": "Nos hemos inspirado en el equilibrio impecable de la NUEVA Scale para crear una nueva familia de bicicletas de montaña rígidas que no tiene parangón. Con su geometría inspirada en la competición y su diseño sencillo y preciso, la nueva línea Scale 900 exhibe un carácter inconfundible y una imagen agresiva sin complejos. Esta bicicleta viene preparada para todo: ¿y tú?\n",
+      "price": "1200000",
+      "thumbnail": "https://asset.scott-sports.com/fit-in/2000x2000/290/290167_2.png?signature=16ca8f483d95bc08d718ba0382c205736a2088e3a51a2d756b818b24a8aca8f9",
+      "code": "234566",
+      "stock": 100,
+      "status": "ok",
+      "category": "mtb",
+      "id": "12"
+    }
+  ]

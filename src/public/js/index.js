@@ -1,5 +1,7 @@
 //Código de front
 
+// const { id } = require("../../productManager");
+
 const socket = io();
 
 const sendProduct = document.getElementById("submit-btn");
@@ -12,7 +14,7 @@ sendProduct.addEventListener("click", (e) => {
     price: document.getElementById("product-price").value,
     thumbnail: document.getElementById("product-image").value,
     code: document.getElementById("product-code").value,
-    stock: document.getElementById("products-stock").value,
+    stock: document.getElementById("product-stock").value,
     status: document.getElementById("product-status").value,
     category: document.getElementById("product-category").value
   };
@@ -22,61 +24,49 @@ console.log(prod)
 
 socket.on("productListUpdated", (data) => {
   console.log(JSON.stringify(data));
+  updateProductList(data);
 });
 
 
 
 
 
-// const socket = io();
+function updateProductList(products) {
+  const productListElement = document.getElementById("product-list");
 
-// let prod = {}
+  // Crea una cadena de caracteres para almacenar el HTML generado
+  let html = "";
 
-// const sendProduct = document.getElementById("submit-btn").addEventListener("submit", (e)=> e.preventDefault())
-//     prod.title = document.getElementById("product-name").value;
-//     prod.subtitle = document.getElementById("product-description").value;
-//     prod.price = document.getElementById("product-price").value;
-//     prod.img = document.getElementById("product-image").value;
-    
-//     socket.on("mensaje desde el back al front", (data) => {
-//         console.log(JSON.stringify(data));      
-//     })
-//     socket.emit("newProduct", prod);
+  // Recorre la lista de productos actualizados y genera el HTML correspondiente
+  products.forEach((product) => {
+    html += `
+      <div class="card mb-3" style="">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="${product.thumbnail}" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">${product.title}</h5>
+              <p class="card-text">${product.description}</p>
+              <p class="card-text">${product.price}</p>
+              <p class="card-text">${product.category}</p>
+              <button type="submit" onclick="deleteProduct('${product.id}')">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  // Actualiza el contenido del elemento "product-list" con el HTML generado
+  productListElement.innerHTML = html;
+}
 
 
 
+function deleteProduct(productId) {
+  console.log(`Eliminar producto con ID: ${productId}`);
+  socket.emit("deleteProdId", productId)
+}
 
-
-
-
-// socket.on("mensaje desde el back al front", (productData) => {
-//     console.log(JSON.stringify(productData));
-//     socket.emit("mensaje desde el back al front", {productData})
-// })
-
-
-
-// const socket = io();
-// const form = document.getElementById("product-form");
-
-// form.addEventListener("submit", (event) => {
-//   event.preventDefault();
-
-//   const title = document.getElementById("product-name").value;
-//   const description = document.getElementById("product-description").value;
-//   const img = document.getElementById("product-image").value;
-//   const price = document.getElementById("product-price").value;
-
-//   const productData = {
-//     name: title,
-//     subtitle: description,
-//     thumbnail: img,
-//     price: price
-//   };
-
-//   socket.emit("newProduct", productData);
-// });
-
-// socket.on("mensaje desde el back al front", (productData) => {
-//   console.log(JSON.stringify(productData));
-// });
