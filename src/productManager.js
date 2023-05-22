@@ -26,11 +26,21 @@ class ProductManager {
     async addProduct(product) {
         try {
             let products = await this.getProducts();
-            this.id = products.length +1;
-            product.id = this.id;
-            let newProduct = {...product, id: this.id.toString()};
-            products.push(newProduct);
-            await this.saveProducts(products)
+            const findCode = products.findIndex((item)=> item.code === product.code);
+            console.log("dentro del try de addP antes del if del findIndex")
+            if (findCode === -1) {
+                console.log("ingreso al findindex")
+                this.id = products.length +1;
+                product.id = this.id;
+                let newProduct = {...product, id: this.id.toString()};
+                products.push(newProduct);
+                await this.saveProducts(products);
+            }
+            else {
+                throw new Error(`existe el prod con ese Code:${product.code}`)
+
+            }
+
         }
         catch (error) { 
             return (error)

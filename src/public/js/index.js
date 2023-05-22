@@ -18,8 +18,13 @@ sendProduct.addEventListener("click", (e) => {
     status: document.getElementById("product-status").value,
     category: document.getElementById("product-category").value
   };
-console.log(prod)
-  socket.emit("newProduct", prod);
+console.log("prod", prod)
+if (prod.category != "" && prod.code != "" && prod.description != "" && prod.price != "" && prod.status != "" && prod.stock != "" && prod.thumbnail) {
+  socket.emit("newProduct", prod);  
+} else {
+  document.getElementById('err-form').innerHTML = `<p class="p-error" style="color: red">**Debe completar todos los campos</p>`
+  console.log("error")
+}
 });
 
 socket.on("productListUpdated", (data) => {
