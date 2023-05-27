@@ -14,12 +14,15 @@ const handlebars = require('express-handlebars');
 const path = require("path");
 const { serialize } = require('v8');
 const ProductManager = require('./productManager.js');
+const { connectMongo } = require('../utils.js');
 const productManager = new ProductManager('product.json')
 
 const app = express() 
 const port = 8080;
 
 const httpServer = http.createServer(app);
+
+connectMongo()
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
