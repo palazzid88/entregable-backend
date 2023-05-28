@@ -1,8 +1,20 @@
-//Código de front
-
-// const { id } = require("../../productManager");
-
 const socket = io();
+//APP MENSAJERÍA DESDE EL FRONT
+
+// 1) enviar un mensaje desde el front:
+setInterval(()=> {
+  socket.emit("chat-front-to-back", {
+    msg: "msg" + Date.now(),
+   })
+}, 5000)
+// 2) Lo hace el back en app.js
+
+// 3) recibir el array de mensajes que envía el back, y mostrarlos en pantalla
+socket.on('chat-back-to-all', (msgs)=> {
+  console.log(msgs)
+})
+
+// FORMULARIO CARGA DE PRODUCTOS DESDE EL FRONT
 
 const sendProduct = document.getElementById("submit-btn");
 sendProduct.addEventListener("click", (e) => {

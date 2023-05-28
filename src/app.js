@@ -48,6 +48,9 @@ app.use('/realTimeProducts', rtpRouter);
 
 const io = socketIO(httpServer);
 
+//array chat 
+let msgs = [];
+
 io.on('connection', (socket) => {
   console.log("se abrio un canal de socket");
 
@@ -70,6 +73,15 @@ io.on('connection', (socket) => {
 // Retorna todos los productos actualizados al DOM 
     socket.emit("productListUpdated", updatedProducts)
   })
+// 2) Recibe los msgs desde el front index.js
+  socket.on('chat-front-to-back', (msg) => {
+    console.log('Mensaje recibido desde el front-end:', msg.msg);
+// los guarda en el array msgs = []
+    msgs.push(msg);
+// Los reenvía a todos los fronts
+    io.emit('chat-back-to-all', msgs)
+  });
+
 })
 
 httpServer.listen(port, () => {
