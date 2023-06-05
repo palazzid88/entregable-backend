@@ -1,3 +1,33 @@
+### Práctica Integradora: ###
+
+*   Agregar el modelo de persistencia de Mongo y mongoose a tu proyecto.
+
+*   Crear una base de datos llamada “ecommerce” dentro de tu Atlas, crear sus colecciones 
+    - "schemas".
+    - “carts” 
+    - “messages”
+    - “products”
+
+*   Separar los Managers de fileSystem de los managers de MongoDb en una sola carpeta “dao”
+
+*   Dentro de dao, agregar también una carpeta “models” donde vivirán los esquemas de MongoDB.
+
+*   Contener todos los Managers (FileSystem y DB) en una carpeta llamada “Dao”
+
+*   Reajustar los servicios con el fin de que puedan funcionar con Mongoose en lugar de FileSystem
+
+*   NO ELIMINAR FileSystem de tu proyecto
+
+*   Implementar una vista nueva en handlebars llamada chat.handlebars, la cual permita implementar un chat como el visto en clase.
+
+*    Los mensajes deberán guardarse en una colección “messages” en mongo (no es necesario implementarlo en FileSystem). formato es:  {user:correoDelUsuario, message: mensaje del usuario}
+
+
+
+
+
+
+
 #### DESAFÍO WEBSOcKETS ####
 
 # Consigna #

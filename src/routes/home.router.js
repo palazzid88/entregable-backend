@@ -2,7 +2,7 @@ const express = require('express');
 const { Router } = require('express');
 const homeRouter = express.Router();
 
-const ProductManager = require('../productManager.js');
+const ProductManager = require('../DAO/productManager.js');
 const path = "../products.json";
 const productManager = new ProductManager('../product.json');
 

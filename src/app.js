@@ -7,14 +7,16 @@ const productRouter = require('./routes/product.router.js');
 const cartRouter = require('./routes/cart.router.js');
 const homeRouter = require('./routes/home.router.js');
 const rtpRouter = require('./routes/rpt.socket.router.js')
+const chatRouter = require('./routes/chat.socket.router.js');
 // const rtpHtmlRouter = require('./routes/rtpHtml.router.js')
 
 const handlebars = require('express-handlebars');
 
 const path = require("path");
 const { serialize } = require('v8');
-const ProductManager = require('./productManager.js');
+const ProductManager = require('./DAO/productManager.js');
 const { connectMongo } = require('../utils.js');
+const ChatModel = require('./DAO/models/chat.socket.model.js');
 const productManager = new ProductManager('product.json')
 
 const app = express() 
@@ -43,13 +45,14 @@ app.use('/api/carts', cartRouter);
 app.use('/homeHandlebars', homeRouter);
 // Peticiones websocket
 app.use('/realTimeProducts', rtpRouter);
+app.use('/chat', chatRouter)
 
 
 
 const io = socketIO(httpServer);
 
 //array chat 
-let msgs = [];
+// let msgs = [];
 
 io.on('connection', (socket) => {
   console.log("se abrio un canal de socket");
@@ -74,12 +77,26 @@ io.on('connection', (socket) => {
     socket.emit("productListUpdated", updatedProducts)
   })
 // 2) Recibe los msgs desde el front index.js
-  socket.on('chat-front-to-back', (msg) => {
-    console.log('Mensaje recibido desde el front-end:', msg.msg);
-// los guarda en el array msgs = []
-    msgs.push(msg);
-// Los reenvía a todos los fronts
-    io.emit('chat-back-to-all', msgs)
+  socket.on('chat-front-to-back', async (data) => {
+  console.log('Mensaje recibido desde el front-end:', data);
+
+  const { user, message } = data.messages;
+
+  try {
+    const chat = await ChatModel.create({ 
+      messages: { user, message }
+    });
+    console.log("mensages despues del await en el back",chat)
+    // Los reenvía a todos los fronts
+    io.emit('chat-back-to-all', chat.messages)
+    
+  } catch (e) {console.log(e);
+    return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      data: {},
+    });
+  }
   });
 
 })

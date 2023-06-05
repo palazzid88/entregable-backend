@@ -1,0 +1,16 @@
+{{!-- RENDER msgs DESDE EL BACKEND --}}
+<div class="emit-msg" id="emit-msg">
+    <p class="user-name" >User:</p>
+    <input type="email" id="user-emit">
+    <p class="msg-emit" >Mensaje:</p>
+    <input type="text" id="msg-emit">
+    <button onclick="sendMsg()">Enviar</button>
+</div>
+
+<div class="div-msg" id="div-msg">
+    cargando mgs
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
+

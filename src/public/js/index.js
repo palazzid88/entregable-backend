@@ -1,18 +1,36 @@
 const socket = io();
+
+// ## APP CHAT ##
 //APP MENSAJERÍA DESDE EL FRONT
 
 // 1) enviar un mensaje desde el front:
-setInterval(()=> {
-  socket.emit("chat-front-to-back", {
-    msg: "msg" + Date.now(),
-   })
-}, 5000)
-// 2) Lo hace el back en app.js
+// setInterval(()=> {
+  function sendMsg() {
+    const messages = {
+      user: document.getElementById("user-emit").value,
+      message: document.getElementById("msg-emit").value 
+    }
+  console.log("chat en index", messages)
+  
+    socket.emit("chat-front-to-back", { messages })
+  }
 
 // 3) recibir el array de mensajes que envía el back, y mostrarlos en pantalla
+
 socket.on('chat-back-to-all', (msgs)=> {
-  console.log(msgs)
+  console.log("msg en front", msgs)
+  let messagesHTML = '';
+  msgs.forEach((msg) => {
+    messagesHTML += `<p><strong>${msg.user}:</strong> ${msg.message}</p>`;
+    console.log("probando msg en frEach", msg.user, msg.msg)
+  });
+
+  // Actualizar el contenido del elemento divMsg
+  const divMsg = document.getElementById("div-msg");
+  divMsg.innerHTML = messagesHTML;
 })
+
+
 
 // FORMULARIO CARGA DE PRODUCTOS DESDE EL FRONT
 

@@ -13,3 +13,8 @@
 .form-container {
     max-width: 500px;
 }
+
+.div-msg {
+    margin: 20px;
+    border: 1px solid black;
+}
