@@ -1,3 +1,5 @@
+// const { query } = require("express");
+
 const socket = io();
 
 // ## APP CHAT ##
@@ -19,10 +21,12 @@ const socket = io();
 
 socket.on('chat-back-to-all', (msgs)=> {
   console.log("msg en front", msgs)
+
   let messagesHTML = '';
   msgs.forEach((msg) => {
-    messagesHTML += `<p><strong>${msg.user}:</strong> ${msg.message}</p>`;
-    console.log("probando msg en frEach", msg.user, msg.msg)
+    messagesHTML += `<p>${msg.messages[0].user}:</p>
+                      <p> ${msg.messages[0].message}</p>`;
+    console.log("probando msg en forEach", msg.messages[0].user, msg.messages[0].message)
   });
 
   // Actualizar el contenido del elemento divMsg

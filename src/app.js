@@ -80,15 +80,15 @@ io.on('connection', (socket) => {
   socket.on('chat-front-to-back', async (data) => {
   console.log('Mensaje recibido desde el front-end:', data);
 
-  const { user, message } = data.messages;
+  // const { user, message } = data.messages;
 
   try {
-    const chat = await ChatModel.create({ 
-      messages: { user, message }
-    });
+    const chat = await ChatModel.create(data);
     console.log("mensages despues del await en el back",chat)
     // Los reenvía a todos los fronts
-    io.emit('chat-back-to-all', chat.messages)
+    const chats = await ChatModel.find({}).lean().exec();
+    console.log("despues del find", chats)
+    io.emit('chat-back-to-all', chats)
     
   } catch (e) {console.log(e);
     return res.status(500).json({
