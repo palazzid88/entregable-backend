@@ -87,8 +87,15 @@ io.on('connection', (socket) => {
     console.log("mensages despues del await en el back",chat)
     // Los reenvía a todos los fronts
     const chats = await ChatModel.find({}).lean().exec();
-    console.log("despues del find", chats)
-    io.emit('chat-back-to-all', chats)
+
+    const { messages } = chat
+
+    let msgs = messages.map((message) => {
+      return { user: message.user, message: message.message }
+    })
+
+    console.log("despues del find", msgs)
+    io.emit('chat-back-to-all', msgs)
     
   } catch (e) {console.log(e);
     return res.status(500).json({

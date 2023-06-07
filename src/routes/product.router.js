@@ -11,12 +11,25 @@ const  productManager = new ProductManager (path)
 // traer todos los productos de mongo db
 productRouter.get("/", async (req, res) => {
   try {
-    const products = await ProductModel.find({});
-    return res.status(200).json({
-      status: "success",
-      msg: "listado de productos",
-      data: products,
-    });
+    // const products = await ProductModel.find({});
+    const queryResult = await ProductModel.paginate({}, {limit:5})
+    const { docs } = queryResult;
+
+    let products = docs.map((doc) => {
+      return {title: doc.title, description: doc.description, price: doc.price, thumbnail: doc.thumbnail, category: doc.category}
+    })
+
+    console.log("prd map", products)
+
+    // console.log("docs", docs)
+    // console.log("queryResult", queryResult);
+    // return res.status(200).json({
+    //   status: "success",
+    //   msg: "listado de productos",
+    //   data: products,
+    // });
+    res.status(201).render("products", {products: products})
+
   } catch (e) {
     console.log(e);
     return res.status(500).json({

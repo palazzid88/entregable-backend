@@ -24,9 +24,9 @@ socket.on('chat-back-to-all', (msgs)=> {
 
   let messagesHTML = '';
   msgs.forEach((msg) => {
-    messagesHTML += `<p>${msg.messages[0].user}:</p>
-                      <p> ${msg.messages[0].message}</p>`;
-    console.log("probando msg en forEach", msg.messages[0].user, msg.messages[0].message)
+    messagesHTML += `<p>${msg.user}:</p>
+                      <p> ${msg.message}</p>`;
+    console.log("probando msg en forEach", msg.user, msg.message)
   });
 
   // Actualizar el contenido del elemento divMsg
