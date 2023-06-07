@@ -12,15 +12,16 @@ const  productManager = new ProductManager (path)
 productRouter.get("/", async (req, res) => {
   try {
     // const products = await ProductModel.find({});
-    const queryResult = await ProductModel.paginate({}, {limit:5})
-    const { docs } = queryResult;
+    const { page } = req.query
+    const queryResult = await ProductModel.paginate({}, {limit:5, page: page || 1})
+    const { docs, ...rest } = queryResult;
 
     let products = docs.map((doc) => {
       return {title: doc.title, description: doc.description, price: doc.price, thumbnail: doc.thumbnail, category: doc.category}
     })
 
-    console.log("prd map", products)
-
+    // console.log("prd map", products)
+ console.log(rest)
     // console.log("docs", docs)
     // console.log("queryResult", queryResult);
     // return res.status(200).json({
@@ -28,7 +29,7 @@ productRouter.get("/", async (req, res) => {
     //   msg: "listado de productos",
     //   data: products,
     // });
-    res.status(201).render("products", {products: products})
+    res.status(201).render("products", {products: products, pagination: rest})
 
   } catch (e) {
     console.log(e);
