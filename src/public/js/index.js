@@ -34,9 +34,23 @@ socket.on('chat-back-to-all', (msgs)=> {
   divMsg.innerHTML = messagesHTML;
 })
 
+// ------------Index Page-------------------
+// localhost:8080/api/products
+// Vista de los products con paginación
+
+function deleteProduct(prodictId) {
+  
+}
 
 
-// FORMULARIO CARGA DE PRODUCTOS DESDE EL FRONT
+
+
+
+
+
+// -----------------WEBSOCKETS------------------
+// localhost:8080/realTimeProducts
+// FORMULARIO CARGA DE PRODUCTOS DESDE EL FRONT 
 
 const sendProduct = document.getElementById("submit-btn");
 sendProduct.addEventListener("click", (e) => {

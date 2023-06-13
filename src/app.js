@@ -49,10 +49,8 @@ app.use('/chat', chatRouter)
 
 
 
-const io = socketIO(httpServer);
 
-//array chat 
-// let msgs = [];
+const io = socketIO(httpServer);
 
 io.on('connection', (socket) => {
   console.log("se abrio un canal de socket");
