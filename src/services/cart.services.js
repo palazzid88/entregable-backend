@@ -96,6 +96,26 @@ class CartService {
 
         return cart
     }
+    async addProduct(cid, pid){
+        const product = await ProductModel.findById(pid);
+        console.log("product por btn", product);
+        product ? product : (() => { throw (`No existe producto con ID: ${pid}`) })();
+
+        const cart = await CartModel.findById(cid);
+        console.log("cart en service", cart);
+        cart ? cart : (() => { throw (`No existe carro con ID: ${cid}`) })();
+
+        const prodIndex = cart.products.findIndex((product) => product.pid.toString() === pid );
+        prodIndex === -1 ? cart.products.push({ productId: pid, quantity: 1 }) :
+        cart.products[prodIndex].quantity += 1;
+
+        await cart.save();
+        return cart;
+
+    }
+    
+
+
     
 }
 module.exports = CartService;

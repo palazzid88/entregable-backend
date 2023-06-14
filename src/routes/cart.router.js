@@ -145,5 +145,21 @@ cartRouter.put("/:cid", async (req, res) => {
     }
 })
 
+cartRouter.post("/:cid/products/:pid", async (req, res) => {
+    try {
+        const cid = req.params.cid;
+        const pid = req.params.pid;
+        const result = await Cart.addProduct(cid, pid);
+        console.log("result", result);
+        return res.status(201).json({ message: `carro actualizado satisfactoriamente` })
+    } catch (e) {
+        return res.status(500).json({
+            status: "error",
+            msg: "Algo salió mal",
+            data: {},
+        });
+    }
+})
+
 
 module.exports = cartRouter
