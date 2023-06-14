@@ -16,11 +16,10 @@ const Cart = new CartService ();
 cartRouter.get("/", async (req, res) => {
     try {
         const result = await Cart.createOne()
-        const cart = result.cart;
-        const cid = result.
+        const cartId = result._id.toString();
         console.log("result", result);
-        console.log("cart", cart)
-        return res.status(201).json({ message: "se creo un nuevo carrito", cart })
+        console.log("cart", cartId)
+        return res.status(201).json({ message: "se creo un nuevo carrito", result })
     } catch (e) {
         console.log(e);
         return res.status(500).json({
@@ -31,8 +30,9 @@ cartRouter.get("/", async (req, res) => {
         
     }
 });
-// Añade un producto al carrito
-cartRouter.put("/:cid/product/:pid", async (req,res) => {
+// Añade un producto al carrito por body
+cartRouter.put("/:cid/products/:pid", async (req,res) => {
+    console.log("entro al products")
     try {
         const cid = req.params.cid.toString();
         const pid = req.params.pid.toString();
@@ -50,6 +50,8 @@ cartRouter.put("/:cid/product/:pid", async (req,res) => {
     });
 }
 });
+
+
 
 // Eliminar un producto del carrito
 cartRouter.delete("/:cid/product/:pid", async (req,res) => {

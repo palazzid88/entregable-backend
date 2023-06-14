@@ -1,5 +1,12 @@
 // const { query } = require("express");
 
+
+
+
+
+
+
+
 const socket = io();
 
 // ## APP CHAT ##
@@ -38,9 +45,7 @@ socket.on('chat-back-to-all', (msgs)=> {
 // localhost:8080/api/products
 // Vista de los products con paginación
 
-function deleteProduct(prodictId) {
-  
-}
+
 
 
 

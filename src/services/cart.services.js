@@ -94,7 +94,7 @@ class CartService {
         cart.products = productUpdate
         await cart.save();
 
-        return cart.products
+        return cart
     }
     
 }
