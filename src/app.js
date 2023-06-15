@@ -8,6 +8,7 @@ const cartRouter = require('./routes/cart.router.js');
 const homeRouter = require('./routes/home.router.js');
 const rtpRouter = require('./routes/rpt.socket.router.js')
 const chatRouter = require('./routes/chat.socket.router.js');
+const viewsRouter = require('./routes/views.router.js');
 // const rtpHtmlRouter = require('./routes/rtpHtml.router.js')
 
 const handlebars = require('express-handlebars');
@@ -38,14 +39,19 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 
-// Peticiones API REST
+// -------Peticiones API REST---------
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
-// Peticiones HTML
+
+// ---------Peticiones HTML-----------
 app.use('/homeHandlebars', homeRouter);
-// Peticiones websocket
+
+// -----Peticiones websocket----------
 app.use('/realTimeProducts', rtpRouter);
-app.use('/chat', chatRouter)
+app.use('/chat', chatRouter);
+
+// --------------Views-----------------
+app.use('/views', viewsRouter)
 
 
 

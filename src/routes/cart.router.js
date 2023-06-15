@@ -39,7 +39,7 @@ cartRouter.put("/:cid/products/:pid", async (req,res) => {
         const qty = req.body.quantity.toString();
         console.log("params", cid, pid, qty)
 
-        const result = await Cart.addProdToCart(cid, pid, qty);
+        const result = await Cart.addProduct(cid, pid, qty);
         console.log("result", result)
         return res.status(201).json({ message: "producto añadido al carrito", Cart })
     } catch (e) {
@@ -91,23 +91,23 @@ cartRouter.delete("/:cid", async (req, res) => {
 })
 
 //Modificar cantidad de un producto
-cartRouter.put("/:cid/products/:pid", async (req, res) => {
-    try {
-        const cid = req.params.cid;
-        const pid = req.params.pid;
-        const quantity = req.body.quantity;
+// cartRouter.put("/:cid/products/:pid", async (req, res) => {
+//     try {
+//         const cid = req.params.cid;
+//         const pid = req.params.pid;
+//         const quantity = req.body.quantity;
 
-        const result = await Cart.updateProductQuantity(cid, pid, quantity);
+//         const result = await Cart.updateProductQuantity(cid, pid, quantity);
 
-        return res.status(200).json({ message: "Cantidad de producto actualizada en el carrito", cart: result });
-    } catch (e) {
-        return res.status(500).json({
-            status: "error",
-            msg: "Algo salió mal",
-            data: {},
-        });
-    }
-});
+//         return res.status(200).json({ message: "Cantidad de producto actualizada en el carrito", cart: result });
+//     } catch (e) {
+//         return res.status(500).json({
+//             status: "error",
+//             msg: "Algo salió mal",
+//             data: {},
+//         });
+//     }
+// });
 
 // populate products
 cartRouter.get("/:cid", async (req, res) => {
@@ -145,11 +145,14 @@ cartRouter.put("/:cid", async (req, res) => {
     }
 })
 
-cartRouter.post("/:cid/products/:pid", async (req, res) => {
+cartRouter.put("/:cid/products/:pid", async (req, res) => {
+    console.log("ingreso al post de cart Router")
     try {
-        const cid = req.params.cid;
-        const pid = req.params.pid;
-        const result = await Cart.addProduct(cid, pid);
+        const cid = req.params.cid.toString();
+        const pid = req.params.pid.toString();
+        const qty = req.body.quantity.toString();
+        console.log(cid, pid)
+        const result = await Cart.addProduct(cid, pid, qty);
         console.log("result", result);
         return res.status(201).json({ message: `carro actualizado satisfactoriamente` })
     } catch (e) {
