@@ -9,12 +9,13 @@ const homeRouter = require('./routes/home.router.js');
 const rtpRouter = require('./routes/rpt.socket.router.js')
 const chatRouter = require('./routes/chat.socket.router.js');
 const viewsRouter = require('./routes/views.router.js');
-const authRouter = require('./routes/authRouter.js')
+const authRouter = require('./routes/auth.router.js')
 // const rtpHtmlRouter = require('./routes/rtpHtml.router.js')
 const session = require('express-session');
-const FileStore = require('session-file-store')(session);
+// const FileStore = require('session-file-store')(session);
 const FileStoreSession = require('session-file-store')(session);
 const passport = require('passport');
+const bodyParser = require('body-parser');
 
 
 const handlebars = require('express-handlebars');
@@ -38,6 +39,10 @@ connectMongo()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
+// Configurar body-parser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
@@ -45,7 +50,14 @@ app.set("views", path.join(__dirname, "views"));
 // app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "public")));
 
-
+app.use(
+  session({
+    store: MongoStore.create({ mongoUrl: 'mongodb+srv://palazzid88:qv500UC1DtMcjUj8@coder-house.ekzznmk.mongodb.net/', ttl: 7200 }),
+    secret: 'un-re-secreto',
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 // -------Peticiones API REST---------
 app.use('/api/products', productRouter);
@@ -63,18 +75,13 @@ app.use('/views', viewsRouter)
 
 //--------------Login------------------
 app.use('/auth', authRouter)
-app.use(
-  session({
-    store: MongoStore.create({ mongoUrl: 'mongodb+srv://palazzid88:qv500UC1DtMcjUj8@coder-house.ekzznmk.mongodb.net/', ttl: 7200 }),
-    secret: 'un-re-secreto',
-    resave: true,
-    saveUninitialized: true,
-  })
-);
+
 
 iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 
 
 
