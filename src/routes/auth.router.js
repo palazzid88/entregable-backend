@@ -2,7 +2,7 @@ const express = require('express');
 const authRouter = express.Router();
 const UserModel = require('../DAO/models/users.models');
 const { isAdmin, isUser } = require('../DAO/middlewares/auth');
-const { createHash } = require('../utils');
+const { createHash, isvalidPassword } = require('../utils');
 
 
 authRouter.get('/login', (req, res) => {
@@ -14,21 +14,25 @@ authRouter.get('/login', (req, res) => {
 authRouter.post('/login', async (req, res) => {
   // Handle the login form submission
   const { email, password } = req.body;
-  
+  console.log("req.body", req.body);
+  if (!email || !password) {
+    console.log("sin mail o pass");
+    return res.status(401).render('error', { error: 'Wrong email or password' });
+  }
+  console.log("antes del try");
   try {
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email: email });
+    console.log("user", user);
 
-    if (!user || user.password !== password) {
-      // Incorrect email or password
-      return res.status(401).render('error', { error: 'Wrong email or password' });
+    if (user && isvalidPassword(password, user.pass)) {
+      // Set session data
+      req.session.email = user.email;
+      req.session.isAdmin = user.isAdmin;
+      return res.redirect('/auth/perfil')
+    } else {
+      console.log("la comparación es incorrecta");
+      return res.status(401).render('error', {error: 'error en email o password'})
     }
-
-    // Set session data
-    req.session.email = user.email;
-    req.session.isAdmin = user.isAdmin;
-
-    // Redirect to the user's profile
-    res.redirect('/auth/perfil');
   } catch (error) {
     // Handle any error that occurred during login
     console.log(error);
