@@ -1,5 +1,4 @@
 // import passport from "passport";
-
 const mongoose = require("mongoose");
 
 async function connectMongo() {
@@ -18,7 +17,7 @@ async function connectMongo() {
 const bcrypt = require('bcrypt');
 
 const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-const isvalidPassword = (password, hashPassword) => bcrypt.compareSync(password, hashPassword);
+const isValidPassword = (password, hashPassword) => bcrypt.compareSync(password, hashPassword);
 
 
-module.exports = { connectMongo, createHash, isvalidPassword };
+module.exports = { connectMongo, createHash, isValidPassword };

@@ -12,14 +12,10 @@ const viewsRouter = require('./routes/views.router.js');
 const authRouter = require('./routes/auth.router.js')
 // const rtpHtmlRouter = require('./routes/rtpHtml.router.js')
 const session = require('express-session');
-// const FileStore = require('session-file-store')(session);
+const FileStore = require('session-file-store')(session);
 const FileStoreSession = require('session-file-store')(session);
-const passport = require('passport');
 const bodyParser = require('body-parser');
-
-
 const handlebars = require('express-handlebars');
-
 const path = require("path");
 const { serialize } = require('v8');
 const ProductManager = require('./DAO/productManager.js');
@@ -27,6 +23,7 @@ const { connectMongo } = require('./utils.js');
 const ChatModel = require('./DAO/models/chat.socket.model.js');
 const MongoStore = require('connect-mongo');
 const iniPassport = require('./config/passport.config.js');
+const passport = require('passport');
 const productManager = new ProductManager('product.json')
 
 const app = express() 
@@ -59,6 +56,11 @@ app.use(
   })
 );
 
+iniPassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 // -------Peticiones API REST---------
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
@@ -76,10 +78,6 @@ app.use('/views', viewsRouter)
 //--------------Login------------------
 app.use('/auth', authRouter)
 
-
-iniPassport();
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 

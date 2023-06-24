@@ -1,8 +1,9 @@
 const passport = require('passport');
 const local = require('passport-local');
 const { createHash, isValidPassword } = require('../utils');
-const { UserModel } = require('../DAO/models/users.models');
+const UserModel = require('../DAO/models/users.models');
 const LocalStrategy = local.Strategy;
+
 
 
 
@@ -12,6 +13,7 @@ function iniPassport() {
     new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
       try {
         const user = await UserModel.findOne({ email: username });
+        console.log(user);
         if (!user) {
           console.log('User Not Found with username (email) ' + username);
           return done(null, false);
@@ -37,8 +39,11 @@ function iniPassport() {
       },
       async (req, username, password, done) => {
         try {
+          console.log("entro");
           const { email, firstName, lastName } = req.body;
+          console.log(req.body);
           let user = await UserModel.findOne({ email: username });
+          console.log(user);
           if (user) {
             console.log('User already exists');
             return done(null, false);
