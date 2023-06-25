@@ -2,7 +2,7 @@
 //------------URL para Carts----------------
 // const API_URL = window.location.protocol + '//' + window.location.host + '/' + "api/";
 const urlCodespace =  "https://palazzid88-ideal-journey-9r7xqp6rqq4cx5g-8080.preview.app.github.dev" //=> se utiliza cuando desarrollo codigo desde codeSpace en mv
-const urlLocal = "http://localhost:8080/api/carts/"
+const urlLocal = "http://localhost:8080/"
 console.log("se inició script home")
 
 //-------------Create cart------------------
@@ -16,7 +16,9 @@ console.log("existe cart?", cartId)
 if (!cartId) {
     document.addEventListener('DOMContentLoaded', function() {
       console.log("se llama al fetch");
-      fetch(`https://palazzid88-ideal-journey-9r7xqp6rqq4cx5g-8080.preview.app.github.dev/api/carts`, { method: 'GET' })
+      fetch(`http://localhost:8080/api/carts`,
+        // `https://palazzid88-ideal-journey-9r7xqp6rqq4cx5g-8080.preview.app.github.dev/api/carts`,
+         { method: 'GET' })
         .then(response => response.json())
         .then(cartData => {
             const newCartId = cartData.result._id;
@@ -40,10 +42,11 @@ function addProductToCart(idProduct) {
     const data = {
         quantity: 1
       };
-      
     // if (cartId) {
-        console.log(`https://palazzid88-ideal-journey-9r7xqp6rqq4cx5g-8080.preview.app.github.dev/api/carts/${cartId}/products/${idProduct}`)
-        fetch(`https://palazzid88-ideal-journey-9r7xqp6rqq4cx5g-8080.preview.app.github.dev/api/carts/${cartId}/products/${idProduct}`, {
+        // console.log(`https://palazzid88-ideal-journey-9r7xqp6rqq4cx5g-8080.preview.app.github.dev/api/carts/${cartId}/products/${idProduct}`)
+        fetch(`http://localhost:8080/api/carts/${cartId}/products/${idProduct}`,
+          // `https://palazzid88-ideal-journey-9r7xqp6rqq4cx5g-8080.preview.app.github.dev/api/carts/${cartId}/products/${idProduct}`, 
+          {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
