@@ -24,6 +24,7 @@ const ChatModel = require('./DAO/models/chat.socket.model.js');
 const MongoStore = require('connect-mongo');
 const iniPassport = require('./config/passport.config.js');
 const passport = require('passport');
+const sessionsRouter = require('./routes/sessions.router.js');
 const productManager = new ProductManager('product.json')
 
 const app = express() 
@@ -73,10 +74,13 @@ app.use('/realTimeProducts', rtpRouter);
 app.use('/chat', chatRouter);
 
 // --------------Views-----------------
-app.use('/views', viewsRouter)
+app.use('/views', viewsRouter);
 
 //--------------Login------------------
-app.use('/auth', authRouter)
+app.use('/auth', authRouter);
+
+//---------Login GitHub----------------
+app.use('/api/sessions', sessionsRouter);
 
 
 const io = socketIO(httpServer);
