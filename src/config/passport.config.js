@@ -4,6 +4,7 @@ const { createHash, isValidPassword } = require('../utils');
 const UserModel = require('../DAO/models/users.models');
 const LocalStrategy = local.Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 
 
@@ -20,20 +21,20 @@ function iniPassport() {
       },
       async (accesToken, _, profile, done) => {
         try {
-          // const res = await fetch('https://api.github.com/user/emails', {
-          //   headers: {
-          //     Accept: 'application/vnd.github+json',
-          //     Authorization: 'Bearer ' + accesToken,
-          //     'X-Github-Api-Version': '2022-11-28',
-          //   },
-          // });
-          // const emails = await res.json();
-          // const emailDetail = emails.find((email) => email.verified == true);
+          const res = await fetch('https://api.github.com/user/emails', {
+            headers: {
+              Accept: 'application/vnd.github+json',
+              Authorization: 'Bearer ' + accesToken,
+              'X-Github-Api-Version': '2022-11-28',
+            },
+          });
+          const emails = await res.json();
+          const emailDetail = emails.find((email) => email.verified == true);
 
-          // if (!emailDetail) {
-          //   return done(new Error('cannot get a valid email for this user'));
-          // }
-          // profile.email = emailDetail.email;
+          if (!emailDetail) {
+            return done(new Error('cannot get a valid email for this user'));
+          }
+          profile.email = emailDetail.email;
 
           let user = await UserModel.findOne({ email: profile.email });
           if (!user) {
