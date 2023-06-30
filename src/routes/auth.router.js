@@ -24,7 +24,8 @@ authRouter.post('/register', passport.authenticate('register', { failureRedirect
     firstName: req.user.firstName,
     lastName: req.user.lastName,
     age: req.user.age,
-    isAdmin: req.user.isAdmin
+    role: req.user.role,
+    // isAdmin: req.user.isAdmin
   };
   
   return res.json({ msg: 'ok', payload: req.user });
@@ -48,6 +49,7 @@ authRouter.post('/login', passport.authenticate('login', { failureRedirect: '/au
     firstName: req.user.firstName,
     lastName: req.user.lastName,
     age: req.user.age,
+    role: req.user.role,
     // isAdmin: req.user.isAdmin
   };
   

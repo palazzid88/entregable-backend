@@ -93,11 +93,11 @@ function iniPassport() {
       },
       async (req, username, password, done) => {
         try {
-          console.log("entro");
+          console.log("entro en passport");
           const { email, firstName, lastName, age, role } = req.body;
-          console.log(req.body);
+          console.log("req body en passport", req.body);
           let user = await UserModel.findOne({ email: username });
-          console.log(user);
+          console.log("user en passport", user);
           if (user) {
             console.log('User already exists');
             return done(null, false);
