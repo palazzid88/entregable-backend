@@ -20,6 +20,11 @@ const schema = new Schema({
         unique: true,
     },
 
+    age: {
+        type: Number,
+        required: true,
+    },
+
     password: {
         type: String,
         required: true,
@@ -27,10 +32,20 @@ const schema = new Schema({
         min: 6
     },
 
-    isAdmin: {
-        type: Boolean,
-        required: true,
+    cart: {
+        type: Schema.Types.ObjectId,
+        ref: 'Cart',
     },
+
+    role: {
+        type: String,
+        default: 'user',
+    },
+
+    // isAdmin: {
+    //     type: Boolean,
+    //     required: true,
+    // },
 });
 schema.plugin(paginate);
 const UserModel = mongoose.model("users", schema);
