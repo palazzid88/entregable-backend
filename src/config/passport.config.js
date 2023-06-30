@@ -94,7 +94,7 @@ function iniPassport() {
       async (req, username, password, done) => {
         try {
           console.log("entro en passport");
-          const { email, firstName, lastName, age, role } = req.body;
+          const { email, firstName, lastName, age } = req.body;
           console.log("req body en passport", req.body);
           let user = await UserModel.findOne({ email: username });
           console.log("user en passport", user);
@@ -108,10 +108,11 @@ function iniPassport() {
             firstName,
             lastName,
             age,
-            role,
+            // role,
             // isAdmin: false,
             password: createHash(password),
           };
+          console.log("newUser", newUser)
           let userCreated = await UserModel.create(newUser);
           console.log(userCreated);
           console.log('User Registration succesful');
