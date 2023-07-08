@@ -75,7 +75,7 @@ authRouter.get('/perfil', isUser, (req, res) => {
 });
 
 authRouter.get('/administracion', isUser, isAdmin, (req, res) => {
-  return res.send('datos super secretos clasificados sobre los nuevos ingresos a boca juniors');
+  return res.send('Datos que solo puede ver si es administrador y si es user');
 });
 
 module.exports = authRouter;

@@ -2,9 +2,12 @@ const passport = require('passport');
 const local = require('passport-local');
 const { createHash, isValidPassword } = require('../utils');
 const UserModel = require('../DAO/models/users.models');
+const UserService = require('../services/users.service');
+const userService = new UserService();
 const LocalStrategy = local.Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
 
 
 
@@ -94,7 +97,7 @@ function iniPassport() {
       async (req, username, password, done) => {
         try {
           console.log("entro en passport");
-          const { email, firstName, lastName, age } = req.body;
+          const { firstName, lastName, age } = req.body;
           console.log("req body en passport", req.body);
           let user = await UserModel.findOne({ email: username });
           console.log("user en passport", user);
@@ -104,17 +107,18 @@ function iniPassport() {
           }
 
           const newUser = {
-            email,
+            email: username,
             firstName,
             lastName,
-            age,
-            // role,
-            // isAdmin: false,
-            password: createHash(password),
+            age: Number(age),
+            role: "user",
+            cart: null,
+            password,
           };
+
           console.log("newUser", newUser)
-          let userCreated = await UserModel.create(newUser);
-          console.log(userCreated);
+          let userCreated = await userService.create(newUser);
+          console.log("UserModel.create", userCreated);
           console.log('User Registration succesful');
           return done(null, userCreated);
         } catch (e) {
