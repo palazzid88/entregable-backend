@@ -4,7 +4,7 @@ const cartRouter = express.Router();
 
 const CartManager = require('../DAO/cartManager.js');
 const ProductManager = require('../DAO/productManager.js');
-const CartModel = require('../DAO/models/carts.models.js');
+const CartModel = require('../DAO/models/carts.model.js');
 const CartService = require('../services/cart.services.js');
 const path = "../carts.json"
 const cartManager = new CartManager (path)

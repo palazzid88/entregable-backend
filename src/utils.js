@@ -1,6 +1,6 @@
 // import passport from "passport";
 const mongoose = require("mongoose");
-const dotenv = require('dotenv');
+require('dotenv').config();
 
 
 async function connectMongo() {

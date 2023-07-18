@@ -1,5 +1,5 @@
 const { paginate } = require("mongoose-paginate-v2");
-const ProductModel = require("../DAO/models/products.models");
+const ProductModel = require("../DAO/models/products.model");
 
 class ProductService {
   async validate(

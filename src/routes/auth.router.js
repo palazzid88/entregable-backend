@@ -1,6 +1,6 @@
 const express = require('express');
 const authRouter = express.Router();
-const UserModel = require('../DAO/models/users.models');
+const UserModel = require('../DAO/models/users.model');
 const { isAdmin, isUser } = require('../middlewares/auth');
 const passport = require('passport');
 const { createHash, isValidPassword } = require('../utils');

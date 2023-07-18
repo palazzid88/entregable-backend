@@ -4,7 +4,7 @@ const viewsRouter = express.Router();
 const { paginate } = require("mongoose-paginate-v2");
 const ProductService = require("../services/product.service.js");
 const CartService = require("../services/cart.services.js");
-// const { ProductModel } = require("../DAO/models/products.models.js");
+// const { ProductModel } = require("../DAO/models/products.model.js");
 
 const cartService = new CartService();
 const Products = new ProductService();

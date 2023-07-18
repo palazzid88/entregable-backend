@@ -2,10 +2,10 @@ const express = require("express");
 // const { Router } = require("express");
 const productRouter = express.Router();
 const { paginate } = require("mongoose-paginate-v2");
-// const ProductModel = require("../DAO/models/products.models");
+// const ProductModel = require("../DAO/models/products.model");
 const path = "../products.json";
 const ProductService = require("../services/product.service");
-const { findOne, create } = require("../DAO/models/products.models");
+const { findOne, create } = require("../DAO/models/products.model");
 
 const Products = new ProductService();
 

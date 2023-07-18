@@ -1,4 +1,4 @@
-const UserModel = require('../DAO/models/users.models');
+const UserModel = require('../DAO/models/users.model');
 const { createHash, isValidPassword } = require('../utils');
 
 

@@ -1,5 +1,5 @@
-const CartModel = require("../DAO/models/carts.models");
-const ProductModel = require("../DAO/models/products.models");
+const CartModel = require("../DAO/models/carts.model");
+const ProductModel = require("../DAO/models/products.model");
 
 class CartService {
     async createOne () {
