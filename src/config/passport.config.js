@@ -7,7 +7,7 @@ const userService = new UserService();
 const LocalStrategy = local.Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-
+const dotenv = require('dotenv');
 
 
 
@@ -18,9 +18,9 @@ function iniPassport() {
     'github',
     new GitHubStrategy(
       {
-        clientID: 'Iv1.27c1c117c1448b6b',
-        clientSecret: 'bcbdceabf553a5a0b26c812a37ec8617fefd5f9a',
-        callbackURL: 'http://localhost:8080/api/sessions/githubcallback',
+        clientID: '${process.env.GITHUB_CLIENT_ID',
+        clientSecret: '${process.env.GITHUB_CLIENT_SECRET}',
+        callbackURL: '${process.env.GITHUB_CALLBACK_URL}',
       },
       async (accesToken, _, profile, done) => {
         try {

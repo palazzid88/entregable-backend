@@ -1,10 +1,12 @@
 // import passport from "passport";
 const mongoose = require("mongoose");
+const dotenv = require('dotenv');
+
 
 async function connectMongo() {
   try {
     await mongoose.connect(
-      "mongodb+srv://palazzid88:qv500UC1DtMcjUj8@coder-house.ekzznmk.mongodb.net/?retryWrites=true&w=majority"
+      `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@coder-house.ekzznmk.mongodb.net/?retryWrites=true&w=majority`
     );
     console.log("Conexión exitosa a MongoDB!");
   } catch (error) {
