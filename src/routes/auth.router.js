@@ -1,81 +1,23 @@
 const express = require('express');
 const authRouter = express.Router();
-const UserModel = require('../DAO/models/users.model');
-const { isAdmin, isUser } = require('../middlewares/auth');
-const passport = require('passport');
-const { createHash, isValidPassword } = require('../utils');
+const AuthController = require('../controllers/auth.controller');
+const AuthService = require('../services/auth.service');
 
-authRouter.get('/session', (req, res) => {
-  return res.send(JSON.stringify(req.session));
-});
+authRouter.get('/session', AuthController.getSession);
 
-authRouter.get('/register', (req, res) => {
-  return res.render('register', {});
-});
+authRouter.get('/register', AuthController.getRegisterPage);
 
+// Utilizamos la función register del servicio AuthService
+authRouter.post('/register', AuthService.register, AuthController.postRegister);
 
-authRouter.post('/register', passport.authenticate('register', { failureRedirect: '/auth/failregister' }), (req, res) => {
-  if (!req.user) {
-    return res.json({ error: 'something went wrong' });
-  }
-  req.session.user = {
-    _id: req.user._id,
-    email: req.user.email,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName,
-    age: req.user.age,
-    role: req.user.role,
-    // isAdmin: req.user.isAdmin
-  };
-  
-  return res.json({ msg: 'ok', payload: req.user });
-});
+authRouter.get('/failregister', AuthController.failRegister);
 
-authRouter.get('/failregister', async (req, res) => {
-  return res.json({ error: 'fail to register' });
-});
-
-authRouter.get('/login', (req, res) => {
-  return res.render('login', {});
-});
-
-authRouter.post('/login', passport.authenticate('login', { failureRedirect: '/auth/faillogin' }), async (req, res) => {
-  if (!req.user) {
-    return res.json({ error: 'invalid credentials' });
-  }
-  req.session.user = {
-    _id: req.user._id,
-    email: req.user.email,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName,
-    age: req.user.age,
-    role: req.user.role,
-    // isAdmin: req.user.isAdmin
-  };
-  
-  return res.json({ msg: 'ok', payload: req.user });
-});
-
-authRouter.get('/faillogin', async (req, res) => {
-  return res.json({ error: 'fail to login' });
-});
-
-authRouter.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).render('error', { error: 'no se pudo cerrar su session' });
-    }
-    return res.redirect('/auth/login');
-  });
-});
-
-authRouter.get('/perfil', isUser, (req, res) => {
-  const user = req.session.user;
-  return res.render('perfil', { user: user });
-});
-
-authRouter.get('/administracion', isUser, isAdmin, (req, res) => {
-  return res.send('Datos que solo puede ver si es administrador y si es user');
-});
+// Rutas sin cambios
+authRouter.get('/login', AuthController.getLoginPage);
+authRouter.post('/login', AuthService.login, AuthController.postLogin);
+authRouter.get('/faillogin', AuthController.failLogin);
+authRouter.get('/logout', AuthController.logout);
+authRouter.get('/perfil', AuthController.getPerfilPage);
+authRouter.get('/administracion', AuthController.getAdminPage);
 
 module.exports = authRouter;
