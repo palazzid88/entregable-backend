@@ -30,21 +30,52 @@ class AuthController {
   }
 
   async logout(req, res) {
-    req.session.destroy((err) => {
-      if (err) {
-        return res.status(500).render('error', { error: 'no se pudo cerrar su session' });
-      }
-      return res.redirect('/auth/login');
+    try {
+      req.session.destroy((err) => {
+        if (err) {
+          return res.status(500).render('error', { error: 'no se pudo cerrar su session' });
+        }
+        return res.redirect('/auth/login');
+      })
+    }
+    catch (e) {
+      console.log(e);
+      return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      data: {},
     });
+    }
   }
 
   async getPerfilPage(req, res) {
-    const user = req.session.user;
-    return res.render('perfil', { user: user });
+    try {
+      const user = req.session.user;
+      return res.render('perfil', { user: user });
+    }
+    catch (e) {
+      console.log(e);
+      return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      data: {},
+    });
+    }
   }
+    
 
   async getAdminPage(req, res) {
-    return res.send('Datos que solo puede ver si es administrador y si es usuario');
+    try {
+      return res.send('Datos que solo puede ver si es administrador y si es usuario');
+    }
+    catch (e) {
+      console.log(e);
+      return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      data: {},
+    });
+    }
   }
 }
 
