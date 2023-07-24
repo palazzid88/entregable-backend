@@ -16,8 +16,7 @@ class CartController {
             status: "error",
             msg: "something went wrong :(",
             data: {},
-        });
-            
+        });            
         }
     }
     
