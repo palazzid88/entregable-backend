@@ -1,3 +1,14 @@
+### .ENV ###
+
+PORT=8080
+DB_NAME=PROY BKND
+MONGO_STRING=
+MONGO_USER=palazzid88
+MONGO_PASS=qv500UC1DtMcjUj8
+GITHUB_CLIENT_ID= Iv1.27c1c117c1448b6b
+GITHUB_CLIENT_SECRET= bcbdceabf553a5a0b26c812a37ec8617fefd5f9a
+GITHUB_CALLBACK_URL= http://localhost:8080/api/sessions/githubcallback
+
 
 #### METODOS DE REQUEST #### => 
     Son pedidos del cliente al servidor
