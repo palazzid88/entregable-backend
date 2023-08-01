@@ -1,5 +1,5 @@
 const { paginate } = require("mongoose-paginate-v2");
-const ProductModel = require("../DAO/models/products.model");
+const productsDao = require("../DAO/mongo/classes/products.dao");
 
 class ProductService {
   async validate(
@@ -46,7 +46,7 @@ class ProductService {
       queryOptions.category = query;
     }
 
-    const queryResult = await ProductModel.paginate(queryOptions, options);
+    const queryResult = await productsDao.paginate(queryOptions, options);
 
     const { docs, ...rest } = queryResult;
 
@@ -91,7 +91,7 @@ class ProductService {
       status,
       category
     );
-    const productCreated = await ProductModel.create({
+    const productCreated = await productsDao.create({
       title,
       description,
       price,
@@ -131,17 +131,17 @@ class ProductService {
         data: {},
       });
     }
-    const productUptaded = await ProductModel.updateOne(
+    const productUptaded = await productsDao.updateOne(
       { title, description, price, thumbnail, code, stock, status, category }
     );
     return productUptaded;
   } //cumplido
   async deleteOne (id) {
-    const productDeleted = await ProductModel.deleteOne({ _id: id });
+    const productDeleted = await productsDao.deleteOne({ _id: id });
     return productDeleted;
   }
   async findOne (_id) {
-    const product = await ProductModel.findById({ _id: _id });
+    const product = await productsDao.findById({ _id: _id });
     return product
   }
 }

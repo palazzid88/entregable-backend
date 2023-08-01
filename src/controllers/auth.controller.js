@@ -1,4 +1,5 @@
 const passport = require('passport');
+const { RegisterDTO, LoginDTO } = require('../DAO/dto/auth.dto');
 
 class AuthController {
   async getSession(req, res) {
@@ -10,6 +11,13 @@ class AuthController {
   }
 
   async postRegister(req, res, next) {
+    // Obtener los datos del formulario de registro
+    const { firstName, lastName, email, age, password } = req.body;
+
+    // Crear el DTO para el registro con los datos del formulario
+    const registerDTO = new RegisterDTO(firstName, lastName, email, age, password);
+
+    // Pasar el DTO al servicio de autenticación para el registro
     passport.authenticate('register', { failureRedirect: '/auth/failregister' })(req, res, next);
   }
 
@@ -22,6 +30,13 @@ class AuthController {
   }
 
   async postLogin(req, res, next) {
+    // Obtener los datos del formulario de inicio de sesión
+    const { email, password } = req.body;
+
+    // Crear el DTO para el inicio de sesión con los datos del formulario
+    const loginDTO = new LoginDTO(email, password);
+
+    // Pasar el DTO al servicio de autenticación para el inicio de sesión
     passport.authenticate('login', { failureRedirect: '/auth/faillogin' })(req, res, next);
   }
 

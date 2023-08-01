@@ -18,13 +18,14 @@ const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars');
 const path = require("path");
 const { serialize } = require('v8');
-const ProductManager = require('./DAO/productManager.js');
+const ProductManager = require('./DAO/memory/productManager.js');
 const { connectMongo } = require('./utils.js');
-const ChatModel = require('./DAO/models/chat.socket.model.js');
+const ChatModel = require('./DAO/mongo/models/chat.socket.model.js');
 const MongoStore = require('connect-mongo');
 const iniPassport = require('./config/passport.config.js');
 const passport = require('passport');
 const sessionsRouter = require('./routes/sessions.router.js');
+const ticketRouter = require('./routes/tickets.router.js');
 const productManager = new ProductManager('product.json')
 
 const app = express() 
@@ -81,6 +82,9 @@ app.use('/auth', authRouter);
 
 //---------Login GitHub----------------
 app.use('/api/sessions', sessionsRouter);
+
+//--------------Ticket-----------------
+app.use('/ticket', ticketRouter)
 
 
 const io = socketIO(httpServer);

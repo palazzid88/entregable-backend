@@ -1,10 +1,12 @@
-const UserModel = require('../DAO/models/users.model');
-const { createHash, isValidPassword } = require('../utils');
+// const UserModel = require('../DAO/mongo/models/users.model');
+// const { usersDao } = require('../DAO/modelFactory');
+const usersDao = require("../DAO/mongo/classes/users.dao.js");
 
+const { createHash, isValidPassword } = require('../utils');
 
 class UserService {
     async findUser (email, password) {
-        const user = await UserModel.findOne({ email: email, password: password }, 
+        const user = await usersDao.findOne({ email: email, password: password }, 
             {
                 _id: true,
                 email: true,
@@ -16,7 +18,7 @@ class UserService {
     }
 
     async findUserByEmail(email) {
-        const user = await UserModel.findOne(
+        const user = await usersDao.findOne(
             {email: email },
             {
                 _id: true,
@@ -30,7 +32,7 @@ class UserService {
     }
 
     async getAll() {
-        const users = await UserModel.find(
+        const users = await usersDao.find(
             {},
             {
               _id: true,
@@ -51,7 +53,7 @@ class UserService {
             return false;
           }
       
-          const userCreated = await UserModel.create(user);
+          const userCreated = await usersDao.create(user);
       
           return userCreated;
     }
@@ -72,7 +74,7 @@ class UserService {
       }
     
       async deleteOne(_id) {
-        const result = await UserModel.deleteOne({ _id: _id });
+        const result = await usersDao.deleteOne({ _id: _id });
         return result;
       }
     }

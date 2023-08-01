@@ -1,13 +1,16 @@
 const passport = require('passport');
 const local = require('passport-local');
 const { createHash, isValidPassword } = require('../utils');
-const UserModel = require('../DAO/models/users.model');
+// const { cartsDao, productsDao, usersDao } = require("../DAO/modelFactory.js");
+const UserModel = require('../DAO/mongo/models/users.model');
 const UserService = require('../services/users.service');
+// const UserModel = require('../DAO/mongo/classes/users.dao');
 const userService = new UserService();
 const LocalStrategy = local.Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 require('dotenv').config();
+
 
 
 

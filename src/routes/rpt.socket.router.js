@@ -1,7 +1,7 @@
 const express = require('express');
 const { Router } = require('express');
 const rtpRouter = express.Router();
-const ProductManager = require('../DAO/productManager');
+const ProductManager = require('../DAO/memory/productManager');
 const path = "../products.json"
 const productManager = new ProductManager (path);
 

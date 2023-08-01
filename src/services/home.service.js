@@ -1,4 +1,4 @@
-const ProductManager = require('../DAO/productManager.js');
+const ProductManager = require('../DAO/memory/productManager.js');
 const productManager = new ProductManager('../product.json');
 
 class HomeService {
