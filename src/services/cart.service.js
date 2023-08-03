@@ -1,4 +1,7 @@
-const { cartsDao, productsDao, usersDao } = require("../DAO/modelFactory.js");
+// const { cartsDao, productsDao, usersDao } = require("../DAO/modelFactory.js");
+const cartsDao = require("../DAO/mongo/classes/carts.dao.js");
+const productsDao = require("../DAO/mongo/classes/products.dao.js");
+const ticketsDao = require("../DAO/mongo/classes/tickets.dao.js")
 
 class CartService {
     async createOne() {
@@ -180,6 +183,39 @@ class CartService {
             throw new Error("No se pudo añadir producto al carro :(");
         }      
     }
+
+    async purchase(purchaser, cartID) {
+        try {
+          const cart = await cartsDao.findById(cartID);
+          if (cart.products.length < 1) {
+            return { code: 404, result: { status: "ok", message: "el carro está vacío" } };
+          }
+          let totalAmount = 0;
+          for (const cartProduct of cart.products) {
+            const productInDB = await productsDao.findOne({_id:cartProduct.productId.$oid });
+            if (productInDB.stock < cartProduct.quantity) {
+              return {
+                code: 404,
+                result: {
+                  status: "nostock",
+                  message: `Not enough stock for product ${productInDB.title}`,
+                  payload: productInDB,
+                },
+              };
+            }
+            totalAmount += productInDB.price * cartProduct.quantity;
+            productInDB.stock -= cartProduct.quantity;
+            await productsDao.updateProduct(productInDB._id.toString(), productInDB);
+            await this.delProdToCart(cartID, cartProduct.productId.toString());
+          }
+          const ticket = await ticketsDao.createTicket(purchaser, totalAmount);
+          return { code: 200, result: { status: "success", message: "Purchase successful", payload: ticket } };
+        } catch (error) {
+          console.log(error);
+          return { code: 500, result: { status: "error", message: "Couldn't purchase products." } };
+        }
+      }
+      
 }
 
 module.exports = CartService

@@ -1,6 +1,7 @@
 const CartService = require("../services/cart.service");
 
 const Carts = new CartService;
+
 class CartController {
     async createCart (req, res) {
         try {
@@ -122,6 +123,22 @@ class CartController {
             return res.status(500).json({
                 status: "error",
                 msg: "Algo salió mal",
+                data: {},
+            });
+        }
+    }
+
+    async purchaseCart (req, res) {
+        console.log("ingresó a purchase")
+        try {
+            const cartID = req.params.cid;
+            const response = await Carts.purchase(req.session.user?.email, cartID);
+            return res.status(response.code).json(response.result);
+        
+        } catch (e) {
+            return res.status(500).json({
+                status: "error",
+                msg: "error en el purchaseCart",
                 data: {},
             });
         }

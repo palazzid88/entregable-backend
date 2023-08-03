@@ -2,6 +2,7 @@ const express = require('express')
 const { Router } = require('express');
 const cartRouter = express.Router();
 const CartController = require('../controllers/cart.controller');
+const cartController = require('../controllers/cart.controller');
 // const CartService = require('../services/cart.service');
 // const CartManager = require('../DAO/cartManager.js');
 // const ProductManager = require('../DAO/productManager.js');
@@ -32,6 +33,9 @@ cartRouter.put("/:cid", CartController.updateCart );
 
 // añadir un producto al carro
 cartRouter.put("/:cid/products/:pid", CartController.addProduct );
+
+// 
+cartRouter.post("/:cid/purchase", cartController.purchaseCart );
 
 module.exports = cartRouter
 
