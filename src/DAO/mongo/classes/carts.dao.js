@@ -1,21 +1,37 @@
 const CartModel = require("../models/carts.model");
 
-const cartsDao = {
-  create: async (cartData) => {
-    return await CartModel.create(cartData);
-  },
+class CartDao {
+  async create(cartData) {
+    try {
+      return await CartModel.create(cartData);
+    } catch (e) {
+      throw e;
+    }
+  }
 
-  findById: async (cartId) => {
-    return await CartModel.findById(cartId);
-  },
+  async findById(cartId) {
+    try {
+      return await CartModel.findById(cartId);
+    } catch (e) {
+      throw e;
+    }
+  }
 
-  update: async (cartId, updateData) => {
-    return await CartModel.findByIdAndUpdate(cartId, updateData, { new: true });
-  },
+  async update(cartId, updateData) {
+    try {
+      return await CartModel.findByIdAndUpdate(cartId, updateData, { new: true });
+    } catch (e) {
+      throw e;
+    }
+  }
 
-  delete: async (cartId) => {
-    return await CartModel.findByIdAndDelete(cartId);
-  },
-};
+  async delete(cartId) {
+    try {
+      return await CartModel.findByIdAndDelete(cartId);
+    } catch (e) {
+      throw e;
+    }
+  }
+}
 
-module.exports = cartsDao;
+module.exports = CartDao;

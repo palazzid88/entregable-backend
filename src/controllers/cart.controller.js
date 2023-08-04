@@ -22,17 +22,19 @@ class CartController {
     }
     
     async addToCart (req, res) {
-        console.log("entro al products")
+        console.log("addToCart en cart.controller")
         try {
             const cid = req.params.cid.toString();
             const pid = req.params.pid.toString();
-            const qty = req.body.quantity.toString();
-            console.log("params", cid, pid, qty)
+            const qty = parseInt(req.body.quantity);
+            console.log("params:","cid:", cid,"pid:", pid,"qty:", qty)
     
-            const result = await Carts.addProductToCart(cid, pid, qty);
+            const result = await Carts.addToCart(cid, pid, qty);
             console.log("result", result)
             return res.status(201).json({ message: "producto añadido al carrito", result })
         } catch (e) {
+            console.log(e)
+            console.log("error capturado en el catch de addToCart")
             return res.status(500).json({
                 status: "error",
                 msg: "something went wrong :(",

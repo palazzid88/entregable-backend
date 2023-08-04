@@ -45,9 +45,12 @@ class ProductDao {
   }
 
   async findById(productId) {
-    console.log("ingreso al fineOne")
-    const product = await ProductModel.findById(productId);
-    console.log(product)
+    console.log("ingreso al findById de product.dao")
+    console.log("productId en findById", typeof productId)
+    console.log(typeof productId)
+    const id = productId.toString()
+    const product = await ProductModel.findById(id);
+    console.log("findById en product.dao", product)
     return product;
   }
 }

@@ -1,12 +1,15 @@
 // const { cartsDao, productsDao, usersDao } = require("../DAO/modelFactory.js");
-const cartsDao = require("../DAO/mongo/classes/carts.dao.js");
-const productsDao = require("../DAO/mongo/classes/products.dao.js");
+const ProductDao = require("../DAO/mongo/classes/products.dao.js");
 const ticketsDao = require("../DAO/mongo/classes/tickets.dao.js")
+const CartDao = require("../DAO/mongo/classes/carts.dao.js")
+
+const productDao = new ProductDao();
+const cartDao = new CartDao();
 
 class CartService {
     async createOne() {
         try {
-            const cart = await cartsDao.create({});
+            const cart = await  cartDao.create({});
             console.log("cart en service createOne", cart);
             return cart;
         } catch (e) {
@@ -15,16 +18,21 @@ class CartService {
         }
     }
 
-    async addProdToCart(cid, pid, qty) {
+    async addToCart(cid, pid, qty) {
         try {
-            const product = await productsDao.findById(pid);
+            console.log("addToCart en cart.service", cid, pid, qty);
+
+            console.log("en addToCart de cart.service");
+            console.log(pid)
+            const product = await productDao.findById(pid);
             console.log("prod en services", product);
 
             if (!product) {
                 throw `No existe producto con ID: ${pid}`;
             }
 
-            const cart = await cartsDao.findById(cid);
+            console.log("antes del cartDao en addToCArt")
+            const cart = await cartDao.findById(cid);
             console.log("cart en service", cart);
             if (!cart) {
                 throw `No existe carro con ID: ${cid}`;
