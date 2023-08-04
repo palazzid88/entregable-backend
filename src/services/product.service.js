@@ -1,18 +1,8 @@
-const { paginate } = require("mongoose-paginate-v2");
-const productsDao = require("../DAO/mongo/classes/products.dao");
+const ProductDao = require("../DAO/mongo/classes/products.dao");
+const productDao = new ProductDao();
 
 class ProductService {
-  async validate(
-    title,
-    description,
-    price,
-    thumbnail,
-    code,
-    stock,
-    status,
-    category
-  ) {
-    //"validar los atributos del producto"
+  async validate(title, description, price, thumbnail, code, stock, status, category) {
     if (
       !title ||
       !description ||
@@ -23,16 +13,10 @@ class ProductService {
       !status ||
       !category
     ) {
-      console.log(
-        "validation error: please complete firstName, lastname and email."
-      );
-      return res.status(400).json({
-        status: "error",
-        msg: "please complete firstName, lastname and email.",
-        data: {},
-      });
+      throw new Error("Validation error: Please complete all product fields.");
     }
   }
+
   async getAll(page, limit, sort, query) {
     const options = {
       page: page || 1,
@@ -46,7 +30,7 @@ class ProductService {
       queryOptions.category = query;
     }
 
-    const queryResult = await productsDao.paginate(queryOptions, options);
+    const queryResult = await productDao.getAll(queryOptions, options);
 
     const { docs, ...rest } = queryResult;
 
@@ -61,9 +45,6 @@ class ProductService {
       };
     });
 
-    console.log('esto es rest', rest);
-    console.log('esto es products', products)
-
     const data = {
         products: products,
         pagination: rest
@@ -71,78 +52,48 @@ class ProductService {
 
     return data;
   }
-  async createOne(
-    title,
-    description,
-    price,
-    thumbnail,
-    code,
-    stock,
-    status,
-    category
-  ) {
-    this.validate(
-      title,
-      description,
-      price,
-      thumbnail,
-      code,
-      stock,
-      status,
-      category
-    );
-    const productCreated = await productsDao.create({
-      title,
-      description,
-      price,
-      thumbnail,
-      code,
-      stock,
-      status,
-      category,
-    });
-    return productCreated;
-  } //cumplido
-  async updateOne (id, title, description, price, thumbnail, code, stock, status, category) {
-    this.validate(
-      title,
-      description,
-      price,
-      thumbnail,
-      code,
-      stock,
-      status,
-      category
-    );
-    if (
-      !title ||
-      !description ||
-      !price ||
-      !thumbnail ||
-      !code ||
-      !stock ||
-      !status ||
-      !category
-    ) {
-      console.log("validation error: please complete all items.");
-      return res.status(400).json({
-        status: "error",
-        msg: "please complete all items",
-        data: {},
-      });
+
+  async addProduct(title, description, price, thumbnail, code, stock, status, category) {
+      const productCreated = await productDao.createOne(
+        title,
+        description,
+        price,
+        thumbnail,
+        code,
+        stock,
+        status,
+        category
+      );
+  
+      return productCreated;
     }
-    const productUptaded = await productsDao.updateOne(
-      { title, description, price, thumbnail, code, stock, status, category }
+
+  async updateOne(id, productData) {
+    this.validate(
+      productData.title,
+      productData.description,
+      productData.price,
+      productData.thumbnail,
+      productData.code,
+      productData.stock,
+      productData.status,
+      productData.category
     );
-    return productUptaded;
-  } //cumplido
-  async deleteOne (id) {
-    const productDeleted = await productsDao.deleteOne({ _id: id });
+
+    const productUpdated = await productDao.updateOne(id, productData);
+    return productUpdated;
+  }
+
+  async deleteOne(id) {
+    const productDeleted = await productDao.deleteOne(id);
     return productDeleted;
   }
-  async findOne (_id) {
-    const product = await productsDao.findById({ _id: _id });
+
+  async getProductById(id) {
+    console.log("ingreso al findOne")
+    const product = await productDao.findById(id);
     return product
   }
 }
+
 module.exports = ProductService;

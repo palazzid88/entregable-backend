@@ -1,12 +1,13 @@
 const express = require('express');
 const productRouter = express.Router();
 const ProductController = require('../controllers/products.controller');
+const productValid = require('../middlewares/validation');
 
 productRouter.get('/', ProductController.getAll);
 
-productRouter.get('/:id', ProductController.getProductById);
+productRouter.get('/:id',productValid, ProductController.getProductById);
 
-productRouter.post('/', ProductController.createProduct);
+productRouter.post('/',productValid, ProductController.createProduct);
 
 productRouter.delete('/:id', ProductController.deleteProduct);
 

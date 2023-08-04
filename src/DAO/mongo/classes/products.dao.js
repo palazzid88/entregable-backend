@@ -1,59 +1,23 @@
-const { paginate } = require("mongoose-paginate-v2");
-const { ProductModel } = require("../models/products.model");
+const  ProductModel  = require("../models/products.model");
+
 
 class ProductDao {
-  async validate(title, description, price, thumbnail, code, stock, status, category) {
-  }
 
-  async getAll(page, limit, sort, query) {
-    const options = {
-      page: page || 1,
-      limit: limit || 5,
-      sort: sort || "asc",
-    };
-
-    const queryOptions = {};
-
-    if (query) {
-      queryOptions.category = query;
+  async getAll(queryOptions, options) {
+    try {
+      const queryResult = await ProductModel.paginate(queryOptions, options);
+      return queryResult;
+    } catch (e) {
+      throw e;
     }
-
-    const queryResult = await ProductModel.paginate(queryOptions, options);
-
-    const { docs, ...rest } = queryResult;
-
-    let products = docs.map((doc) => {
-      return {
-        title: doc.title,
-        description: doc.description,
-        price: doc.price,
-        thumbnail: doc.thumbnail,
-        category: doc.category,
-        id: doc._id.toString(),
-      };
-    });
-
-    const data = {
-      products: products,
-      pagination: rest,
-    };
-
-    return data;
   }
 
-  async createOne(title, description, price, thumbnail, code, stock, status, category) {
-    this.validate(title, description, price, thumbnail, code, stock, status, category);
-    const productCreated = await ProductModel.create({
-      title,
-      description,
-      price,
-      thumbnail,
-      code,
-      stock,
-      status,
-      category,
-    });
-    return productCreated;
+  async createOne(title, description, price, thumbnail, code, stock, status, category){
+    const productData = { title, description, price, thumbnail, code, stock, status, category }
+    console.log("ingreso a createOne en products.dao")
+    const product = new ProductModel(productData);
+    await product.save();
+    return product;
   }
 
   async updateOne(id, title, description, price, thumbnail, code, stock, status, category) {
@@ -80,7 +44,7 @@ class ProductDao {
     return productDeleted;
   }
 
-  async findOne(productId) {
+  async findById(productId) {
     console.log("ingreso al fineOne")
     const product = await ProductModel.findById(productId);
     console.log(product)
@@ -88,5 +52,5 @@ class ProductDao {
   }
 }
 
-const productDao = new ProductDao();
-module.exports = productDao;
+// const productDao = new ProductDao();
+module.exports = ProductDao;

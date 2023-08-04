@@ -4,13 +4,14 @@ const Products = new ProductService();
 
 class ProductController {
   async getAll(req, res) {
+    console.log("entró al controller en getAll")
     try {
       const { page, limit, sort, query } = req.query;
       const result = await Products.getAll(page, limit, sort, query);
       const products = result.products;
       const pagination = result.pagination;
 
-      res.status(201).render('products', { products, pagination });
+      res.status(200).render("products", { products, pagination });
     } catch (e) {
       console.log(e);
       return res.status(500).json({
@@ -22,9 +23,10 @@ class ProductController {
   }
 
   async getProductById(req, res) {
+    console.log("entró en el controller getProductById")
     try {
       const { id } = req.params;
-      const result = await Products.findOne(id);
+      const result = await Products.getProductById(id);
       const product = result.product;
 
       if (!product) {
@@ -58,8 +60,8 @@ class ProductController {
         status,
         category,
       } = req.body;
-
-      const result = await Products.createOne(
+  
+      const result = await Products.addProduct(
         title,
         description,
         price,
@@ -69,18 +71,19 @@ class ProductController {
         status,
         category
       );
+  
       const productCreated = result.productCreated;
-
+  
       return res.status(201).json({
         status: 'success',
-        msg: 'user created',
+        message: 'Product created',
         data: productCreated,
       });
     } catch (e) {
       console.log(e);
       return res.status(500).json({
         status: 'error',
-        msg: 'something went wrong :(',
+        message: 'Something went wrong :(',
         data: {},
       });
     }
