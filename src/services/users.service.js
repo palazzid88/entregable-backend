@@ -2,7 +2,7 @@
 // const { usersDao } = require('../DAO/modelFactory');
 const usersDao = require("../DAO/mongo/classes/users.dao.js");
 
-const { createHash, isValidPassword } = require('../utils');
+const { createHash, isValidPassword } = require('../utils/utils.js');
 
 class UserService {
     async findUser (email, password) {

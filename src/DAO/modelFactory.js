@@ -14,11 +14,11 @@ let usersDao;
 async function initFactory() {
   switch (process.env.MONGO_STRING) {
     case "MONGO":
-      const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
-      connectMongo(MONGO_PASSWORD);
+      const MONGO_PASS = process.env.MONGO_PASS;
+      connectMongo(MONGO_PASS);
       factoryStore = {
         store: MongoStore.create({
-          mongoUrl: `mongodb+srv://spy0x:${MONGO_PASSWORD}@cluster0.7hatvzm.mongodb.net/ecommerce?retryWrites=true&w=majority`,
+          mongoUrl: `mongodb+srv://spy0x:${MONGO_PASS}@cluster0.7hatvzm.mongodb.net/ecommerce?retryWrites=true&w=majority`,
           ttl: 1000,
         }),
       };

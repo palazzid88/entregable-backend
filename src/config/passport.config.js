@@ -1,6 +1,6 @@
 const passport = require('passport');
 const local = require('passport-local');
-const { createHash, isValidPassword } = require('../utils');
+const { createHash, isValidPassword } = require('../utils/utils');
 // const { cartsDao, productsDao, usersDao } = require("../DAO/modelFactory.js");
 const UserModel = require('../DAO/mongo/models/users.model');
 const UserService = require('../services/users.service');
@@ -138,8 +138,15 @@ function iniPassport() {
   });
 
   passport.deserializeUser(async (id, done) => {
-    let user = await UserModel.findById(id);
-    done(null, user);
+    try {
+      console.log("Deserializing user with ID:", id);
+      let user = await UserModel.findById(id);
+      console.log("User data from database:", user);
+      done(null, user);
+    } catch (err) {
+      console.log("Error deserializing user:", err);
+      done(err);
+    }
   });
 }
 

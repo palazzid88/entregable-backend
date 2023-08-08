@@ -19,13 +19,14 @@ const handlebars = require('express-handlebars');
 const path = require("path");
 const { serialize } = require('v8');
 const ProductManager = require('./DAO/memory/productManager.js');
-const { connectMongo } = require('./utils.js');
+const { connectMongo } = require('./utils/utils.js');
 const ChatModel = require('./DAO/mongo/models/chat.socket.model.js');
 const MongoStore = require('connect-mongo');
 const iniPassport = require('./config/passport.config.js');
 const passport = require('passport');
 const sessionsRouter = require('./routes/sessions.router.js');
 const ticketRouter = require('./routes/tickets.router.js');
+const mockingRouter = require('./routes/moking.router.js');
 const productManager = new ProductManager('product.json')
 
 const app = express() 
@@ -51,7 +52,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
   session({
-    store: MongoStore.create({ mongoUrl: 'mongodb+srv://palazzid88:qv500UC1DtMcjUj8@coder-house.ekzznmk.mongodb.net/', ttl: 7200 }),
+    store: MongoStore.create({ mongoUrl: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@coder-house.ekzznmk.mongodb.net/`, ttl: 7200 }),
     secret: 'un-re-secreto',
     resave: true,
     saveUninitialized: true,
@@ -85,6 +86,9 @@ app.use('/api/sessions', sessionsRouter);
 
 //--------------Ticket-----------------
 app.use('/ticket', ticketRouter)
+
+//-----------Moking Test---------------
+app.use('/', mockingRouter)
 
 
 const io = socketIO(httpServer);
