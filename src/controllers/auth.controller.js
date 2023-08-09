@@ -53,15 +53,25 @@ class AuthController {
   }
 
   async postLogin(req, res, next) {
-    // Obtener los datos del formulario de inicio de sesión
-    const { email, password } = req.body;
-
-    // Crear el DTO para el inicio de sesión con los datos del formulario
-    const loginDTO = new LoginDTO(email, password);
-
-    // Pasar el DTO al servicio de autenticación para el inicio de sesión
-    passport.authenticate('login', { failureRedirect: '/auth/faillogin' })(req, res, next);
+    passport.authenticate('login', (err, user, info) => {
+      if (err) {
+        // Manejar el error...
+        return res.status(500).render('error', { error: 'Error during login' });
+      }
+  
+      if (!user) {
+        // Renderizar la página de inicio de sesión con un mensaje de error...
+        return res.render('login', { error: info.message });
+      }
+  
+      // Establecer la sesión del usuario
+      req.logIn(user, () => {
+        // Redirigir después de establecer la sesión
+        return res.redirect('perfil');
+      });
+    })(req, res, next);
   }
+  
 
   async failLogin(req, res) {
     return res.json({ error: 'invalid credentials' });

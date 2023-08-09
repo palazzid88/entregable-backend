@@ -1,3 +1,5 @@
+const ticketService = require("../../services/ticket.service");
+
 // dtos/auth.dto.js
 class RegisterDTO {
     constructor(firstName, lastName, email, age, password) {
@@ -6,6 +8,15 @@ class RegisterDTO {
       this.email = email;
       this.age = age;
       this.password = password;
+    }
+  }
+
+  class userDTO {
+    constructor(firstName, lastName, email, role) {
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.email = email;
+      this.role = role;
     }
   }
   
@@ -19,5 +30,6 @@ class RegisterDTO {
   module.exports = {
     RegisterDTO,
     LoginDTO,
+    userDTO,
   };
   
