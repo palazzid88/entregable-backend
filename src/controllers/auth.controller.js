@@ -54,6 +54,7 @@ class AuthController {
 
   async postLogin(req, res, next) {
     passport.authenticate('login', (err, user, info) => {
+      console.log("user en postLogin auth.controller", user)
       if (err) {
         // Manejar el error...
         return res.status(500).render('error', { error: 'Error during login' });

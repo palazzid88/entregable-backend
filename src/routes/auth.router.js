@@ -2,6 +2,7 @@ const express = require('express');
 const authRouter = express.Router();
 const AuthController = require('../controllers/auth.controller');
 const AuthService = require('../services/auth.service');
+const { isUser, isAdmin } = require("../middlewares/auth")
 
 authRouter.get('/session', AuthController.getSession);
 
@@ -20,6 +21,6 @@ authRouter.post('/login', AuthService.authenticateLogin, AuthController.postLogi
 authRouter.get('/faillogin', AuthController.failLogin);
 authRouter.get('/logout', AuthController.logout);
 authRouter.get('/perfil', AuthController.getPerfilPage);
-authRouter.get('/administracion', AuthController.getAdminPage);
+authRouter.get('/administracion',isUser, isAdmin, AuthController.getAdminPage);
 
 module.exports = authRouter;

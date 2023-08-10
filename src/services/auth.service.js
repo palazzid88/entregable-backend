@@ -8,6 +8,7 @@ class AuthService {
 
   // Función para actualizar la sesión del usuario después del registro
   updateSession(req, user) {
+    console.log("user en updateSession", user)
     req.session.user = {
       _id: user._id,
       email: user.email,
@@ -15,8 +16,9 @@ class AuthService {
       lastName: user.lastName,
       age: user.age,
       role: user.role,
-      // isAdmin: user.isAdmin
+      isAdmin: user.admin
     };
+    console.log("updateSession en auth", req.session.user)
   }
 }
 

@@ -42,10 +42,10 @@ const schema = new Schema({
         default: 'user',
     },
 
-    // isAdmin: {
-    //     type: Boolean,
-    //     required: true,
-    // },
+    admin: {
+        type: Boolean,
+        required: true,
+    },
 });
 schema.plugin(paginate);
 const UserModel = mongoose.model("users", schema);
