@@ -17,7 +17,6 @@ if (!cartId) {
     document.addEventListener('DOMContentLoaded', function() {
       console.log("se llama al fetch");
       fetch(`http://localhost:8080/api/carts`,
-        // `https://palazzid88-ideal-journey-9r7xqp6rqq4cx5g-8080.preview.app.github.dev/api/carts`,
          { method: 'GET' })
         .then(response => response.json())
         .then(cartData => {
@@ -43,9 +42,7 @@ function addProductToCart(idProduct) {
         quantity: 1
       };
     // if (cartId) {
-        // console.log(`https://palazzid88-ideal-journey-9r7xqp6rqq4cx5g-8080.preview.app.github.dev/api/carts/${cartId}/products/${idProduct}`)
         fetch(`http://localhost:8080/api/carts/${cartId}/products/${idProduct}`,
-          // `https://palazzid88-ideal-journey-9r7xqp6rqq4cx5g-8080.preview.app.github.dev/api/carts/${cartId}/products/${idProduct}`, 
           {
             method: 'PUT',
             headers: {

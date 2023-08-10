@@ -11,6 +11,12 @@ isAdmin:
 <h4>Esta es la página de Login del ecommers de Coder House</h4>
 <br />
 <a href='/auth/administracion'>Ver datos super secretos<a>
+<br />
+<a href='/api/products'>ir a los productos</a>
+<br />
+{{#if isAdmin}}
+<a href='/realTimeProducts'>añadir productos a la base de datos</a>
+{{/if}}
 
 <br />
 <a href='/auth/logout'>Salir!</a>

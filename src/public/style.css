@@ -18,3 +18,24 @@
     margin: 20px;
     border: 1px solid black;
 }
+
+
+/* Styles products.handlebars */
+
+.div-products-handle{
+    background-color:dodgerblue;
+    /* margin: 40px;     */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.a-products-handle{
+    color: white;
+}
+
+.img-products-handle{
+    width: 60px;
+}
