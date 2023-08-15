@@ -1,6 +1,9 @@
 // const ProductModel = require('./models/product.model');
 
 const ProductModel = require("../DAO/mongo/models/products.model");
+const CartService = require("../services/cart.service");
+const cartService = new CartService()
+
 
 const productValid = async (req, res, next) => {
   const product = req.body;
@@ -17,5 +20,7 @@ const productValid = async (req, res, next) => {
   
   return next();
 };
+
+
 
 module.exports = productValid;

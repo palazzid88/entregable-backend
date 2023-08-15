@@ -1,4 +1,10 @@
+const usersDao = require("../DAO/mongo/classes/users.dao");
+const ProductModel = require("../DAO/mongo/models/products.model");
+const UserModel = require("../DAO/mongo/models/users.model");
 const CartService = require("../services/cart.service");
+const UserService = require("../services/users.service");
+const userService = new UserService();
+const productModel = new ProductModel()
 
 const Carts = new CartService;
 
@@ -20,13 +26,62 @@ class CartController {
         });            
         }
     }
+
+    async viewCart(req, res) {
+        try {
+          // Obtener el ID del usuario autenticado desde la sesión
+          const userId = req.session.passport.user;
+          console.log("user en view", userId)
+      
+          // Buscar al usuario en la base de datos utilizando el ID
+          const user = await UserModel.findOne({ _id: userId });
+          console.log("user en view", user)
+          
+          if (!user) {
+            // Manejar el caso si el usuario no se encuentra en la base de datos
+            return res.status(404).json({ error: 'User not found' });
+          }
+      
+          // Obtener el ID del carrito del usuario
+          const cartId = user.cart;
+      
+          if (!cartId) {
+            // Manejar el caso si el usuario no tiene un carrito
+            return res.status(404).json({ error: 'User does not have a cart' });
+          }
+      
+          // Obtener los detalles del carrito utilizando el servicio de carritos
+          const cart = await Carts.getCartWithProducts(cartId);
+      
+          if (!cart) {
+            // Manejar el caso si el carrito no se encuentra
+            return res.status(404).json({ error: 'Cart not found' });
+          }
+      
+          let message = "";
+          if (cart.products.length === 0) {
+            message = "Tu carrito está vacío.";
+          }
+
+        
+        
+
+
+        const prodToCart = cart.products
+        console.log("prodToCart", prodToCart)
+          res.render('cart', { prodToCart, message });
+      
+        } catch (error) {
+          return res.status(500).json({ error: 'An error occurred while viewing the cart.' });
+        }
+      }
     
     async addToCart (req, res) {
         console.log("addToCart en cart.controller")
         try {
             const cid = req.params.cid.toString();
             const pid = req.params.pid.toString();
-            const qty = parseInt(req.body.quantity);
+            const qty = parseInt(req.body.quantity) || 1;
             console.log("params:","cid:", cid,"pid:", pid,"qty:", qty)
     
             const result = await Carts.addToCart(cid, pid, qty);
@@ -79,12 +134,19 @@ class CartController {
     }
 
     async getCartById (req, res) {
+        console.log("ingreso al getCartById")
         try {
-        const cid = req.params.cid;
-        console.log("ingresó a get")
-        const cart = await Carts.getCartById(cid);     
-        console.log("cart en get", cart)        
-        return res.status(201).json(cart);
+            const user = req.session.passport.user
+            console.log("user de session en cart.controller", user);
+            console.log(typeof user)
+            const userInDB = await UserModel.findById({_id: user})
+                if (!userInDB) {
+                    console.log("!userInDB")
+                    res.status(400).json( {msg: "no existe usuario"} )
+                }
+            const cartId = userInDB.cart
+            console.log("cartByUser", cartId)
+        return res.status(201).json( {cartId} );
         } catch (e) {
         return res.status(500).json({
             status: "error",

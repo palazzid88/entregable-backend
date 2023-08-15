@@ -6,14 +6,14 @@ function isUser (req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-    const admin = req.user?.admin;
-    console.log("admin", admin)
-    console.log("admin", typeof admin)
-    if (admin) {
+    const isAdmin = req.user?.isAdmin;
+    console.log("isAdmin", isAdmin)
+    console.log("isAdmin", typeof isAdmin)
+    if (isAdmin) {
         console.log("ingresó en isAdmin")
         return next();
     }
-    console.log("no es admin")
+    console.log("no es isAdmin")
     return res.status(403).render('error', { error: 'error de autorización' })
 }
 

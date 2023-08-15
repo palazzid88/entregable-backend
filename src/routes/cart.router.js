@@ -3,18 +3,16 @@ const { Router } = require('express');
 const cartRouter = express.Router();
 const CartController = require('../controllers/cart.controller');
 const cartController = require('../controllers/cart.controller');
-// const CartService = require('../services/cart.service');
-// const CartManager = require('../DAO/cartManager.js');
-// const ProductManager = require('../DAO/productManager.js');
-// const CartModel = require('../DAO/models/carts.model.js');
-// const path = "../carts.json"
-// const cartManager = new CartManager (path)
-// const productManager = new ProductManager('../product.json')
 
-// const Cart = new CartService ();
 
 // Crea un nuevo carrito
 cartRouter.get("/", CartController.createCart );
+
+// Golpea la vista del cart
+cartRouter.get('/view-cart', cartController.viewCart );
+
+//Obtiene el CartId de la session
+cartRouter.get('/get-cart-id', cartController.getCartById ); 
 
 // Añade un producto al carrito por body
 cartRouter.put("/:cid/products/:pid", CartController.addToCart );
@@ -39,24 +37,7 @@ cartRouter.post("/:cid/purchase", cartController.purchaseCart );
 
 module.exports = cartRouter
 
-//Modificar cantidad de un producto
-// cartRouter.put("/:cid/products/:pid", async (req, res) => {
-//     try {
-//         const cid = req.params.cid;
-//         const pid = req.params.pid;
-//         const quantity = req.body.quantity;
 
-//         const result = await Cart.updateProductQuantity(cid, pid, quantity);
-
-//         return res.status(200).json({ message: "Cantidad de producto actualizada en el carrito", cart: result });
-//     } catch (e) {
-//         return res.status(500).json({
-//             status: "error",
-//             msg: "Algo salió mal",
-//             data: {},
-//         });
-//     }
-// });
 
 
 

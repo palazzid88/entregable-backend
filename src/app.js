@@ -67,6 +67,7 @@ app.use(passport.session());
 // -------Peticiones API REST---------
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
+app.use('/api', cartRouter)
 
 // ---------Peticiones HTML-----------
 app.use('/homeHandlebars', homeRouter);
@@ -89,6 +90,12 @@ app.use('/ticket', ticketRouter)
 
 //-----------Moking Test---------------
 app.use('/', mockingRouter)
+
+//-------------session------------------
+app.get('/get-session', (req, res) => {
+  const cartId = req.session;
+  res.json({ cartId });
+});
 
 
 const io = socketIO(httpServer);

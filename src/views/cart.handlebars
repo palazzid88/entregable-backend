@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+</head>
+<body>
+    <h1>Tu Carrito de Compras</h1>
+    
+    {{#if message}}
+        <p>{{ message }}</p>
+        <a href="/api/products">Regresar ⬅️</a>
+    {{else}}
+        <ul>
+            {{#each prodToCart}}
+                <li>
+                    <p>Producto: {{ this.title }}</p>
+                    <p>Cantidad: {{ this.quantity }}</p>
+                    <p>Precio: {{ this.price }}</p>
+                </li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+</body>
+</html>

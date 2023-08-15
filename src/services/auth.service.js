@@ -16,7 +16,7 @@ class AuthService {
       lastName: user.lastName,
       age: user.age,
       role: user.role,
-      isAdmin: user.admin
+      isAdmin: user.isAdmin
     };
     console.log("updateSession en auth", req.session.user)
   }

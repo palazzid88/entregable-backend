@@ -64,7 +64,14 @@ class AuthController {
         // Renderizar la página de inicio de sesión con un mensaje de error...
         return res.render('login', { error: info.message });
       }
-  
+      
+      // Guardar cartId en la sesión si el usuario tiene un carrito
+      if (user.cart) {
+        req.session.cartId = user.cart.toString();
+        console.log("req.session.cartId en Login passport auth.controller", req.session.cartId);
+
+      }
+      
       // Establecer la sesión del usuario
       req.logIn(user, () => {
         // Redirigir después de establecer la sesión
@@ -101,7 +108,6 @@ class AuthController {
     try {
       // Aquí accedemos a la información del usuario autenticado a través de req.user
       const user = req.user;
-      console.log("user en getPerfilPage", user)
   
       if (!user) {
         // Si el usuario no está autenticado, redirige a la página de inicio de sesión

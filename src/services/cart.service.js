@@ -57,7 +57,7 @@ class CartService {
         try {
             console.log("ingreso al service")
             const productId = pid
-            const cart = await cartsDao.findById(cid);
+            const cart = await cartDao.findById(cid);
             console.log("cart", cart)
             if (!cart) {
                 throw (`no existe carro con ID: ${cid}`)
@@ -82,7 +82,7 @@ class CartService {
         
     async cleanToCart(cid) {
         try {
-            const cart = await cartsDao.findById(cid);
+            const cart = await cartDao.findById(cid);
             if (!cart) {
                 throw (`no existe carro con ID: ${cid}`)
             }
@@ -98,7 +98,7 @@ class CartService {
 
     async updateProductQuantity(cid, pid, quantity) {
         try {
-            const cart = await cartsDao.findById(cid);
+            const cart = await cartDao.findById(cid);
             if (!cart) {
                 throw `No existe carrito con ID: ${cid}`;
             }        
@@ -118,8 +118,8 @@ class CartService {
 
     async getCartById(cid) {
         try {
-            console.log("ingreso a getCartById");
-            const cart = await cartsDao.findById(cid).populate('products.productId');
+            console.log("ingreso a getCartById", cid);
+            const cart = await cartDao.findById(cid).populate('products.productId');
             console.log("cart en service", cart)
             const cartProduct = cart.products;
             if (!cart) {
@@ -137,7 +137,7 @@ class CartService {
         try {
             const productUpdate = products;
 
-            const cart = await cartsDao.findById(cid);
+            const cart = await cartDao.findById(cid);
             if (!cart) {
                 throw (`no existe carro con ID: ${cid}`)
             }
@@ -155,7 +155,7 @@ class CartService {
     async addProduct(cid, pid, qty){
         try {
             console.log("ingreso a sddProduct en service");
-            const product = await productsDao.findById(pid);
+            const product = await productDao.findById(pid);
             console.log("product por btn", product);
             if (!product) {
                 console.log("no exite prod");
@@ -165,7 +165,7 @@ class CartService {
 
             // product ? product : (() => { })();
 
-            const cart = await cartsDao.findById(cid);
+            const cart = await cartDao.findById(cid);
             console.log("cart en service", cart);
             if (!cart) {
                 console.log("no existe cart");
@@ -192,9 +192,20 @@ class CartService {
         }      
     }
 
+    async getCartWithProducts(cartId) {
+        try {
+            const cart = await cartDao.findById(cartId);
+            return cart;
+        } catch (error) {
+            console.log(error);
+            throw new Error("No se pudo obtener el carrito :(");
+        }
+    }
+    
+
     async purchase(purchaser, cartID) {
         try {
-          const cart = await cartsDao.findById(cartID);
+          const cart = await cartDao.findById(cartID);
           if (cart.products.length < 1) {
             return { code: 404, result: { status: "ok", message: "el carro está vacío" } };
           }
