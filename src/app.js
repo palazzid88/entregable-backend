@@ -68,7 +68,7 @@ app.use(passport.session());
 
 // createLogger();
 app.get('/', (req, res) => {
-  loggerInstance.info('Se ha accedido a la página de inicio');
+  logger.info('Se ha accedido a la página de inicio');
   res.send('¡Hola, mundo!');
 });
 
