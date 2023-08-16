@@ -27,7 +27,10 @@ const passport = require('passport');
 const sessionsRouter = require('./routes/sessions.router.js');
 const ticketRouter = require('./routes/tickets.router.js');
 const mockingRouter = require('./routes/mocking.router.js');
+const loggerRouter = require('./routes/logger.router.js');
 const productManager = new ProductManager('product.json')
+const logger = require('./utils/logger.js');
+
 
 const app = express() 
 const port = 8080;
@@ -63,6 +66,11 @@ iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
+// createLogger();
+app.get('/', (req, res) => {
+  loggerInstance.info('Se ha accedido a la página de inicio');
+  res.send('¡Hola, mundo!');
+});
 
 // -------Peticiones API REST---------
 app.use('/api/products', productRouter);
@@ -91,9 +99,13 @@ app.use('/ticket', ticketRouter)
 //-----------Moking Test---------------
 app.use('/', mockingRouter)
 
+//----------Logger Test----------------
+app.use('/', loggerRouter)
+
 //-------------session------------------
 app.get('/get-session', (req, res) => {
   const cartId = req.session;
+  loggerInstance.info("routesession")
   res.json({ cartId });
 });
 

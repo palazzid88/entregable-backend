@@ -1,0 +1,7 @@
+2023-08-16T20:40:18.801Z debug: Debug message
+2023-08-16T20:40:18.807Z http: HTTP request
+2023-08-16T20:40:18.808Z info: Info message
+2023-08-16T20:40:18.811Z warning: Warning message
+2023-08-16T20:40:18.812Z error: Error message
+2023-08-16T20:41:02.158Z warning: invalid warning
+2023-08-16T20:41:02.158Z info: invalid info

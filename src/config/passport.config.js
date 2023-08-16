@@ -1,20 +1,16 @@
 const passport = require('passport');
 const local = require('passport-local');
 const { createHash, isValidPassword } = require('../utils/utils');
-// const { cartsDao, productsDao, usersDao } = require("../DAO/modelFactory.js");
 const UserModel = require('../DAO/mongo/models/users.model');
 const UserService = require('../services/users.service');
 const CartService = require('../services/cart.service');
+const logger = require('../utils/logger');
 const cartService = new CartService
-// const UserModel = require('../DAO/mongo/classes/users.dao');
 const userService = new UserService();
 const LocalStrategy = local.Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 require('dotenv').config();
-
-
-
 
 
 
@@ -40,6 +36,7 @@ function iniPassport() {
           const emailDetail = emails.find((email) => email.verified == true);
   
           if (!emailDetail) {
+            logger.info('Cannot get a valid email for this user for GIthub strategy')
             return done(new Error('Cannot get a valid email for this user'));
           }
           profile.email = emailDetail.email;
@@ -64,12 +61,13 @@ function iniPassport() {
              // Guardar el ID del carrito en la sesión
              req.session.cartId = newCart._id.toString();
 
-  
+            logger.info('user Registration successful')
             console.log('User Registration successful');
             return done(null, userCreated);
 
 
           } else {
+            logger.info('User already exists')
             console.log('User already exists');
   
             // Si el usuario ya existe pero no tiene un carrito, crearlo
@@ -88,7 +86,7 @@ function iniPassport() {
             return done(null, user);
           }
         } catch (e) {
-          console.log('Error en auth github');
+          logger.info('Error en auth github')
           console.log(e);
           return done(e);
         }
@@ -104,16 +102,17 @@ function iniPassport() {
       try {
         const user = await UserModel.findOne({ email: username });
         if (!user) {
-          console.log('User Not Found with username (email) ' + username);
-          return done(null, false);
+          logger.info('User Not Found with username (email): ' + username);
+          return done(null, false, { message: 'User Not Found' });
         }
         if (!isValidPassword(password, user.password)) {
-          console.log('Invalid Password');
-          return done(null, false);
+          logger.info('invalid password ' + username)
+          return done(null, false, { message: 'Invalid Password' });
         }
 
         return done(null, user);
       } catch (err) {
+        logger.error('Error during login:', err);
         return done(err);
       }
     })
@@ -128,13 +127,10 @@ function iniPassport() {
       },
       async (req, username, password, done) => {
         try {
-          console.log("entro en passport");
           const { firstName, lastName, age } = req.body;
-          console.log("req body en passport", req.body);
           let user = await UserModel.findOne({ email: username });
-          console.log("user en passport", user);
           if (user) {
-            console.log('User already exists');
+            logger.info('User already exists')
             return done(null, false);
           }
 
@@ -151,20 +147,17 @@ function iniPassport() {
             isAdmin: false,
           };
 
-          console.log("newUser", newUser)
           let userCreated = await userService.create(newUser);
-          console.log("UserModel.create", userCreated);
-          console.log('User Registration succesful');
+          logger.info('User Registration succesful')
 
           // Crea el carrito y le asigna su ID al usuario:
-          // const newCart = await CartService .createOne();
           const newCart = await cartService.createOne();
           userCreated.cart = newCart._id;
           await userCreated.save();
 
           return done(null, userCreated);
         } catch (e) {
-          console.log('Error in register');
+          logger.error('error en la creación de un User')
           console.log(e);
           return done(e);
         }
@@ -181,6 +174,7 @@ function iniPassport() {
       let user = await UserModel.findById(id);
       done(null, user);
     } catch (err) {
+      logger.error('error en deserializeUser en passport')
       done(err);
     }
   });
