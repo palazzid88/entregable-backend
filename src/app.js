@@ -30,12 +30,15 @@ const mockingRouter = require('./routes/mocking.router.js');
 const loggerRouter = require('./routes/logger.router.js');
 const productManager = new ProductManager('product.json')
 const logger = require('./utils/logger.js');
+const configureSockets = require('./configure.socket.js');
 
 
 const app = express() 
 const port = 8080;
 
 const httpServer = http.createServer(app);
+
+configureSockets(httpServer)
 
 connectMongo()
 
@@ -69,7 +72,7 @@ app.use(passport.session());
 // createLogger();
 app.get('/', (req, res) => {
   logger.info('Se ha accedido a la página de inicio');
-  res.send('¡Hola, mundo!');
+  res.send('¡Este el mi proyecto de CoderHouse!');
 });
 
 // -------Peticiones API REST---------
@@ -108,63 +111,6 @@ app.get('/get-session', (req, res) => {
   loggerInstance.info("routesession")
   res.json({ cartId });
 });
-
-
-const io = socketIO(httpServer);
-
-io.on('connection', (socket) => {
-  console.log("se abrio un canal de socket");
-
-// Anidir productos a persistencia => recibe desde index.js
-  socket.on("newProduct", async (prod) => {
-    const newProduct = await productManager.addProduct(prod)
-    console.log(newProduct)
-    console.log("Nuevo producto recibido:", prod);
-    const updatedProducts = await productManager.getProducts();
-
-// Retorna todos los productos actualizados al DOM 
-    socket.emit("productListUpdated", updatedProducts);
-  })
-
-// Eliminar productos de persistencia
-  socket.on("deleteProdId", async (id) =>{
-    const deleteProd = await productManager.deleteProduct(id)
-    const updatedProducts = await productManager.getProducts();
-
-// Retorna todos los productos actualizados al DOM 
-    socket.emit("productListUpdated", updatedProducts)
-  })
-// 2) Recibe los msgs desde el front index.js
-  socket.on('chat-front-to-back', async (data) => {
-  console.log('Mensaje recibido desde el front-end:', data);
-
-  // const { user, message } = data.messages;
-
-  try {
-    const chat = await ChatModel.create(data);
-    console.log("mensages despues del await en el back",chat)
-    // Los reenvía a todos los fronts
-    const chats = await ChatModel.find({}).lean().exec();
-
-    const { messages } = chat
-
-    let msgs = messages.map((message) => {
-      return { user: message.user, message: message.message }
-    })
-
-    console.log("despues del find", msgs)
-    io.emit('chat-back-to-all', msgs)
-    
-  } catch (e) {console.log(e);
-    return res.status(500).json({
-      status: "error",
-      msg: "something went wrong :(",
-      data: {},
-    });
-  }
-  });
-
-})
 
 httpServer.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`)
