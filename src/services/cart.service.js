@@ -203,37 +203,45 @@ class CartService {
     }
     
 
-    async purchase(purchaser, cartID) {
-        try {
-          const cart = await cartDao.findById(cartID);
-          if (cart.products.length < 1) {
-            return { code: 404, result: { status: "ok", message: "el carro está vacío" } };
-          }
-          let totalAmount = 0;
-          for (const cartProduct of cart.products) {
-            const productInDB = await productsDao.findOne({_id:cartProduct.productId.$oid });
-            if (productInDB.stock < cartProduct.quantity) {
-              return {
-                code: 404,
-                result: {
-                  status: "nostock",
-                  message: `Not enough stock for product ${productInDB.title}`,
-                  payload: productInDB,
-                },
-              };
-            }
-            totalAmount += productInDB.price * cartProduct.quantity;
-            productInDB.stock -= cartProduct.quantity;
-            await productsDao.updateProduct(productInDB._id.toString(), productInDB);
-            await this.delProdToCart(cartID, cartProduct.productId.toString());
-          }
-          const ticket = await ticketsDao.createTicket(purchaser, totalAmount);
-          return { code: 200, result: { status: "success", message: "Purchase successful", payload: ticket } };
-        } catch (error) {
-          console.log(error);
-          return { code: 500, result: { status: "error", message: "Couldn't purchase products." } };
+
+    async purchase(purchaser, cartId) {
+    try {
+        const cart = await cartDao.findById(cartId);
+
+        if (cart.products.length < 1) {
+            return { code: 404, result: { status: "ok", message: "El carrito está vacío" } };
         }
-      }
+        let productCart =cart.products 
+
+        const response = await TicketService.purchase( purchaser, productCart );
+
+        if (response.productsInCart.length > 0) {
+            return {
+                code: 422,
+                result: {
+                    status: "nostock",
+                    message: "Algunos productos no pudieron ser comprados",
+                    productsInCart: response.productsInCart
+                }
+            };
+        }
+
+        await cartDao.clearCart(cartId);
+
+        return {
+            code: 200,
+            result: {
+                status: "success",
+                message: "Compra exitosa",
+                ticket: response.ticket
+            }
+        };
+    } catch (error) {
+        console.log(error);
+        return { code: 500, result: { status: "error", message: "No se pudo realizar la compra." } };
+    }
+}
+
       
 }
 

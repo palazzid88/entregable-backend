@@ -25,7 +25,6 @@ const MongoStore = require('connect-mongo');
 const iniPassport = require('./config/passport.config.js');
 const passport = require('passport');
 const sessionsRouter = require('./routes/sessions.router.js');
-const ticketRouter = require('./routes/tickets.router.js');
 const mockingRouter = require('./routes/mocking.router.js');
 const loggerRouter = require('./routes/logger.router.js');
 const productManager = new ProductManager('product.json')
@@ -96,8 +95,6 @@ app.use('/auth', authRouter);
 //---------Login GitHub----------------
 app.use('/api/sessions', sessionsRouter);
 
-//--------------Ticket-----------------
-app.use('/ticket', ticketRouter)
 
 //-----------Moking Test---------------
 app.use('/', mockingRouter)

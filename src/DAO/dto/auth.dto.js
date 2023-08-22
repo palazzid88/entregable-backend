@@ -1,4 +1,4 @@
-const ticketService = require("../../services/ticket.service");
+const ticketService = require("../../services/tickets.service");
 
 // dtos/auth.dto.js
 class RegisterDTO {

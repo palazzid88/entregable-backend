@@ -61,10 +61,7 @@ class CartController {
           let message = "";
           if (cart.products.length === 0) {
             message = "Tu carrito está vacío.";
-          }
-
-        
-        
+          }      
 
 
         const prodToCart = cart.products
@@ -75,6 +72,7 @@ class CartController {
           return res.status(500).json({ error: 'An error occurred while viewing the cart.' });
         }
       }
+      
     
     async addToCart (req, res) {
         console.log("addToCart en cart.controller")
@@ -98,6 +96,8 @@ class CartController {
     }
     }
 
+
+
     async deleteProductToCart (req, res) {
         try {
             console.log("ingreso al delete");
@@ -118,6 +118,8 @@ class CartController {
         }
     }
 
+
+
     async clearCart (rea, res) {
         try {
             const cid = req.params.cid;
@@ -132,6 +134,8 @@ class CartController {
         });
         }
     }
+
+
 
     async getCartById (req, res) {
         console.log("ingreso al getCartById")
@@ -156,6 +160,8 @@ class CartController {
         }   
     }
 
+
+
     async updateCart (req, res) {
         try {
             const cid = req.params.cid;
@@ -172,6 +178,8 @@ class CartController {
             });
         }
     }
+
+
 
     async addProduct (req, res) {
         console.log("ingreso al post de cart Router")
@@ -192,11 +200,15 @@ class CartController {
         }
     }
 
+
+
     async purchaseCart (req, res) {
         console.log("ingresó a purchase")
         try {
-            const cartID = req.params.cid;
-            const response = await Carts.purchase(req.session.user?.email, cartID);
+            const cartId = req.params.cid;
+            const purchaser = res.session.passport.email;
+            console.log("purchaser", purchaser)
+            const response = await Carts.purchase(purchaser, cartId);
             return res.status(response.code).json(response.result);
         
         } catch (e) {

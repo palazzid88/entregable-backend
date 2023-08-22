@@ -1,11 +1,11 @@
 # Usar una imagen de Node.js como base
-FROM node
+FROM node:18
 
 # Directorio de trabajo dentro del contenedor
-WORKDIR /app
+WORKDIR /src/app.js
 
 # Copiar el archivo package.json y package-lock.json
-COPY package*.json ./
+COPY package*.json .
 
 # Instalar las dependencias
 RUN npm install
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8080
 
 # Comando para iniciar la aplicación
-CMD ["npm", "dev"]
+CMD ["npm", "start"]

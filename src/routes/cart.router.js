@@ -3,6 +3,7 @@ const { Router } = require('express');
 const cartRouter = express.Router();
 const CartController = require('../controllers/cart.controller');
 const cartController = require('../controllers/cart.controller');
+const { isUser } = require('../middlewares/auth');
 
 
 // Crea un nuevo carrito
@@ -33,7 +34,8 @@ cartRouter.put("/:cid", CartController.updateCart );
 cartRouter.put("/:cid/products/:pid", CartController.addProduct );
 
 // 
-cartRouter.post("/:cid/purchase", cartController.purchaseCart );
+cartRouter.post("/:cid/purchase", isUser, cartController.purchaseCart );
+
 
 module.exports = cartRouter
 
