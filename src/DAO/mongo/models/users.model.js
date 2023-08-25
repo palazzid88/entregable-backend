@@ -46,6 +46,7 @@ const schema = new Schema({
         type: Boolean,
         required: true,
     },
+
 });
 schema.plugin(paginate);
 const UserModel = mongoose.model("users", schema);

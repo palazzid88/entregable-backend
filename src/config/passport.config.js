@@ -144,7 +144,7 @@ function iniPassport() {
             role: "user",
             cart: null,
             password,
-            isAdmin: false,
+            isAdmin: false,   
           };
 
           let userCreated = await userService.create(newUser);

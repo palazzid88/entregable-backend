@@ -45,17 +45,17 @@ class UserService {
           return users;
         }
 
-        async create(user) {
-          user.password = createHash(user.password);
+    async create(user) {
+        user.password = createHash(user.password);
           const existingUser = await this.findUserByEmail(user.email);
-      
-          if (existingUser) {
-            return false;
-          }
-      
+        
+            if (existingUser) {
+              return false;
+            }
+        
           const userCreated = await usersDao.create(user);
-      
-          return userCreated;
+        
+        return userCreated;
     }
 
     async updateOne({ _id, email, firstName, password, rol }) {

@@ -1,6 +1,14 @@
 const passport = require('passport');
 const { RegisterDTO, LoginDTO } = require('../DAO/dto/auth.dto');
 const UserModel = require('../DAO/mongo/models/users.model');
+const crypto = require('crypto');
+const mailer = require('../services/mailing.service'); // Importa tu servicio de envío de correo
+const { createHash } = require('../utils/utils');
+
+
+// para recuperación de contraseña
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = process.env;
 
 class AuthController {
   async getSession(req, res) {
@@ -147,6 +155,110 @@ class AuthController {
     });
     }
   }
+
+  async renderRecovery(req, res) {
+    try {
+      console.log("ingreso al 1er paso")
+      return res.render('resetPage');
+    } catch (error) {
+      console.error('Error en el restablecimiento de contraseña:', error);
+      return res.status(500).json({ error: 'Ha ocurrido un error en el restablecimiento de contraseña.' });
+    }
+  }
+  
+
+
+async recoverPassword(req, res) {
+  try {
+    console.log("ingreso al 2do paso")
+    const { email } = req.body;
+    const { JWT_SECRET } = process.env;
+
+    console.log("user del req body", email)
+
+    // Buscar al usuario por correo electrónico
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      // El usuario no existe, muestra un mensaje genérico para evitar revelar información
+      return res.status(200).json({ message: 'Se ha enviado un correo de recuperación si el correo es válido.' });
+    }
+
+    // Genera el token JWT
+    const jwtToken = jwt.sign({ email: user.email, userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    const resetPasswordLink = `http://localhost:8080/auth/reset-password/${jwtToken}`;
+
+
+    // Enviar el correo de recuperación
+    await mailer.sendPasswordRecoveryEmail(user.email, resetPasswordLink);
+
+    // Responder con un mensaje de éxito
+    return res.status(200).json({ message: 'Se ha enviado un correo de recuperación si el correo es válido.' });
+  } catch (error) {
+    console.error('Error en la recuperación de contraseña:', error);
+    return res.status(500).json({ error: 'Ha ocurrido un error en la recuperación de contraseña.' });
+  }
+}
+
+async renderResetPasswordPage (req, res){
+  const { token } = req.params;
+
+  try {
+    console.log("4 to paso")
+    const decodedToken = jwt.verify(token, JWT_SECRET);
+    const user = await UserModel.findOne({ email: decodedToken.email });
+
+    if (!user) {
+      // Aquí puedes manejar el caso si el usuario no existe
+      return res.render('resetPassword', { error: 'Usuario no encontrado' });
+    }
+    console.log("4to paso render resetpassword")
+    // Renderiza la página de restablecimiento de contraseña con el token
+    res.render('resetPassword', { token });
+  } catch (error) {
+    // Manejo de errores en caso de que el token no sea válido
+    res.render('resetPassword', { error: 'Token inválido' });
+  }
+};
+
+async resetPassword(req, res) {
+  try {
+    console.log("5to paso reset-password luego de cargar la contraseña nueva")
+    const { token, newPassword } = req.body;
+    const { JWT_SECRET } = process.env;
+
+    console.log("5to token", token);
+    console.log("5to newpass", newPassword);
+    console.log("5to JWT secret", JWT_SECRET)
+    // Decodificar el token
+    const decodedToken = jwt.verify(token, JWT_SECRET);
+    if (decodedToken){
+      console.log("5t paso decodedToken")
+    }
+    // Buscar al usuario por correo electrónico
+    const user = await UserModel.findOne({ email: decodedToken.email });
+
+    console.log("5to paso user", user)
+
+    if (!user) {
+      // Manejo si el usuario no existe
+      return res.status(400).json({ message: 'Usuario no encontrado.' });
+    }
+
+    // Actualizar la contraseña del usuario
+    user.password = createHash(newPassword);
+    await user.save();
+
+    console.log("5to paso user", user)
+
+    // Responder con un mensaje de éxito
+    return res.status(200).json({ message: 'Contraseña actualizada exitosamente.' });
+  } catch (error) {
+    console.error('Error en el restablecimiento de contraseña:', error);
+    return res.status(500).json({ error: 'Ha ocurrido un error en el restablecimiento de contraseña.' });
+  }
+}
+
 }
 
 module.exports = new AuthController();
