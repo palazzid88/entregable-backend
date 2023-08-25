@@ -69,10 +69,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // createLogger();
-app.get('/', (req, res) => {
-  logger.info('Se ha accedido a la página de inicio');
-  res.send('¡Este el mi proyecto de CoderHouse!');
+app.get("/", (req, res) => {
+  res.redirect("/auth/login"); // Redirige a la página de inicio de sesión
 });
+
 
 // -------Peticiones API REST---------
 app.use('/api/products', productRouter);
