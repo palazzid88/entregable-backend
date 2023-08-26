@@ -14,7 +14,9 @@ function addProductToCart(productId) {
             })
             .then(response => response.json())
             .then(data => {
-                console.log(`producto ${productId} añadido con exito al carrito ${cartId}`)
+                console.log(`producto ${productId} añadido con exito al carrito ${cartId}`);
+                Swal.fire("¡Producto añadido al carrito!", "El producto ha sido añadido al carrito con éxito.", "success");
+
             })
             .catch(error => {
                 console.error('Error al añadir producto al carrito:', error);
