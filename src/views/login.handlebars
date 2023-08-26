@@ -1,9 +1,21 @@
-<h1>LOGIN</h1>
-<form action='/auth/login' method='POST'>
-  <input type='text' name='email' placeholder='email' />
-  <input type='text' name='password' placeholder='password' />
-  <input type='submit' value='login!' />
-</form>
-<a href='/api/sessions/github'>Login con GitHub</a>
-<a href='/auth/register'>aun no tengo cuenta...</a>
-<a href='/auth/recovery'>recuperar mi contraseña</a>
+<div class="container mx-auto my-5">
+  <h1 class="text-center">LOGIN</h1>
+  <form action="/auth/login" method="POST" class="col-md-6 mx-auto">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="mail@mail.com" required>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+  <div class="col-md-6 mx-auto">
+    <a href="/api/sessions/github" class="btn">
+      <img src="https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png" class="gitHub-img" alt="" />
+    </a>
+    <a href="/auth/register" class="btn btn-info">Aún no tengo cuenta...</a>
+    <a href="/auth/recovery" class="btn btn-link">Recuperar mi contraseña</a>
+  </div>
+</div>
