@@ -2,8 +2,8 @@
 
 Bienvenido al README de Entregables Backend! 🚀
 
-## Número de la última clase: 36 de 46
-## Último desafío completado: clase 37 - Tercera práctica integradora
+# Número de la última clase: 36 de 46
+# Último desafío completado: clase 37 - Tercera práctica integradora
 
 ## Descripción
 
