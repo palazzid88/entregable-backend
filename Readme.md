@@ -26,32 +26,6 @@ El proyecto se desarrolló utilizando las siguientes tecnologías y librerías:
 ... y otras librerías que se encuentran detalladas en el archivo `package.json`.
 
 
-
-## Estructura de Directorios
-
-La estructura de directorios de la aplicación es la siguiente:
-
-/
-├── src/
-│ ├── config/
-│ ├── controllers/
-│ ├── DAO/
-│ ├── middlewares/
-│ ├── public/
-│ ├── routes/
-│ ├── services/
-│ ├── utils/
-│ ├── views/
-│ ├── routes/
-│ ├── config/
-│ ├── app.js
-│ ├── configure.socket.js
-├── package.json
-├── ...
-
-
-
-
 ## Instalación
 
 Para poner en marcha y ejecutar la aplicación en tu entorno local, sigue estos pasos:
@@ -78,7 +52,10 @@ npm start
 
 La aplicación estará disponible en: `http://localhost:8080`
 
-Si tienes alguna pregunta o encuentras algún problema durante la instalación, no dudes en contactarme en [correo@example.com].
+
+## Quien soy?
+- Mi nombre es `David Ezequiél Palazzi`, y estoy a punto de completar la carrera de fullstack en CoderHouse!
+- Si tienes alguna pregunta o encuentras algún problema durante la instalación, no dudes en contactarme en [palazzid88@gmail.com].
 
 
 
