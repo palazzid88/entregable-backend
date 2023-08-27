@@ -2,6 +2,9 @@
 
 Bienvenido al README de Entregables Backend! 🚀
 
+## Número de la última clase: 36 de 46
+## Último desafío completado: clase 37 - Tercera práctica integradora
+
 ## Descripción
 
 Este proyecto backend es parte de un sistema de gestión de entregables. Proporciona servicios de autenticación de usuarios, manejo de productos y comunicación en tiempo real. Utiliza tecnologías como Express, MongoDB y otras librerías populares para lograr funcionalidades robustas.
