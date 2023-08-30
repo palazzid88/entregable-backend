@@ -186,7 +186,7 @@ async recoverPassword(req, res) {
 
     // Genera el token JWT
     const jwtToken = jwt.sign({ email: user.email, userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
-    const resetPasswordLink = `http://localhost:8080/auth/reset-password/${jwtToken}`;
+    const resetPasswordLink = `/auth/reset-password/${jwtToken}`;
 
 
     // Enviar el correo de recuperación
