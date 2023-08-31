@@ -141,7 +141,7 @@ function iniPassport() {
             firstName,
             lastName,
             age: Number(age),
-            role: "user",
+            role,
             cart: null,
             password,
             isAdmin: false,   

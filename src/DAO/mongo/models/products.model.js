@@ -10,7 +10,8 @@ const productSchema = new Schema({
   code: { type: String, required: true },
   stock: { type: Number, required: true },
   status: { type: String, required: true },
-  category: { type: String, required: true }
+  category: { type: String, required: true },
+  owner: { type: String, default: 'admin' },
 });
 productSchema.plugin(paginate)
 const ProductModel = mongoose.model("Products", productSchema);
