@@ -220,56 +220,8 @@ class ProductController {
             data: {},
         });
     }
-}
-
-
-  async updateProduct(req, res) {
-    try {
-      const { id } = req.params;
-      const {
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
-        status,
-        category,
-      } = req.body;
-
-      const product = await Products.findOne(id);
-      if (!product) {
-        return res.status(404).json('producto no encontrado');
-      }
-      const result = await Products.updateOne(
-        id,
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
-        status,
-        category
-      );
-      const productUptaded = result;
-
-      return res.status(201).json({
-        status: 'success',
-        msg: 'product uptaded',
-        data: {
-          productUptaded,
-        },
-      });
-    } catch (e) {
-      console.log(e);
-      return res.status(500).json({
-        status: 'error',
-        msg: 'something went wrong :(',
-        data: {},
-      });
-    }
   }
+
 }
 
 module.exports = new ProductController();
