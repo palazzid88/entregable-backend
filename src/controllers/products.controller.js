@@ -11,7 +11,7 @@ class ProductController {
       const products = result.products;
       const pagination = result.pagination;
 
-      res.status(200).render("products", { products, pagination });
+      res.status(200).render("products-list", { products, pagination });
     } catch (e) {
       console.log(e);
       return res.status(500).json({
@@ -30,13 +30,9 @@ class ProductController {
       const product = result.product;
 
       if (!product) {
-        return res.status(404).json('producto no encontrado');
+        return res.render('error', { error: 'Producto no encontrado' });
       } else {
-        return res.status(200).json({
-          status: 'success',
-          msg: 'listado de productos',
-          data: product,
-        });
+        return res.render('product-detail', { product });
       }
     } catch (e) {
       console.log(e);
