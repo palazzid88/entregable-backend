@@ -7,12 +7,12 @@ const { id } = require('../DAO/memory/productManager');
 
 productRouter.get('/', ProductController.getAll);
 
-productRouter.get('/:id',productValid, ProductController.getProductById);
+productRouter.get('/:id', ProductController.getProductById);
 
 productRouter.post('/',productValid, isProductCreator, ProductController.createProduct);
 
 productRouter.delete('/:id', isAdmin, ProductController.deleteProduct);
 
-productRouter.put('/:id', isAdmin, ProductController.updateProduct);
+productRouter.put('/:id', productValid, isAdmin, ProductController.updateProduct);
 
 module.exports = productRouter;
