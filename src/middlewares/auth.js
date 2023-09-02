@@ -18,8 +18,33 @@ function isAdmin(req, res, next) {
     return res.status(403).render('error', { error: 'error de autorización' })
 }
 
+function isPremium(req, res, next) {
+    const premium = req.user?.premium;
+    console.log("premium en middleware", premium);
+    if (premium) {
+        console.log("premium is true");
+        return next();
+    } else {
+    return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });
+}
+}
+
+function isProductCreator(req, res, next) {
+
+    const isAdmin = req.user?.isAdmin;
+    const isPremium = req.user?.premium;
+
+    if (isAdmin || isPremium) {
+        return next()
+    } else {
+        return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });
+    }
+}
+
 
 module.exports = {
     isUser,
-    isAdmin
+    isAdmin,
+    isPremium,
+    isProductCreator
   };

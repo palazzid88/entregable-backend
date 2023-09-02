@@ -95,54 +95,43 @@ class ProductController {
   async deleteProduct(req, res) {
     try {
         const { id } = req.params;
-        const product = await Products.findById(id);
+        const product = await ProductModel.findById(id);
 
         if (!product) {
-            return res.status(404).json({
-                status: 'error',
-                message: 'Product not found',
-                data: {},
-            });
+            return res.status(404).json({ error: 'Product not found' });
         }
 
-        const user = req.user; // Usuario autenticado desde Passport
-        console.log("user en deleteProducts - controller", user)
+        // Verificar si el usuario actual es admin
+        const isAdmin = req.user?.isAdmin;
+        console.log("isAdmin en prod.cont", isAdmin);
 
-        if (user.role === 'premium') {
-            // Verificar si el producto pertenece al usuario
-            if (product.owner !== user.email) {
-                return res.status(403).json({
-                    status: 'error',
-                    message: 'You do not have permission to delete this product',
-                    data: {},
-                });
-            }
-        } else if (user.role === 'admin') {
-            // Si el usuario es admin, puede eliminar cualquier producto
+        // Verificar si el usuario actual es el propietario
+        const userOwner = req.user?.email;
+        console.log("userOwner en prod.cont", userOwner);
+
+        // Si el usuario es admin o el propietario, puede eliminar el producto
+        if (isAdmin || userOwner === product.owner) {
             const result = await Products.deleteOne(id);
             const productDeleted = result.productDeleted;
 
             return res.status(200).json({
                 status: 'success',
-                message: 'Product deleted',
+                msg: 'Product deleted',
                 data: { productDeleted },
             });
         } else {
-            return res.status(403).json({
-                status: 'error',
-                message: 'You do not have permission to delete products',
-                data: {},
-            });
+            return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });
         }
-    } catch (error) {
-        console.log(error);
+    } catch (e) {
+        console.log(e);
         return res.status(500).json({
             status: 'error',
-            message: 'Something went wrong :(',
+            msg: 'Something went wrong :(',
             data: {},
         });
     }
 }
+
 
 
   async updateProduct(req, res) {
