@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const ProductService = require('../services/product.service');
 
 const Products = new ProductService();
@@ -26,7 +27,8 @@ class ProductController {
     console.log("entró en el controller getProductById")
     try {
       const { id } = req.params;
-      const result = await Products.getProductById(id);
+      const objetId = mongoose.Types.ObjectId(id)
+      const result = await Products.getProductById(objetId);
       const product = result.product;
 
       if (!product) {
