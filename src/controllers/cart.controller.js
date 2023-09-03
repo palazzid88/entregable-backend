@@ -144,28 +144,29 @@ class CartController {
 
 
 
-    async getCartById (req, res) {
-        console.log("ingreso al getCartById")
+    async getCartById(req, res) {
+        console.log("ingreso al getCartById");
         try {
-            const user = req.session.passport.user
-            console.log("user de session en cart.controller", user);
-            console.log(typeof user)
-            const userInDB = await UserModel.findById({_id: user})
-                if (!userInDB) {
-                    console.log("!userInDB")
-                    res.status(400).json( {msg: "no existe usuario"} )
-                }
-            const cartId = userInDB.cart
-            console.log("cartByUser", cartId)
-        return res.status(201).json( {cartId} );
+            const user = req.session.passport.user;
+            const userInDB = await UserModel.findById({ _id: user });
+    
+            if (!userInDB) {
+                console.log("!userInDB");
+                return res.status(400).json({ msg: "No existe usuario" }); // Agrega 'return' aquí
+            }
+    
+            const cartId = userInDB.cart.toString();
+            console.log("cartByUser", cartId);
+            return res.status(201).json({ cartId });
         } catch (e) {
-        return res.status(500).json({
-            status: "error",
-            msg: "Algo salió mal",
-            data: {},
-        });
-        }   
+            return res.status(500).json({
+                status: "error",
+                msg: "Algo salió mal",
+                data: {},
+            });
+        }
     }
+    
 
 
 

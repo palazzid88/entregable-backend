@@ -24,14 +24,13 @@ class ProductController {
   }
 
   async getProductById(req, res) {
-    console.log("entró en el controller getProductById")
     try {
       const { id } = req.params;
-      const objetId = mongoose.Types.ObjectId(id)
-      const result = await Products.getProductById(objetId);
-      const product = result.product;
-
-      if (!product) {
+      // const objetId = (id)
+      const result = await Products.getProductById(id);
+      const product = result.toObject(); // Convierte a objeto literal
+      // const product = result.product;
+      if (!result) {
         return res.render('error', { error: 'Producto no encontrado' });
       } else {
         return res.render('product-detail', { product });

@@ -16,7 +16,7 @@ cartRouter.get('/view-cart', cartController.viewCart );
 cartRouter.get('/get-cart-id', cartController.getCartById ); 
 
 // Añade un producto al carrito por body
-cartRouter.put("/:cid/products/:pid", isUser, CartController.addToCart );
+cartRouter.put("/:cid/products/:pid", CartController.addToCart );
 
 
 // Eliminar un producto del carrito
@@ -32,7 +32,7 @@ cartRouter.get("/:cid", CartController.getCartById );
 cartRouter.put("/:cid", CartController.updateCart );
 
 // añadir un producto al carro
-cartRouter.put("/:cid/products/:pid", isUser, CartController.addProduct );
+cartRouter.put("/:cid/products/:pid", CartController.addProduct );
 
 // 
 cartRouter.post("/:cid/purchase", isUser, cartController.purchaseCart );
