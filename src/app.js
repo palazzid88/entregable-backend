@@ -30,6 +30,7 @@ const loggerRouter = require('./routes/logger.router.js');
 const productManager = new ProductManager('product.json')
 const logger = require('./utils/logger.js');
 const configureSockets = require('./configure.socket.js');
+const userRouter = require('./routes/user.router.js');
 
 
 const app = express() 
@@ -77,7 +78,11 @@ app.get("/", (req, res) => {
 // -------Peticiones API REST---------
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
-app.use('/api', cartRouter)
+app.use('/api', cartRouter);
+app.use('/api', userRouter)
+
+//---------Login GitHub----------------
+app.use('/api/sessions', sessionsRouter);
 
 // ---------Peticiones HTML-----------
 app.use('/homeHandlebars', homeRouter);
@@ -91,10 +96,6 @@ app.use('/views', viewsRouter);
 
 //--------------Login------------------
 app.use('/auth', authRouter);
-
-//---------Login GitHub----------------
-app.use('/api/sessions', sessionsRouter);
-
 
 //-----------Moking Test---------------
 app.use('/', mockingRouter)
