@@ -3,6 +3,11 @@
     padding: 0;
 }
 
+.section-home{
+    max-width: 1440px;
+    margin: auto;
+}
+
 .div-card{
     display: flex;
     flex-direction: column;
@@ -19,15 +24,34 @@
     border: 1px solid black;
 }
 
+.nav-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    list-style: none;
+}
 
+.nav-list-li{
+    margin: 10px;
+    padding: 2px;
+    /* border: 1px solid grey; */
+    /* border-bottom: 1px solid grey; */
+    border-right: 1px solid grey;
+    /* border-radius: 4px; */
+}
+
+.nav-list-a{
+    color: black;
+    text-decoration: none;
+}
 /* Styles products.handlebars */
 
 .div-products-handle{
-    background-color:dodgerblue;
+    background-color: white;
     /* margin: 40px;     */
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -37,9 +61,20 @@
 }
 
 .img-products-handle{
-    width: 60px;
+    width: 24px;
 }
 
 .gitHub-img {
     width: 40px;
+}
+
+.banner-image {
+    max-width: 1440px;
+}
+.div-banner{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 50px;
+
 }
