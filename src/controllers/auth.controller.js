@@ -53,7 +53,7 @@ class AuthController {
   
 
   async failRegister(req, res) {
-    return res.json({ error: 'fail to register' });
+    return res.render('fail-register')
   }
 
   async getLoginPage(req, res) {
@@ -90,6 +90,7 @@ class AuthController {
   
 
   async failLogin(req, res) {
+    return res.render('fail-login')
     return res.json({ error: 'invalid credentials' });
   }
 

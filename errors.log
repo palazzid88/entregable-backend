@@ -19,3 +19,7 @@
 2023-08-26T00:04:28.511Z info: User Registration succesful
 2023-09-08T22:35:19.053Z error: error en la creación de un User
 2023-09-08T22:42:08.242Z info: User Registration succesful
+2023-09-10T00:05:34.485Z info: invalid password lmessi@mail.com
+2023-09-10T00:06:19.474Z info: invalid password lmessi@mail.com
+2023-09-10T00:09:51.986Z info: invalid password lmessi@mail.com
+2023-09-10T00:11:44.584Z info: User Not Found with username (email): pala@mail.com

@@ -36,19 +36,22 @@ class CartController {
           const user = await UserModel.findOne({ _id: userId });
       
           if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            res.render('error-404', {msg: "User not found"})
+            // return res.status(404).json({ error: 'User not found' });
           }
       
           const cartId = user.cart;
       
           if (!cartId) {
-            return res.status(404).json({ error: 'User does not have a cart' });
+            res.render('error-404', {msg: "User not found"})
+            // return res.status(404).json({ error: 'User does not have a cart' });
           }
       
           const cart = await Carts.getCartWithProducts(cartId);
       
           if (!cart) {
-            return res.status(404).json({ error: 'Cart not found' });
+            res.render('error-404', {msg: "User not found"})
+            // return res.status(404).json({ error: 'Cart not found' });
           }
       
           let message = "";
