@@ -80,7 +80,7 @@
 }
 
 /* FAIL LOGIN */
-.fail-login, .fail-register, .send-message{
+.fail-login, .fail-register, .send-message, .password-reset-success{
     display: flex;
     flex-direction: column;
     justify-content: center;
