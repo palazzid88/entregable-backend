@@ -32,6 +32,10 @@ const logger = require('./utils/logger.js');
 const configureSockets = require('./configure.socket.js');
 const userRouter = require('./routes/user.router.js');
 
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUiExpress = require('swagger-ui-express');
+// const path = require('path');
+
 
 const app = express() 
 const port = 8080;
@@ -74,6 +78,38 @@ app.get("/", (req, res) => {
   res.redirect("/auth/login"); // Redirige a la página de inicio de sesión
 });
 
+
+//-----------Swagger-Config------------------
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'API de e-commers Val di Sole Bikes',
+    version: '1.0.0',
+    description: 'Entregable Documentación API',
+  },
+  servers: [
+    {
+      url: process.env.SWAGGER_SERVER_URL_LOCAL || 'https://proyecto-backend-9f3q.onrender.com',
+    },
+  ],
+};
+
+// Opciones para Swagger JSDoc
+const options = {
+  swaggerDefinition,
+  apis: [path.join(__dirname, 'utils', 'swagger-config.yaml')], // Utiliza __dirname para obtener la ruta del archivo
+
+  // apis: ['./src/utils/swagger-config.yaml'], // Ajusta la ruta según donde tengas definidas tus rutas
+};
+
+// Crea el objeto Swagger JSDoc
+const swaggerSpec = swaggerJSDoc(options);
+
+
+
+
+//------Endpoint Documentación----------
+app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerSpec));
 
 // -------Peticiones API REST---------
 app.use('/api/products', productRouter);

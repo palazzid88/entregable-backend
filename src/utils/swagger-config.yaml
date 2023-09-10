@@ -1,0 +1,47 @@
+swaggerDefinition:
+  openapi: 3.0.0
+  info:
+    title: "API de e-commers Val di Sole Bikes"
+    version: "1.0.0"
+    description: "Entregable Documentación API"
+  servers:
+    - url: "http://localhost:8080"
+
+paths:
+  /api/products:
+    get:
+      summary: "Obtener lista de productos"
+      description: "Obtiene la lista de todos los productos disponibles."
+      responses:
+        200:
+          description: "Lista de productos obtenida correctamente."
+
+    post:
+      summary: "Crear un nuevo producto"
+      description: "Crea un nuevo producto en mongo DB."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"  # Referencia al esquema del producto
+      responses:
+        201:
+          description: "Producto creado exitosamente."
+        400:
+          description: "Datos de producto no válidos."
+
+  /api/carts:
+    get:
+      summary: "Obtener lista de carritos"
+      description: "Obtiene la lista de carritos disponibles."
+      responses:
+        200:
+          description: "Lista de carritos obtenida correctamente."
+
+    post:
+      summary: "Crear un nuevo carrito"
+      description: "Crea un nuevo carrito en la base de datos."
+      responses:
+        201:
+          description: "Carrito creado exitosamente."
