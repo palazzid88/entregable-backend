@@ -259,7 +259,7 @@ async resetPassword(req, res) {
     console.log("5to paso user", user)
 
     // Responder con un mensaje de éxito
-    res.render('passwordRessetSuccess')
+    return res.render('passwordResetSuccess')
     // return res.status(200).json({ message: 'Contraseña actualizada exitosamente.' });
   } catch (error) {
     console.error('Error en el restablecimiento de contraseña:', error);
