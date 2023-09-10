@@ -80,7 +80,7 @@
 }
 
 /* FAIL LOGIN */
-.fail-login, .fail-register{
+.fail-login, .fail-register, .send-message{
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -174,14 +174,18 @@ async recoverPassword(req, res) {
     console.log("ingreso al 2do paso")
     const { email } = req.body;
     const { JWT_SECRET } = process.env;
+    const { password, password2 } = req.body
 
     console.log("user del req body", email)
-
-    // Buscar al usuario por correo electrónico
+    if (password !== password2) {
+      res.status(404).json({ message: "la contraseña no coincide" })
+    }
     const user = await UserModel.findOne({ email });
+    // Buscar al usuario por correo electrónico
 
     if (!user) {
       // El usuario no existe, muestra un mensaje genérico para evitar revelar información
+      // res.render("send-message")
       return res.status(200).json({ message: 'Se ha enviado un correo de recuperación si el correo es válido.' });
     }
 
@@ -194,7 +198,9 @@ async recoverPassword(req, res) {
     await mailer.sendPasswordRecoveryEmail(user.email, resetPasswordLink);
 
     // Responder con un mensaje de éxito
-    return res.status(200).json({ message: 'Se ha enviado un correo de recuperación si el correo es válido.' });
+    return res.render("send-message")
+
+    // return res.status(200).json({ message: 'Se ha enviado un correo de recuperación si el correo es válido.' });
   } catch (error) {
     console.error('Error en la recuperación de contraseña:', error);
     return res.status(500).json({ error: 'Ha ocurrido un error en la recuperación de contraseña.' });
