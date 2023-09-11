@@ -8,29 +8,143 @@ swaggerDefinition:
     - url: "http://localhost:8080"
 
 paths:
+
+
   /api/products:
     get:
       summary: "Obtener lista de productos"
-      description: "Obtiene la lista de todos los productos disponibles."
+      description: >
+        Obtiene la lista de todos los productos disponibles. Puedes usar este
+        endpoint para buscar productos por categoría, nombre, etc.
+      tags:
+        - Productos
       responses:
         200:
           description: "Lista de productos obtenida correctamente."
+          content:
+            application:
+              example: |
+                [
+                  "title":"Trek marlin 4",
+                  "description":"La Marlin 4 es la bicicleta ideal para iniciarse en los senderos.",
+                  "price":{"$numberInt":"300000"},
+                  "thumbnail":"https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/marlin-4-black1-7a82ce2b0e8a456d5d16551551882770-640-0.webp",
+                  "code":"222",
+                  "stock":{"$numberInt":"100"},
+                  "status":"true",
+                  "category":"mtb",
+                ]
 
     post:
       summary: "Crear un nuevo producto"
-      description: "Crea un nuevo producto en mongo DB."
+      description: "Crea un nuevo producto en la base de datos."
+      tags:
+        - Productos
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Product"  # Referencia al esquema del producto
+              $ref: "#/components/schemas/Product"
       responses:
         201:
           description: "Producto creado exitosamente."
+          content:
+            application:
+              example: |
+                [
+                {
+                  "title": "Trek marlin 4",
+                  "description": "La Marlin 4 es la bicicleta ideal para iniciarse en los senderos.",
+                  "price": "300000",
+                  "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/marlin-4-black1-7a82ce2b0e8a456d5d16551551882770-640-0.webp",
+                  "code": "222",
+                  "stock": "100",
+                  "status": "true",
+                  "category": "mtb",
+                }
+                ]
+
         400:
           description: "Datos de producto no válidos."
 
+  /api/products/{id}:
+    get:
+      summary: "Obtener un producto por ID"
+      description: "Obtiene un producto específico por su ID."
+      tags:
+        - Productos
+      parameters:
+        - name: id
+          in: path
+          description: "ID del producto a obtener"
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "Producto obtenido correctamente."
+          content:
+            application:
+              example: |
+                  "title": "Trek marlin 4",
+                  "description": "La Marlin 4 es la bicicleta ideal para iniciarse en los senderos.",
+                  "price": "300000",
+                  "thumbnail": "https://d2r9epyceweg5n.cloudfront.net/stores/002/183/781/products/marlin-4-black1-7a82ce2b0e8a456d5d16551551882770-640-0.webp",
+                  "code": "222",
+                  "stock": "100",
+                  "status": "true",
+                  "category": "mtb",
+        404:
+          description: "Producto no encontrado."
+
+    put:
+      summary: "Actualizar un producto por ID"
+      description: "Actualiza un producto específico por su ID."
+      tags:
+        - Productos
+      parameters:
+        - name: id
+          in: path
+          description: "ID del producto a actualizar"
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        200:
+          description: "Producto actualizado correctamente."
+        400:
+          description: "Datos de producto no válidos."
+        404:
+          description: "Producto no encontrado."
+
+    delete:
+      summary: "Eliminar un producto por ID"
+      description: "Elimina un producto específico por su ID."
+      tags:
+        - Productos
+      parameters:
+        - name: id
+          in: path
+          description: "ID del producto a eliminar"
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: "Producto eliminado correctamente."
+        404:
+          description: "Producto no encontrado."
+
+
+
+path:
   /api/carts:
     get:
       summary: "Obtener lista de carritos"
@@ -45,3 +159,46 @@ paths:
       responses:
         201:
           description: "Carrito creado exitosamente."
+
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Título del producto.
+        description:
+          type: string
+          description: Descripción del producto.
+        price:
+          type: number
+          description: Precio del producto.
+        thumbnail:
+          type: string
+          description: URL de la imagen del producto.
+        code:
+          type: string
+          description: Código del producto.
+        stock:
+          type: number
+          description: Cantidad en stock del producto.
+        status:
+          type: string
+          description: Estado del producto (por ejemplo, "activo" o "inactivo").
+        category:
+          type: string
+          description: Categoría del producto.
+        owner:
+          type: string
+          description: Propietario del producto (por defecto, "admin").
+      required:
+        - title
+        - description
+        - price
+        - thumbnail
+        - code
+        - stock
+        - status
+        - category

@@ -1,0 +1,14 @@
+/carts:
+    get:
+      summary: "Obtener lista de carritos"
+      description: "Obtiene la lista de carritos disponibles."
+      responses:
+        200:
+          description: "Lista de carritos obtenida correctamente."
+
+    post:
+      summary: "Crear un nuevo carrito"
+      description: "Crea un nuevo carrito en la base de datos."
+      responses:
+        201:
+          description: "Carrito creado exitosamente."
