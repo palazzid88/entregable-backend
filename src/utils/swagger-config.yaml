@@ -144,21 +144,127 @@ paths:
 
 
 
-path:
-  /api/carts:
-    get:
-      summary: "Obtener lista de carritos"
-      description: "Obtiene la lista de carritos disponibles."
-      responses:
-        200:
-          description: "Lista de carritos obtenida correctamente."
+/api/carts:
+  get:
+    summary: "Obtener lista de carts"
+    description: "Obtiene la lista de carts de la DB."
+    tags:
+      - Carts
+    responses:
+      200:
+        description: "Lista de carts obtenida correctamente."
 
-    post:
-      summary: "Crear un nuevo carrito"
-      description: "Crea un nuevo carrito en la base de datos."
-      responses:
-        201:
-          description: "Carrito creado exitosamente."
+  post:
+    summary: "Crear un nuevo cart"
+    description: "Crea un nuevo carrito en la DB."
+    tags:
+      - Carts
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              products:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    productId:
+                      type: string
+                      description: "ID del producto a agregar al cart."
+                    quantity:
+                      type: integer
+                      description: "Cantidad del producto en el cart."
+                required:
+                  - productId
+                  - quantity
+            required:
+              - products
+    responses:
+      201:
+        description: "Cart creado exitosamente."
+
+/api/carts/{id}:
+  get:
+    summary: "Obtener un cart por ID"
+    description: "Obtiene un cart específico por su ID."
+    tags:
+      - Carts
+    parameters:
+      - name: id
+        in: path
+        description: "ID del cart a obtener"
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: "Cart obtenido correctamente."
+      404:
+        description: "Cart no encontrado."
+
+  put:
+    summary: "Actualizar un cart por ID"
+    description: "Actualiza un cart específico por su ID."
+    tags:
+      - Carts
+    parameters:
+      - name: id
+        in: path
+        description: "ID del cart a actualizar"
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              products:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    productId:
+                      type: string
+                      description: "ID del productoa agregar al cart."
+                    quantity:
+                      type: integer
+                      description: "Cantidad del product en el cart."
+                required:
+                  - productId
+                  - quantity
+            required:
+              - products
+    responses:
+      200:
+        description: "Cart actualizado correctamente."
+      400:
+        description: "Datos de cart no válidos."
+      404:
+        description: "Cart no encontrado."
+
+  delete:
+    summary: "Eliminar un cart por ID"
+    description: "Elimina un cart específico por su ID."
+    tags:
+      - Carts
+    parameters:
+      - name: id
+        in: path
+        description: "ID del cart a eliminar"
+        required: true
+        schema:
+          type: string
+    responses:
+      204:
+        description: "Cart eliminado correctamente."
+      404:
+        description: "Cart no encontrado."
 
 
 components:
@@ -202,3 +308,23 @@ components:
         - stock
         - status
         - category
+
+    Cart:
+      type: object
+      properties:
+        products:
+          type: array
+          description: "Lista de productos en el carrito."
+          items:
+            type: object
+            properties:
+              productId:
+                type: string
+                description: "ID del producto en el carrito."
+              quantity:
+                type: integer
+                description: "Cantidad del producto en el carrito."
+          required:
+            - productId
+            - quantity
+
