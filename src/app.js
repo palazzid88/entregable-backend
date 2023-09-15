@@ -114,7 +114,7 @@ app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerSpec)
 // -------Peticiones API REST---------
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
-app.use('/api', cartRouter);
+// app.use('/api', cartRouter);
 app.use('/api', userRouter)
 
 //---------Login GitHub----------------

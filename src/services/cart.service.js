@@ -242,6 +242,62 @@ class CartService {
     }
 }
 
+    async increaseQuantity(cartId, productId) {
+        try {
+            console.log("ingreso al increase del service")
+        const cart = await CartModel.findById(cartId);
+        console.log("cart", cart)
+        if (!cart) {
+            throw new Error('Carrito no encontrado');
+        }
+
+        const productIndex = cart.products.findIndex(product => product.productId.toString() === productId);
+        console.log("prodIndex", productIndex)
+        if (productIndex === -1) {
+            throw new Error('Producto no encontrado en el carrito');
+        }
+
+        cart.products[productIndex].quantity++;
+
+        await cart.save();
+
+        return cart;
+        } catch (error) {
+            console.log("err")
+        throw error;
+        }
+    }
+
+    async decreaseQuantity(cartId, productId) {
+        try {
+            console.log("ingreso al decrease del service")
+        const cart = await CartModel.findById(cartId);
+
+        if (!cart) {
+            throw new Error('Carrito no encontrado');
+        }
+
+        const productIndex = cart.products.findIndex(product => product.productId.toString() === productId);
+
+        if (productIndex === -1) {
+            throw new Error('Producto no encontrado en el carrito');
+        }
+
+        if (cart.products[productIndex].quantity > 1) {
+            cart.products[productIndex].quantity--;
+        } else {
+            cart.products.splice(productIndex, 1);
+        }
+
+        await cart.save();
+
+        return cart;
+        } catch (error) {
+        throw error;
+        }
+    }
+
+
       
 }
 
