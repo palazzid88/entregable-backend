@@ -4,6 +4,7 @@
   "description": "Se crea constructor de la clase ProductManager\r dentro del mismo se llama al método addProduct() que verifica condiciones para añadir el producto al array this.product[].",
   "main": "src/app.js",
   "scripts": {
+    "test": "mocha ./src/test/supertest.test.js",
     "dev": "nodemon ./src/app.js",
     "start": "node ./src/app.js",
     "start-swagger": "nodemon -e yaml,js ./src/app.js"
@@ -26,6 +27,7 @@
     "express": "^4.18.2",
     "express-handlebars": "^7.0.7",
     "express-session": "^1.17.3",
+    "faker": "^5.5.3",
     "jsonwebtoken": "^9.0.1",
     "mongodb": "^5.6.0",
     "mongoose": "^7.3.1",
@@ -45,5 +47,10 @@
   },
   "engines": {
     "node": ">=14 <15"
+  },
+  "devDependencies": {
+    "chai": "^4.3.8",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }

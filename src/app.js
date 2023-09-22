@@ -38,7 +38,7 @@ const swaggerUiExpress = require('swagger-ui-express');
 
 
 const app = express() 
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 const httpServer = http.createServer(app);
 
