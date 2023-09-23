@@ -1,30 +1,31 @@
 const { expect } = require('chai');
 const supertest = require('supertest');
 const faker = require('faker');
-const app = require('../app');
+// const app = require('../app');
 
-const requester = supertest('http://127.0.0.1:8081');
+
+const requester = supertest('http://localhost:8080/');
 
 const mockUser = {
+  email: faker.internet.email(),
   firstName: 'Marcelo',
   lastName: 'Gallardo',
-  email: faker.internet.email(),
-  password: '9-12-18',
-  age: 22,
+  age: "22",
+  password: "91218",
 };
 
 let cookieName;
 let cookieValue;
-
 describe('REGISTER / LOGIN / SESSION   Pruebas para la autenticación ', () => {
-  it('Debería registrar al usuario y redireccionar a /login', (done) => {
+  it('Debería registrar al usuario y redireccionar a /perfil', (done) => {
     console.log('Iniciando prueba de registro de usuario');
     requester
-      .post('/auth/register')
+      .post('auth/register')
       .send(mockUser)
       .expect(302)
       .end((err, res) => {
         if (err) {
+          console.log("entro en el err del if")
           console.error('Error en la solicitud HTTP:', err);
           return done(err);
         }
@@ -34,6 +35,7 @@ describe('REGISTER / LOGIN / SESSION   Pruebas para la autenticación ', () => {
         done();
       });
   })
+
 
   it('Debe loggear un user y DEVOLVER UNA COOKIE', async () => {
     console.log('Iniciando prueba de inicio de sesión');
@@ -88,8 +90,8 @@ describe('Pruebas para la ruta api/carts/', () => {
   it('Debería agregar un producto al carrito y devolver un mensaje si el usuario está autenticado y autorizado', async () => {
     console.log('Iniciando prueba de agregar producto al carrito');
     const userCredentials = {
-      email: "Isabel.Gottlieb@gmail.com",
-      password: "123",
+      email: "enzo.fernandez@gmail.com",
+      password: "1234",
     };
 
     const loginResponse = await requester
@@ -99,7 +101,7 @@ describe('Pruebas para la ruta api/carts/', () => {
 
     expect(loginResponse.status).to.equal(302);
 
-    const cartId = '6507178f5d889446eb8a255e';
+    const cartId = '650de86f55d373a02929bfac';
     const productId = '64f5223dada87c1b451a52d6';
     const quantityToAdd = 1;
 
@@ -128,8 +130,8 @@ describe('Pruebas para la ruta api/products/', () => {
   it('Debería crear un nuevo producto cuando el usuario está autenticado y autorizado', async () => {
     console.log('Iniciando prueba de crear producto');
     const userCredentials = {
-      email: "Isabel.Gottlieb@gmail.com",
-      password: "123",
+      email: "enzo.fernandez@gmail.com",
+      password: "1234",
     };
 
     const loginResponse = await requester
@@ -142,7 +144,7 @@ describe('Pruebas para la ruta api/products/', () => {
     const productData = {
       title: 'Producto de prueba',
       description: 'Descripción de prueba',
-      code: 'tl0kjjo1',
+      code: 'riverEL1',
       price: 10,
       stock: 100,
       status: 'true',
