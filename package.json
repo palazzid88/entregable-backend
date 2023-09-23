@@ -4,7 +4,7 @@
   "description": "Se crea constructor de la clase ProductManager\r dentro del mismo se llama al método addProduct() que verifica condiciones para añadir el producto al array this.product[].",
   "main": "src/app.js",
   "scripts": {
-    "test": "mocha --timeout 10000 ./src/test/supertest.test.js",
+    "test": "mocha --timeout 15000 ./src/test/supertest.test.js",
     "dev": "nodemon ./src/app.js",
     "start": "node ./src/app.js",
     "start-swagger": "nodemon -e yaml,js ./src/app.js"

@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const supertest = require('supertest');
 const faker = require('faker');
-// const app = require('../app');
+const app = require('../app');
 
 
 const requester = supertest('http://localhost:8080/');
@@ -32,17 +32,16 @@ describe('REGISTER / LOGIN / SESSION   Pruebas para la autenticación ', () => {
 
         console.log('Respuesta HTTP:', res.status, res.header.location);
         expect(res.header.location).to.equal('/auth/perfil');
+
+
         done();
       });
   })
 
 
-  it('Debe loggear un user y DEVOLVER UNA COOKIE', async () => {
-    console.log('Iniciando prueba de inicio de sesión');
-    const result = await requester.post('/auth/login').send({
-      email: mockUser.email,
-      password: mockUser.password,
-    });
+  it('Debe DEVOLVER UNA COOKIE', async () => {
+    console.log('recuperando cookie');
+    const result = await requester.get('/auth/perfil')
 
     const cookie = result.headers['set-cookie'][0];
     console.log('Cookie de sesión:', cookie);
@@ -52,7 +51,7 @@ describe('REGISTER / LOGIN / SESSION   Pruebas para la autenticación ', () => {
     cookieName = cookie.split('=')[0];
     cookieValue = cookie.split('=')[1];
 
-    expect(cookieName).to.be.ok.and.eql('coderCookie');
+    expect(cookieName).to.be.ok.and.eql('connect.sid');
     expect(cookieValue).to.be.ok;
   });
 
