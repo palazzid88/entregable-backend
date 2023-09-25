@@ -6,7 +6,7 @@ const { isUser, isAdmin } = require("../middlewares/auth")
 const jwt = require('jsonwebtoken');
 
 
-authRouter.get('/session', AuthController.getSession);
+authRouter.get('/session/current', AuthController.getSession);
 
 authRouter.get('/register', AuthController.getRegisterPage);
 

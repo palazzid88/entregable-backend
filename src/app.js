@@ -66,6 +66,8 @@ app.use(
     secret: 'un-re-secreto',
     resave: true,
     saveUninitialized: true,
+    name: 'backendCoder',
+
   })
 );
 

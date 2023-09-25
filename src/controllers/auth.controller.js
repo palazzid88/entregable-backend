@@ -1,5 +1,5 @@
 const passport = require('passport');
-const { RegisterDTO, LoginDTO } = require('../DAO/dto/auth.dto');
+const { RegisterDTO, LoginDTO, userDTO } = require('../DAO/dto/auth.dto');
 const UserModel = require('../DAO/mongo/models/users.model');
 const crypto = require('crypto');
 const mailer = require('../services/mailing.service'); // Importa tu servicio de envío de correo
@@ -12,8 +12,26 @@ const { JWT_SECRET } = process.env;
 
 class AuthController {
   async getSession(req, res) {
-    return res.send(JSON.stringify(req.session));
+    const userId = req.user;
+    console.log("userId", userId)
+    console.log("entro a getSession")
+    // Comprueba si el usuario está autenticado.
+    if (req.isAuthenticated()) {
+      console.log("se autentico")
+      // Obtén el ID de usuario almacenado en la sesión.
+
+      // Consulta la base de datos u otro sistema de almacenamiento para obtener los datos completos del usuario.
+      const user = await UserModel.findById(userId);
+
+      // Devuelve los datos del usuario en la respuesta.
+      return res.status(200).json(user);
+    } else {
+      // El usuario no está autenticado, puedes manejarlo de acuerdo a tus necesidades.
+      console.log("no se autentico")
+      return res.status(401).json({ message: 'Usuario no autenticado' });
+    }
   }
+
 
   async getRegisterPage(req, res) {
     return res.render('register', {});
@@ -117,6 +135,7 @@ class AuthController {
     try {
       // Aquí accedemos a la información del usuario autenticado a través de req.user
       const user = req.user;
+      console.log("user en getPerfilPage", user)
   
       if (!user) {
         // Si el usuario no está autenticado, redirige a la página de inicio de sesión

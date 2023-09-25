@@ -51,15 +51,20 @@ describe('REGISTER / LOGIN / SESSION   Pruebas para la autenticación ', () => {
     cookieName = cookie.split('=')[0];
     cookieValue = cookie.split('=')[1];
 
+    console.log("name", cookieName);
+    console.log("value", cookieValue)
+
     expect(cookieName).to.be.ok.and.eql('connect.sid');
     expect(cookieValue).to.be.ok;
   });
 
   it('Enviar cookie para ver el contenido del user', async () => {
     console.log('Iniciando prueba de contenido de usuario con cookie');
+    console.log(cookieName, cookieValue);
     const { _body } = await requester
-      .get('/auth/session/current')
+      .get('auth/session/current')
       .set('Cookie', [`${cookieName}=${cookieValue}`]);
+    console.log("body", _body)
     console.log('Contenido del usuario:', _body.email);
 
     expect(_body.email).to.be.eql(mockUser.email);

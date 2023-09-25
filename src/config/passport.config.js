@@ -12,8 +12,6 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 require('dotenv').config();
 
-
-
 function iniPassport() { 
   passport.use(
     'github',
@@ -34,15 +32,15 @@ function iniPassport() {
           });
           const emails = await res.json();
           const emailDetail = emails.find((email) => email.verified == true);
-  
+
           if (!emailDetail) {
-            logger.info('Cannot get a valid email for this user for GIthub strategy')
+            logger.info('Cannot get a valid email for this user for GitHub strategy')
             return done(new Error('Cannot get a valid email for this user'));
           }
           profile.email = emailDetail.email;
-  
+
           let user = await UserModel.findOne({ email: profile.email });
-  
+
           if (!user) {
             const newUser = {
               email: profile.email,
@@ -52,49 +50,35 @@ function iniPassport() {
               password: 'nopass',
             };
             let userCreated = await UserModel.create(newUser);
-  
+
             // Crear el carrito para el nuevo usuario
             const newCart = await cartService.createOne();
             userCreated.cart = newCart._id;
             await userCreated.save();
 
-             // Guardar el ID del carrito en la sesión
-             req.session.cartId = newCart._id.toString();
-
-            logger.info('user Registration successful')
+            logger.info('User Registration successful');
             console.log('User Registration successful');
             return done(null, userCreated);
-
-
           } else {
-            logger.info('User already exists')
+            logger.info('User already exists');
             console.log('User already exists');
-  
+
             // Si el usuario ya existe pero no tiene un carrito, crearlo
             if (!user.cart) {
               const newCart = await cartService.createOne();
               user.cart = newCart._id;
               await user.save();
-  
-              // Guardar el ID del carrito en la sesión
-              req.session.cartId = newCart._id.toString();
-            }else {
-              // Si el usuario ya tiene un carrito, guardar su ID en la sesión
-              req.session.cartId = user.cart.toString();
             }
-  
             return done(null, user);
           }
         } catch (e) {
-          logger.info('Error en auth github')
+          logger.info('Error in GitHub auth');
           console.log(e);
           return done(e);
         }
       }
     )
   );
-  
-
 
   passport.use(
     'login',
@@ -106,10 +90,9 @@ function iniPassport() {
           return done(null, false, { message: 'User Not Found' });
         }
         if (!isValidPassword(password, user.password)) {
-          logger.info('invalid password ' + username)
+          logger.info('Invalid password ' + username);
           return done(null, false, { message: 'Invalid Password' });
         }
-
         return done(null, user);
       } catch (err) {
         logger.error('Error during login:', err);
@@ -130,34 +113,32 @@ function iniPassport() {
           const { firstName, lastName, age } = req.body;
           let user = await UserModel.findOne({ email: username });
           if (user) {
-            logger.info('User already exists')
+            logger.info('User already exists');
             return done(null, false);
           }
 
           // Crear el nuevo usuario:
-
           const newUser = {
             email: username,
             firstName,
             lastName,
             age: Number(age),
-            // role,
             cart: null,
             password,
-            isAdmin: false,   
+            isAdmin: false,
           };
 
           let userCreated = await userService.create(newUser);
-          logger.info('User Registration succesful')
+          logger.info('User Registration successful');
 
-          // Crea el carrito y le asigna su ID al usuario:
+          // Crear el carrito y asignar su ID al usuario:
           const newCart = await cartService.createOne();
           userCreated.cart = newCart._id;
           await userCreated.save();
 
           return done(null, userCreated);
         } catch (e) {
-          logger.error('error en la creación de un User')
+          logger.error('Error in creating User');
           console.log(e);
           return done(e);
         }
@@ -172,12 +153,13 @@ function iniPassport() {
   passport.deserializeUser(async (id, done) => {
     try {
       let user = await UserModel.findById(id);
+      console.log("serialize ok en passport.config")
       done(null, user);
     } catch (err) {
-      logger.error('error en deserializeUser en passport')
+      logger.error('Error in deserializeUser in Passport');
       done(err);
     }
   });
 }
 
-module.exports = iniPassport
+module.exports = iniPassport;
