@@ -12,23 +12,33 @@ const { JWT_SECRET } = process.env;
 
 class AuthController {
   async getSession(req, res) {
-    const userId = req.user;
-    console.log("userId", userId)
-    console.log("entro a getSession")
-    // Comprueba si el usuario está autenticado.
-    if (req.isAuthenticated()) {
-      console.log("se autentico")
-      // Obtén el ID de usuario almacenado en la sesión.
+    try {
+      // Obtén el token JWT desde la solicitud (generalmente se encuentra en el encabezado Authorization)
+      const token = req.header('Authorization');
 
-      // Consulta la base de datos u otro sistema de almacenamiento para obtener los datos completos del usuario.
-      const user = await UserModel.findById(userId);
+      if (!token) {
+        return res.status(401).json({ message: 'Acceso denegado. Token no proporcionado.' });
+      }
 
-      // Devuelve los datos del usuario en la respuesta.
-      return res.status(200).json(user);
-    } else {
-      // El usuario no está autenticado, puedes manejarlo de acuerdo a tus necesidades.
-      console.log("no se autentico")
-      return res.status(401).json({ message: 'Usuario no autenticado' });
+      // Verifica el token JWT
+      jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET, async (err, decodedToken) => {
+        if (err) {
+          return res.status(401).json({ message: 'Token no válido.' });
+        }
+
+        // decodedToken contiene la información del usuario dentro del token
+        // Busca el usuario en la base de datos utilizando el ID del usuario en el token
+        const user = await UserModel.findById(decodedToken.user.id);
+
+        if (!user) {
+          return res.status(404).json({ message: 'Usuario no encontrado.' });
+        }
+
+        // Devuelve los datos del usuario en la respuesta
+        return res.status(200).json(user);
+      });
+    } catch (error) {
+      return res.status(500).json({ message: 'Error en el servidor.' });
     }
   }
 
@@ -75,6 +85,7 @@ class AuthController {
   }
 
   async getLoginPage(req, res) {
+    console.log("ingresóa getLoginPage")
     return res.render('login', {});
   }
 
@@ -101,6 +112,7 @@ class AuthController {
       // Establecer la sesión del usuario
       req.logIn(user, () => {
         // Redirigir después de establecer la sesión
+        console.log("redirige a perfil")
         return res.redirect('perfil');
       });
     })(req, res, next);
@@ -132,6 +144,7 @@ class AuthController {
   }
 
   async getPerfilPage(req, res) {
+    console.log("entro a getPerfil")
     try {
       // Aquí accedemos a la información del usuario autenticado a través de req.user
       const user = req.user;

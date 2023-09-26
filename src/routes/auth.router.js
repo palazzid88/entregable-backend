@@ -4,6 +4,7 @@ const AuthController = require('../controllers/auth.controller');
 const AuthService = require('../services/auth.service');
 const { isUser, isAdmin } = require("../middlewares/auth")
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 
 
 authRouter.get('/session/current', AuthController.getSession);
@@ -23,6 +24,8 @@ authRouter.post('/login', AuthService.authenticateLogin, AuthController.postLogi
 authRouter.get('/faillogin', AuthController.failLogin);
 authRouter.get('/logout', AuthController.logout);
 authRouter.get('/perfil', AuthController.getPerfilPage);
+// authRouter.get('/perfil', passport.authenticate('current', { session: false }), AuthController.getPerfilPage);
+
 authRouter.get('/administracion',isUser, isAdmin, AuthController.getAdminPage);
 
 //proviene del vinculo del email para el restablecimiento -- renderiza la pg de nueva contraseña

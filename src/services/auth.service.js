@@ -3,6 +3,7 @@ const passport = require('passport');
 class AuthService {
   // Función para realizar la autenticación con Passport
   async authenticateLogin(req, res, next) {
+    console.log("ingresó a authenticateLogin")
     passport.authenticate('login', { failureRedirect: '/auth/faillogin' })(req, res, next);
   }
 

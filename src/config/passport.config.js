@@ -9,7 +9,18 @@ const cartService = new CartService
 const userService = new UserService();
 const LocalStrategy = local.Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
+const jwt = require('jsonwebtoken');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
+//Cookie Extractor
+const cookieExtractor = (req) => {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies['nombre_de_tu_cookie']; // Reemplaza 'nombre_de_tu_cookie' con el nombre de tu cookie
+  }
+  return token;
+};
+
 require('dotenv').config();
 
 function iniPassport() { 
@@ -145,6 +156,64 @@ function iniPassport() {
       }
     )
   );
+
+  passport.use(
+    'current',
+    new LocalStrategy(
+      {
+        usernameField: 'email',
+        session: false,
+      },
+      async (username, password, done) => {
+        console.log("Ingresó a current strategy");
+        try {
+          const token = cookieExtractor(req); // Cambia esta línea a req.cookies para obtener la cookie
+          console.log("Token:", token);
+  
+          if (!token) {
+            console.log("No se encontró token");
+            return done(null, false);
+          }
+  
+          // Verificar el token JWT
+          jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+            if (err) {
+              console.log("Error en la verificación del token:", err);
+              return done(err);
+            }
+  
+            // decodedToken contiene la info del usuario dentro del token
+            // Buscar el usuario en la base de datos
+            const { userId } = decodedToken; // Esto depende de cómo estructuraste tu token JWT
+            console.log("UserId:", userId);
+  
+            // Consultar la base de datos para obtener al usuario asociado a userId
+            UserModel.findById(userId, (err, user) => {
+              if (err) {
+                console.log("Error al buscar usuario en la base de datos:", err);
+                return done(err);
+              }
+  
+              if (!user) {
+                console.log("Usuario no encontrado en la base de datos");
+                return done(null, false);
+              }
+  
+              // Si el usuario y el token son válidos, llamar a 'done' con el usuario
+              console.log("Usuario encontrado:", user);
+              return done(null, user);
+            });
+          });
+        } catch (error) {
+          console.log("Error en el bloque catch:", error);
+          return done(error);
+        }
+      }
+    )
+  );
+  
+  
+  
 
   passport.serializeUser((user, done) => {
     done(null, user._id);
