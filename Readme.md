@@ -2,10 +2,15 @@
 
 Bienvenido al README de Entregables Backend! 🚀
 
-* Número de la última clase: 36 de 46.
-* Desafío en curso: clase 37 - Tercera práctica integradora.
-* Desafío anterior aprobado: clase 34 - Implementación de Logger.
-* Próximo desafío: clase 39 - documentar API 
+* Número de la última clase: 45 de 46.
+* Desafío en curso: clase 44 - Cuarta práctica integradora.
+* Desafío anterior aprobado: clase 41 - Módulos de Testing.
+* Próximo desafío: clase 39 - Proyecto Final 😎
+
+
+## Deploy del Proyecto en Render:
+
+https://proyecto-backend-9f3q.onrender.com
 
 
 ## Descripción
