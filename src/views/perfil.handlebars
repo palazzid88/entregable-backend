@@ -1,13 +1,14 @@
+<!-- perfil.hbs - Vista de perfil de usuario -->
+
 <h1>Perfil de usuario</h1>
 <h2>Bienvenido!</h2>
-user:
-{{firstName}}
+user: {{firstName}}
 <br>
-email:
-{{email}}
+userId: {{userId}}
+<br>
+email: {{email}}
 <br />
-isAdmin:
-{{isAdmin}}
+isAdmin: {{isAdmin}}
 <h4>Esta es la página de Login del ecommers de Coder House</h4>
 <br />
 <a href='/auth/administracion'>Ver datos super secretos<a>
@@ -20,3 +21,7 @@ isAdmin:
 
 <br />
 <a href='/auth/logout'>Salir!</a>
+
+<!-- Botón "Cargar Documento" -->
+<br />
+<a href='/api/users/{{userId}}/uploadDocument' class='btn btn-primary'>Cargar Documento</a>

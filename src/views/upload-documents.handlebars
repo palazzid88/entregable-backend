@@ -1,0 +1,17 @@
+  <div class="container mt-5">
+    <h2>Subir Documento</h2>
+    <form action='/api/users/{{ userId }}/documents' method="POST" enctype="multipart/form-data">
+      <!-- Campo de entrada de archivo -->
+      <div class="mb-3">
+        <label for="document" class="form-label">Selecciona un documento</label>
+        <input type="file" class="form-control" id="document" name="document" accept=".pdf, .doc, .docx, .jpg, .png">
+      </div>
+      <!-- Botón de carga -->
+      <button type="submit" class="btn btn-primary">Subir Documento</button>
+      <br />
+      <br />
+      <a href="/auth/perfil" class="btn btn-primary">Volver al Perfil</a>
+
+    </form>
+  </div>
+

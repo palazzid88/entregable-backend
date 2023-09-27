@@ -143,11 +143,14 @@ class AuthController {
       }
       
       // Renderiza la página de perfil y pasa los datos del usuario
+      const userId = user._id.toString();
+      console.log("userIden getPerfilPage", userId)
       return res.render('perfil', { 
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
         isAdmin: user.role,
+        userId,
        });
     } catch (e) {
       console.log("Error rendering perfil page:", e);

@@ -153,10 +153,8 @@ function iniPassport() {
   passport.deserializeUser(async (id, done) => {
     try {
       let user = await UserModel.findById(id);
-      console.log("serialize ok en passport.config")
       done(null, user);
     } catch (err) {
-      logger.error('Error in deserializeUser in Passport');
       done(err);
     }
   });

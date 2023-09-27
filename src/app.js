@@ -34,10 +34,13 @@ const userRouter = require('./routes/user.router.js');
 
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUiExpress = require('swagger-ui-express');
-// const path = require('path');
 
 
-const app = express() 
+const app = express();
+
+// --------Llamado a multer---------------
+const multerConfig = require("./multer.config.js");
+
 const port = process.env.PORT || 8080;
 
 const httpServer = http.createServer(app);
@@ -147,6 +150,7 @@ app.get('/get-session', (req, res) => {
   loggerInstance.info("routesession")
   res.json({ cartId });
 });
+
 
 httpServer.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`)
