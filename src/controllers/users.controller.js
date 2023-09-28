@@ -5,6 +5,24 @@ const userService = new UserService();
 
 class UserController {
 
+  async getAllUsers(req, res) {
+    console.log("Ingresó al getAllUsers");
+    try {
+      const users = await userService.getAllUsers();
+      const simplifiedUsers = users.map((user) => ({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+      }));
+      // return res.status(200).json({ users: simplifiedUsers });
+      res.render('all-users', { users: simplifiedUsers })
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Error al obtener usuarios" });
+    }
+  }
+
   async togglePremiumUser(req, res) {
     console.log("ingreso a togglePremiumUser")
     try {
