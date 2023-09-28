@@ -23,6 +23,20 @@ class UserController {
     }
   }
 
+  async deleteOldUsers (req, res) {
+    console.log("ingreso a deleteOldUsers")
+    try {
+      // Llama al servicio para eliminar usuarios inactivos y obtener la lista de usuarios eliminados
+      const deletedUsers = await userService.deleteInactiveUsers();
+
+      // Envía una respuesta con la lista de usuarios eliminados
+      return res.status(200).json({ message: 'Usuarios inactivos eliminados con éxito', deletedUsers });
+    } catch (error) {
+      console.error('Error al eliminar usuarios inactivos:', error);
+      return res.status(500).json({ error: 'Error al eliminar usuarios inactivos' });
+    }
+  }
+
   async togglePremiumUser(req, res) {
     console.log("ingreso a togglePremiumUser")
     try {

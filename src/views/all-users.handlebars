@@ -1,5 +1,17 @@
-<div class="container mt-5">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+  <title>Proyecto backend Coder House</title>
+</head>
+<body>
+    <div class="container mt-5">
         <h1 class="mb-4">Lista de Usuarios</h1>
+        <button class="btn btn-danger delete-inactive-users">Eliminar Usuarios Inactivos</button>
+        <br />
+        <br />
         <ul class="list-group">
             {{#each users}}
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -12,3 +24,8 @@
             {{/each}}
         </ul>
     </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<script src="/js/users.js"></script>
+</html>

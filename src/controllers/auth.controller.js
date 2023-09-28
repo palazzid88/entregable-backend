@@ -40,12 +40,10 @@ class AuthController {
   async postRegister(req, res, next) {
     passport.authenticate('register', { failureRedirect: '/auth/failregister' })(req, res, async (error) => {
       if (error) {
-        // Manejar el error si es necesario
         return res.redirect('/auth/failregister');
       }
       
       try {
-        // Buscar al usuario recién registrado en la base de datos
         const userCreated = await UserModel.findOne({ email: req.body.email });
   
         if (!userCreated) {
@@ -79,7 +77,7 @@ class AuthController {
   }
 
   async postLogin(req, res, next) {
-    passport.authenticate('login', (err, user, info) => {
+    passport.authenticate('login', async (err, user, info) => {
       console.log("user en postLogin auth.controller", user)
       if (err) {
         // Manejar el error...
@@ -95,14 +93,26 @@ class AuthController {
       if (user.cart) {
         req.session.cartId = user.cart.toString();
         console.log("req.session.cartId en Login passport auth.controller", req.session.cartId);
-
       }
       
-      // Establecer la sesión del usuario
-      req.logIn(user, () => {
-        // Redirigir después de establecer la sesión
-        return res.redirect('perfil');
-      });
+      // Actualizar la fecha de última conexión del usuario
+      // en formato ISO 8601
+      const currentDate = new Date();
+      user.last_connection = currentDate;
+  
+      try {
+        // Guardar los cambios en la base de datos
+        await user.save();
+  
+        // Establecer la sesión del usuario
+        req.logIn(user, () => {
+          // Redirigir después de establecer la sesión
+          return res.redirect('perfil');
+        });
+      } catch (saveErr) {
+        // Manejar el error al guardar la fecha de última conexión...
+        return res.status(500).render('error', { error: 'Error updating last_connection' });
+      }
     })(req, res, next);
   }
   

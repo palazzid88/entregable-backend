@@ -10,5 +10,6 @@ userRouter.get('/users', userController.getAllUsers)
 userRouter.get('/users/premium/:uid', userController.togglePremiumUser);
 userRouter.get('/users/:uid/uploadDocument', userController.uploadForm)
 userRouter.post('/users/:uid/documents', multerConfig.single('document'), userController.uploadDocument);
+userRouter.delete('/users', userController.deleteOldUsers)
 
 module.exports = userRouter;
