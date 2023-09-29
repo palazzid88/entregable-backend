@@ -4,11 +4,15 @@
   "description": "Se crea constructor de la clase ProductManager\r dentro del mismo se llama al método addProduct() que verifica condiciones para añadir el producto al array this.product[].",
   "main": "src/app.js",
   "scripts": {
-    "test": "mocha --timeout 20000 ./src/test/supertest2.test.js",
+    "dev:qa": "cross-env NODE_ENV=qa nodemon ./src/app.js",
+    "start:qa": "cross-env NODE_ENV=qa node -r dotenv/config ./src/app.js",
+    "dev:prod": "cross-env NODE_ENV=production nodemon ./src/app.js",
+    "start:prod": "cross-env NODE_ENV=production node -r dotenv/config ./src/app.js",
+    "qa": "mocha --timeout 20000 ./src/test/supertest2.test.js",
     "dev": "nodemon ./src/app.js",
-    "start": "node ./src/app.js",
     "start-swagger": "nodemon -e yaml,js ./src/app.js"
-  },
+  }
+  ,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/palazzid88/entregable-backend.git"
@@ -23,7 +27,6 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "connect-mongo": "^5.0.0",
-    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-handlebars": "^7.0.7",
     "express-session": "^1.17.3",
@@ -51,6 +54,8 @@
   },
   "devDependencies": {
     "chai": "^4.3.8",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
     "mocha": "^10.2.0",
     "supertest": "^6.3.3"
   }

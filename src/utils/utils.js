@@ -4,9 +4,14 @@ require('dotenv').config();
 
 
 async function connectMongo() {
+  console.log('MONGO_USER:', process.env.MONGO_USER);
+  console.log('MONGO_PASS:', process.env.MONGO_PASS);
+  console.log('MONGO_HOST:', process.env.MONGO_HOST);
+
+
   try {
     await mongoose.connect(
-      `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@coder-house.ekzznmk.mongodb.net/?retryWrites=true&w=majority`
+      `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}/?retryWrites=true&w=majority`
     );
     console.log("Conexión exitosa a MongoDB!");
   } catch (error) {

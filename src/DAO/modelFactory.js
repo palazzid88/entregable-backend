@@ -15,10 +15,11 @@ async function initFactory() {
   switch (process.env.MONGO_STRING) {
     case "MONGO":
       const MONGO_PASS = process.env.MONGO_PASS;
+      const MONGO_DIR = proces.env.MONGO_DIR;
       connectMongo(MONGO_PASS);
       factoryStore = {
         store: MongoStore.create({
-          mongoUrl: `mongodb+srv://spy0x:${MONGO_PASS}@cluster0.7hatvzm.mongodb.net/ecommerce?retryWrites=true&w=majority`,
+          mongoUrl: `mongodb+srv://spy0x:${MONGO_PASS}@${MONGO_DIR}/ecommerce?retryWrites=true&w=majority`,
           ttl: 1000,
         }),
       };
