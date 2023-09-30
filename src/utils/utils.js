@@ -4,9 +4,8 @@ require('dotenv').config();
 
 
 async function connectMongo() {
-  console.log('MONGO_USER:', process.env.MONGO_USER);
-  console.log('MONGO_PASS:', process.env.MONGO_PASS);
-  console.log('MONGO_HOST:', process.env.MONGO_HOST);
+const modeDB = process.env.MODE_DB 
+console.log("MODO:", modeDB)
 
 
   try {
