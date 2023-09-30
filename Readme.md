@@ -2,10 +2,10 @@
 
 Bienvenido al README de Entregables Backend! 🚀
 
-* Número de la última clase: 45 de 46.
-* Desafío en curso: clase 44 - Cuarta práctica integradora.
+* Número de la última clase: 46 de 46.
+* Desafío en curso: clase 46 - entrega final 💪.
 * Desafío anterior aprobado: clase 41 - Módulos de Testing.
-* Próximo desafío: clase 39 - Proyecto Final 😎
+* Próximo desafío: nada! 😎
 
 
 ## Deploy del Proyecto en Render:
