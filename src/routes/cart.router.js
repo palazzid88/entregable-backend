@@ -15,6 +15,9 @@ cartRouter.get('/view-cart', cartController.viewCart );
 //Obtiene el CartId de la session
 cartRouter.get('/get-cart-id', cartController.getCartById ); 
 
+// Ruta checkout purchase
+cartRouter.get('/checkout/:cartId', cartController.viewCheckout);
+
 // Añade un producto al carrito por body
 cartRouter.put("/:cid/products/:pid", CartController.addToCart );
 

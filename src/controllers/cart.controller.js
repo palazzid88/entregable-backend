@@ -1,3 +1,5 @@
+const CartDao = require("../DAO/mongo/classes/carts.dao");
+const ProductDao = require("../DAO/mongo/classes/products.dao");
 const usersDao = require("../DAO/mongo/classes/users.dao");
 const ProductModel = require("../DAO/mongo/models/products.model");
 const UserModel = require("../DAO/mongo/models/users.model");
@@ -8,6 +10,8 @@ const userService = new UserService();
 const productModel = new ProductModel()
 
 const Carts = new CartService;
+const cartDao = new CartDao
+const productDao = new ProductDao
 
 class CartController {
     async createCart (req, res) {
@@ -75,13 +79,63 @@ class CartController {
           
           console.log("productsWithQuantity", productsWithQuantity)
       
-          res.render('cart', { prodToCart: productsWithQuantity, message });
+          res.render('cart', { prodToCart: productsWithQuantity, message, cart: cartId });
       
         } catch (error) {
           return res.status(500).json({ error: 'An error occurred while viewing the cart.' });
         }
       }
-      
+
+    // En el controlador de carritos (cart.controller.js)
+
+    async viewCheckout(req, res) {
+        console.log('ingresó a viewcheckout')
+        try {
+        const userId = req.session.passport.user;
+    
+        const user = await UserModel.findOne({ _id: userId });
+    
+        if (!user) {
+            return res.status(404).render('error-404', { msg: "User not found" });
+        }
+    
+        const cartId = user.cart;
+    
+        if (!cartId) {
+            return res.status(404).render('error-404', { msg: "User does not have a cart" });
+        }
+    
+        const cart = await Carts.getCartWithProducts(cartId);
+    
+        if (!cart) {
+            return res.status(404).render('error-404', { msg: "Cart not found" });
+        }
+    
+        // Verifica si el carrito está vacío
+        if (cart.products.length === 0) {
+            return res.render('checkout-empty', { msg: "Tu carrito está vacío." });
+        }
+    
+        const productIds = cart.products.map(product => product.productId);
+        const products = await ProductModel.find({ _id: { $in: productIds } });
+    
+        const productsWithQuantity = cart.products.map(cartProduct => {
+            const productDetails = products.find(product => product._id.toString() === cartProduct.productId.toString());
+            return {
+            product: productDetails.toObject(),
+            quantity: cartProduct.quantity
+            };
+        });
+    
+        // Renderiza la página de checkout con los productos y su cantidad
+        return res.render('checkout', { productsWithQuantity, cartId});
+        } catch (error) {
+        console.error('Error en la página de checkout:', error);
+        return res.status(500).render('error-500', { msg: "Error en la página de checkout" });
+        }
+    }
+  
+         
       
     
     async addToCart (req, res) {
@@ -206,23 +260,60 @@ class CartController {
 
 
 
-    async purchaseCart (req, res) {
+    async purchaseCart(req, res) {
         try {
-            console.log("ingresó a purchase")
             const cartId = req.params.cid;
-            const purchaser = res.session.passport.email;
-            console.log("purchaser", purchaser)
-            const response = await Carts.purchase(purchaser, cartId);
-            return res.status(response.code).json(response.result);
-        
-        } catch (e) {
-            return res.status(500).json({
-                status: "error",
-                msg: "error en el purchaseCart",
-                data: {},
-            });
+            const purchaserId = req.session.passport.user;
+            const purchaser = await usersDao.findOne({ _id: purchaserId });
+    
+            // Obtener el carrito y sus productos
+            const cart = await cartDao.findById(cartId);
+    
+            if (!cart) {
+                return res.status(404).json({ error: 'Carrito no encontrado' });
+            }
+    
+            const cartProducts = cart.products;
+            console.log("prod in cart cart.controller", cartProducts)
+    
+            // Verificar el stock de los productos en el carrito
+            const productsNotPurchased = [];
+    
+            for (const cartProduct of cartProducts) {
+                const productInDB = await productDao.findById(cartProduct.productId);
+    
+                if (!productInDB) {
+                    return res.status(404).json({ error: `Producto no encontrado con ID: ${cartProduct.productId}` });
+                }
+    
+                if (productInDB.stock < cartProduct.quantity) {
+                    // El producto no tiene suficiente stock
+                    productsNotPurchased.push(cartProduct.productId);
+                }
+            }
+    
+            if (productsNotPurchased.length > 0) {
+                // Algunos productos no pudieron ser comprados
+                // Puedes manejar esto de acuerdo a la lógica de tu aplicación, por ejemplo, eliminarlos del carrito
+                // y devolverlos como parte de la respuesta
+                return res.status(422).json({ error: 'Algunos productos no pudieron ser comprados', productsNotPurchased });
+            }
+    
+            // Realizar la compra de los productos en el carrito
+            // Esto debe restar el stock de los productos y generar un ticket
+    
+            // Después de la compra, actualiza el carrito para contener solo los productos que no pudieron ser comprados
+            // Puedes eliminar los productos comprados del carrito
+    
+            // Devolver una respuesta exitosa
+            return res.status(200).json({ message: 'Compra exitosa' });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Error en la compra' });
         }
     }
+          
+      
 
     async increaseQuantity (req, res) {
         try {

@@ -1,0 +1,28 @@
+<div class="container">
+  <h1>Resumen de Compra</h1>
+  
+  {{#each productsWithQuantity}}
+    <div class="card mb-3" style="">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="{{product.thumbnail}}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h6 class="card-title">Producto: {{product.title}}</h6>
+            <p class="card-text">Precio por unidad: {{product.price}}</p>
+            <p class="card-text">Cantidad: {{quantity}}</p>
+            {{!-- <p class="card-text">Subtotal: {{quantity * product.price}}</p> --}}
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+  
+  <h3>Total: {{total}}</h3>
+
+  <!-- Botón "Finalizar compra" -->
+<form method="POST" action="/api/carts/{{cartId}}/purchase">
+  <button type="submit" class="btn btn-primary">Finalizar compra</button>
+</form>
+</div>

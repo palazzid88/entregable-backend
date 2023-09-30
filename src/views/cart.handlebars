@@ -13,6 +13,7 @@
       <h1>
         Carrito de Compras
       </h1>
+      <p>cartId: {{ cart }}</p>
     </div>
   </div>
     {{ log 1 }}
@@ -41,6 +42,8 @@
       </div>
     {{/each}}
   <a href="/api/products" class="btn btn-primary">Volver a Productos</a>
+  <a href="/api/carts/checkout/{{cart}}" class="btn btn-primary">Continuar con la compra</a>
+
   {{/if}}
 
 <script src="/socket.io/socket.io.js"></script>
