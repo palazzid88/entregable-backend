@@ -33,8 +33,15 @@
               <h6 class="card-title">producto: {{product.title}}</h6>
               <p class="card-text">precio por unidad: {{product.price}}</p>
               <p class="card-text">Cantidad: {{quantity}}</p>
-              <button onclick="increaseQuantity('{{product._id}}')"> ( + ) </button>
-              <button onclick="decreaseQuantity('{{product._id}}')"> ( - ) </button>
+              
+              <div class="input-group mb-3">
+                <input type="number" id="quantityInput" class="form-control" value="{{quantity}}" min="1">
+              </div>
+              <button class="btn btn-primary" onclick="updateQuantity('{{product._id}}')">Actualizar Cantidad</button>
+
+
+              <button class="btn btn-danger" onclick="deleteProduct('{{product._id}}')">Eliminar</button>
+
               {{!-- <p class="card-text">Total: {{quantity * product.price}}</p> --}}
             </div>
           </div>

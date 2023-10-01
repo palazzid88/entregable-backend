@@ -65,10 +65,7 @@ class CartController {
       
           const productIds = cart.products.map(product => product.productId);
           const products = await ProductModel.find({ _id: { $in: productIds } });
-
-          console.log("productIds", productIds);
-          console.log("products", products)
-      
+   
           const productsWithQuantity = cart.products.map(cartProduct => {
             const productDetails = products.find(product => product._id.toString() === cartProduct.productId.toString());
             return {
@@ -77,7 +74,6 @@ class CartController {
             };
           });
           
-          console.log("productsWithQuantity", productsWithQuantity)
       
           res.render('cart', { prodToCart: productsWithQuantity, message, cart: cartId });
       
@@ -161,8 +157,8 @@ class CartController {
     }
 
     async deleteProductToCart (req, res) {
+        console.log("ingreso al delete product del cart");
         try {
-            console.log("ingreso al delete");
             const cid = req.params.cid.toString();
             const pid = req.params.pid.toString();
             console.log("params", cid, pid)
@@ -222,11 +218,17 @@ class CartController {
 
 
     async updateCart (req, res) {
+        console.log("cart.controller updateCart")
         try {
             const cid = req.params.cid;
-            const products = req.body.products;
+            const product = req.params.pid;
+            const qty = req.body.quantity;
+
+            console.log('params', cid,product,qty)
+
+            // console.log("params", cid, pid)
     
-            const result = await Carts.updateCart(cid, products);
+            const result = await Carts.updateProductQuantity(cid, product, qty);
             console.log("result", result)
             return res.status(201).json({ message: `carro actualizado satisfactoriamente` })
         } catch (e) {
@@ -315,49 +317,49 @@ class CartController {
           
       
 
-    async increaseQuantity (req, res) {
-        try {
-            console.log("ingresó al increase en controller");
-            const cartId = req.params.cartId;
-            console.log("cartId", cartId)
-            // if (!cartId) {
-            //     return res.status(400).json({ error: 'No se encontró el carrito en la sesión' });
-            // }
-            const productId = req.params.productId.toString();
-            console.log("prodId", productId)
+    // async increaseQuantity (req, res) {
+    //     try {
+    //         console.log("ingresó al increase en controller");
+    //         const cartId = req.params.cartId;
+    //         console.log("cartId", cartId)
+    //         // if (!cartId) {
+    //         //     return res.status(400).json({ error: 'No se encontró el carrito en la sesión' });
+    //         // }
+    //         const productId = req.params.productId.toString();
+    //         console.log("prodId", productId)
 
-            const result = await Carts.increaseQuantity(cartId, productId);
-            console.log("result", result)
+    //         const result = await Carts.increaseQuantity(cartId, productId);
+    //         console.log("result", result)
 
-            return res.status(200).json({ message: 'Cantidad aumentada', result });
+    //         return res.status(200).json({ message: 'Cantidad aumentada', result });
 
-        } catch (error) {
-            return res.status(500).json({ error: 'Error al aumentar la cantidad' });         
-        }
+    //     } catch (error) {
+    //         return res.status(500).json({ error: 'Error al aumentar la cantidad' });         
+    //     }
 
-    }
+    // }
 
-    async decreaseQuantity(req, res) {
-        try {
-            console.log("ingreso en decrease")
-            const cartId = req.params.cartId;
-            console.log("decrease", cartId)
-            // const cartId = req.session.cartId;
+    // async decreaseQuantity(req, res) {
+    //     try {
+    //         console.log("ingreso en decrease")
+    //         const cartId = req.params.cartId;
+    //         console.log("decrease", cartId)
+    //         // const cartId = req.session.cartId;
 
-            // if (!cartId) {
-            // return res.status(400).json({ error: 'No se encontró el carrito en la sesión' });
-            // }
+    //         // if (!cartId) {
+    //         // return res.status(400).json({ error: 'No se encontró el carrito en la sesión' });
+    //         // }
 
-            const productId = req.params.productId.toString();
+    //         const productId = req.params.productId.toString();
 
-            const result = await Carts.decreaseQuantity(cartId, productId);
+    //         const result = await Carts.decreaseQuantity(cartId, productId);
 
-            return res.status(200).json({ message: 'Cantidad disminuida', result });
+    //         return res.status(200).json({ message: 'Cantidad disminuida', result });
  
-        } catch (error) {
-          return res.status(500).json({ error: 'Error al disminuir la cantidad' });
-        }
-      }
+    //     } catch (error) {
+    //       return res.status(500).json({ error: 'Error al disminuir la cantidad' });
+    //     }
+    //   }
 
     }
 

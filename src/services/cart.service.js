@@ -99,8 +99,10 @@ class CartService {
     }
 
     async updateProductQuantity(cid, pid, quantity) {
+        console.log("updtPQ en cart.service")
         try {
             const cart = await cartDao.findById(cid);
+            console.log("cart en fbI", cart)
             if (!cart) {
                 throw `No existe carrito con ID: ${cid}`;
             }        
@@ -136,11 +138,13 @@ class CartService {
     }
 
     async updateCart(cid, products) {
+        console.log("ingresa a updateCart en cart.service")
         try {
             const productUpdate = products;
 
             const cart = await cartDao.findById(cid);
             if (!cart) {
+                console.log('!cart')
                 throw (`no existe carro con ID: ${cid}`)
             }
             cart.products = productUpdate
@@ -195,6 +199,7 @@ class CartService {
     }
 
     async getCartWithProducts(cartId) {
+        console.log("getCartWithProducts en cart.service")
         try {
             const cart = await cartDao.findById(cartId);
             return cart;
