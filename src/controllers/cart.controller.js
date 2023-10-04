@@ -13,6 +13,10 @@ const Carts = new CartService;
 const cartDao = new CartDao
 const productDao = new ProductDao
 
+let productsWithQuantity;
+let total;
+let cartTotal;
+
 class CartController {
     async createCart (req, res) {
         try {
@@ -40,22 +44,19 @@ class CartController {
           const user = await UserModel.findOne({ _id: userId });
       
           if (!user) {
-            res.render('error-404', {msg: "User not found"})
-            // return res.status(404).json({ error: 'User not found' });
+            res.render('error-404', {msg: "User not found"});
           }
       
           const cartId = user.cart;
       
           if (!cartId) {
-            res.render('error-404', {msg: "User not found"})
-            // return res.status(404).json({ error: 'User does not have a cart' });
+            res.render('error-404', {msg: "User not found"});
           }
       
           const cart = await Carts.getCartWithProducts(cartId);
       
           if (!cart) {
-            res.render('error-404', {msg: "User not found"})
-            // return res.status(404).json({ error: 'Cart not found' });
+            res.render('error-404', {msg: "User not found"});
           }
       
           let message = "";
@@ -65,22 +66,29 @@ class CartController {
       
           const productIds = cart.products.map(product => product.productId);
           const products = await ProductModel.find({ _id: { $in: productIds } });
-   
-          const productsWithQuantity = cart.products.map(cartProduct => {
+      
+          productsWithQuantity = cart.products.map(cartProduct => {
             const productDetails = products.find(product => product._id.toString() === cartProduct.productId.toString());
+            total = cartProduct.quantity * productDetails.price;
             return {
               product: productDetails.toObject(),
-              quantity: cartProduct.quantity
+              quantity: cartProduct.quantity,
+              total,
             };
           });
-          
       
-          res.render('cart', { prodToCart: productsWithQuantity, message, cart: cartId });
+          // Calcula el total del carrito sumando los totales por producto
+          cartTotal = productsWithQuantity.reduce((total, product) => {
+            return total + product.total;
+          }, 0);
+      
+          res.render('cart', { prodToCart: productsWithQuantity, message, cart: cartId, cartTotal });
       
         } catch (error) {
           return res.status(500).json({ error: 'An error occurred while viewing the cart.' });
         }
       }
+      
 
     // En el controlador de carritos (cart.controller.js)
 
@@ -115,16 +123,22 @@ class CartController {
         const productIds = cart.products.map(product => product.productId);
         const products = await ProductModel.find({ _id: { $in: productIds } });
     
-        const productsWithQuantity = cart.products.map(cartProduct => {
+        productsWithQuantity = cart.products.map(cartProduct => {
             const productDetails = products.find(product => product._id.toString() === cartProduct.productId.toString());
+            total = cartProduct.quantity * productDetails.price;
             return {
             product: productDetails.toObject(),
-            quantity: cartProduct.quantity
+            quantity: cartProduct.quantity,
+            total
             };
         });
+
+        // Calcula el total del carrito sumando los totales por producto
+        cartTotal = productsWithQuantity.reduce((total, product) => {
+            return total + product.total;
+          }, 0);
     
-        // Renderiza la página de checkout con los productos y su cantidad
-        return res.render('checkout', { productsWithQuantity, cartId});
+        return res.render('checkout', { productsWithQuantity, cartId, cartTotal});
         } catch (error) {
         console.error('Error en la página de checkout:', error);
         return res.status(500).render('error-500', { msg: "Error en la página de checkout" });

@@ -8,17 +8,22 @@
 </head>
 <body>
 
-  <div class="div-cart-handle">
+  <div class="d-flex flex-direction-row justify-content-around align-items-center">
+    <h1> Carrito de Compras </h1>
+    <a href="/api/products" class="btn btn-primary">Volver a Productos</a>
+  </div>
+
+  {{!-- <div class="div-cart-handle">
     <div>
-      <h1>
-        Carrito de Compras
-      </h1>
+      <h1>Carrito de Compras</h1>
       <p>cartId: {{ cart }}</p>
     </div>
-  </div>
-    {{ log 1 }}
-    {{ log prodToCart }}
-    {{ log 2 }}
+  </div> --}}
+  
+  {{ log 1 }}
+  {{ log prodToCart }}
+  {{ log 2 }}
+
   {{#if message}}
     <p>{{message}}</p>
   {{else}}
@@ -30,31 +35,36 @@
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h6 class="card-title">producto: {{product.title}}</h6>
-              <p class="card-text">precio por unidad: {{product.price}}</p>
+              <h6 class="card-title">Producto: {{product.title}}</h6>
+              <p class="card-text">Precio por Unidad: u$d {{product.price}}</p>
               <p class="card-text">Cantidad: {{quantity}}</p>
               
-              <div class="input-group mb-3">
-                <input type="number" id="quantityInput" class="form-control" value="{{quantity}}" min="1">
+              <div class="input-sm mb-3">
+                <div class="col-3">
+                  <input type="number" id="quantityInput" class="form-control" value="{{quantity}}" min="1">
+                </div>
               </div>
               <button class="btn btn-primary" onclick="updateQuantity('{{product._id}}')">Actualizar Cantidad</button>
-
-
               <button class="btn btn-danger" onclick="deleteProduct('{{product._id}}')">Eliminar</button>
 
-              {{!-- <p class="card-text">Total: {{quantity * product.price}}</p> --}}
+              <!-- Mostrar el total por producto -->
+              <p class="card-text">Total por Producto: u$d{{total}}</p>
             </div>
           </div>
         </div>
       </div>
     {{/each}}
-  <a href="/api/products" class="btn btn-primary">Volver a Productos</a>
-  <a href="/api/carts/checkout/{{cart}}" class="btn btn-primary">Continuar con la compra</a>
 
+    <!-- Mostrar el total del carrito -->
+    <h3>Total del Carrito: u$d {{cartTotal}}</h3>
+    <br>
+    <br>
+    <a href="/api/carts/checkout/{{cart}}" class="btn btn-primary">Continuar con la Compra</a>
+    <br>
+    <br>
   {{/if}}
-
+</body>
+</html>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 <script src="/js/carts.js"></script>
-</body>
-</html>

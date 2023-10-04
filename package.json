@@ -11,9 +11,7 @@
     "qa": "mocha --timeout 20000 ./src/test/supertest2.test.js",
     "dev": "nodemon ./src/app.js",
     "start-swagger": "nodemon -e yaml,js ./src/app.js"
-  }
-  ,
-  
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/palazzid88/entregable-backend.git"
