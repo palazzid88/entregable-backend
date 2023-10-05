@@ -5,9 +5,12 @@ const ProductModel = require("../DAO/mongo/models/products.model");
 const UserModel = require("../DAO/mongo/models/users.model");
 const CartService = require("../services/cart.service");
 const ProductService = require("../services/product.service");
+const TicketService = require("../services/tickets.service");
 const UserService = require("../services/users.service");
+
 const userService = new UserService();
 const productModel = new ProductModel()
+const ticketService = new TicketService()
 
 const Carts = new CartService;
 const cartDao = new CartDao
@@ -87,11 +90,8 @@ class CartController {
         } catch (error) {
           return res.status(500).json({ error: 'An error occurred while viewing the cart.' });
         }
-      }
+    }
       
-
-    // En el controlador de carritos (cart.controller.js)
-
     async viewCheckout(req, res) {
         console.log('ingresó a viewcheckout')
         try {
@@ -117,7 +117,9 @@ class CartController {
     
         // Verifica si el carrito está vacío
         if (cart.products.length === 0) {
-            return res.render('checkout-empty', { msg: "Tu carrito está vacío." });
+            return res.status(201).json({ message: "carro vacío", result })
+
+            // return res.render('checkout-empty', { msg: "Tu carrito está vacío." });
         }
     
         const productIds = cart.products.map(product => product.productId);
@@ -144,10 +146,7 @@ class CartController {
         return res.status(500).render('error-500', { msg: "Error en la página de checkout" });
         }
     }
-  
-         
-      
-    
+        
     async addToCart (req, res) {
         console.log("addToCart en cart.controller")
         try {
@@ -191,11 +190,13 @@ class CartController {
     }
 
 
-    async clearCart (rea, res) {
+    async clearCart (req, res) {
         try {
-            const cid = req.params.cid;
+            console.log('ingreso en clear cart en cart.controller')
+            const cid = req.params.cid
+            console.log(cid)
             const result = await Carts.cleanToCart(cid);
-    
+            console.log('result', result)
             return res.status(201).json({ message: `se vació el carrito con ID: ${cid}` })
         } catch (e) {
             return res.status(500).json({
@@ -275,107 +276,76 @@ class CartController {
     }
 
 
-
     async purchaseCart(req, res) {
         try {
-            const cartId = req.params.cid;
-            const purchaserId = req.session.passport.user;
-            const purchaser = await usersDao.findOne({ _id: purchaserId });
-    
-            // Obtener el carrito y sus productos
-            const cart = await cartDao.findById(cartId);
-    
-            if (!cart) {
-                return res.status(404).json({ error: 'Carrito no encontrado' });
-            }
-    
-            const cartProducts = cart.products;
-            console.log("prod in cart cart.controller", cartProducts)
-    
-            // Verificar el stock de los productos en el carrito
-            const productsNotPurchased = [];
-    
-            for (const cartProduct of cartProducts) {
-                const productInDB = await productDao.findById(cartProduct.productId);
-    
-                if (!productInDB) {
-                    return res.status(404).json({ error: `Producto no encontrado con ID: ${cartProduct.productId}` });
-                }
-    
-                if (productInDB.stock < cartProduct.quantity) {
-                    // El producto no tiene suficiente stock
-                    productsNotPurchased.push(cartProduct.productId);
-                }
-            }
-    
-            if (productsNotPurchased.length > 0) {
-                // Algunos productos no pudieron ser comprados
-                // Puedes manejar esto de acuerdo a la lógica de tu aplicación, por ejemplo, eliminarlos del carrito
-                // y devolverlos como parte de la respuesta
-                return res.status(422).json({ error: 'Algunos productos no pudieron ser comprados', productsNotPurchased });
-            }
-    
-            // Realizar la compra de los productos en el carrito
-            // Esto debe restar el stock de los productos y generar un ticket
-    
-            // Después de la compra, actualiza el carrito para contener solo los productos que no pudieron ser comprados
-            // Puedes eliminar los productos comprados del carrito
-    
-            // Devolver una respuesta exitosa
-            return res.status(200).json({ message: 'Compra exitosa' });
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ error: 'Error en la compra' });
-        }
-    }
-          
+            console.log("ingresó a purchaseCart en cart.controller")
+          const cartId = req.params.cid;
+          const purchaserId = req.session.passport.user;
+          const purchaser = await usersDao.findOne({ _id: purchaserId });
       
-
-    // async increaseQuantity (req, res) {
-    //     try {
-    //         console.log("ingresó al increase en controller");
-    //         const cartId = req.params.cartId;
-    //         console.log("cartId", cartId)
-    //         // if (!cartId) {
-    //         //     return res.status(400).json({ error: 'No se encontró el carrito en la sesión' });
-    //         // }
-    //         const productId = req.params.productId.toString();
-    //         console.log("prodId", productId)
-
-    //         const result = await Carts.increaseQuantity(cartId, productId);
-    //         console.log("result", result)
-
-    //         return res.status(200).json({ message: 'Cantidad aumentada', result });
-
-    //     } catch (error) {
-    //         return res.status(500).json({ error: 'Error al aumentar la cantidad' });         
-    //     }
-
-    // }
-
-    // async decreaseQuantity(req, res) {
-    //     try {
-    //         console.log("ingreso en decrease")
-    //         const cartId = req.params.cartId;
-    //         console.log("decrease", cartId)
-    //         // const cartId = req.session.cartId;
-
-    //         // if (!cartId) {
-    //         // return res.status(400).json({ error: 'No se encontró el carrito en la sesión' });
-    //         // }
-
-    //         const productId = req.params.productId.toString();
-
-    //         const result = await Carts.decreaseQuantity(cartId, productId);
-
-    //         return res.status(200).json({ message: 'Cantidad disminuida', result });
- 
-    //     } catch (error) {
-    //       return res.status(500).json({ error: 'Error al disminuir la cantidad' });
-    //     }
-    //   }
-
+          // Obtener el carrito y sus productos
+          const cart = await cartDao.findById(cartId);
+          console.log("cart", cart)
+      
+          if (!cart) {
+            console.log("carro no encontrado")
+            return res.status(404).json({ error: 'Carrito no encontrado' });
+          }
+      
+          const cartProducts = cart.products;
+          console.log("cartProducts", cartProducts)
+      
+          // Filtrar los productos que no pudieron ser comprados
+          const productsPurchased = [];
+          const productsNotPurchased = [];
+      
+          for (const cartProduct of cartProducts) {
+            const productInDB = await productDao.findById(cartProduct.productId);
+      
+            if (!productInDB) {
+              return res.status(404).json({ error: `Producto no encontrado con ID: ${cartProduct.productId}` });
+            }
+      
+            if (productInDB.stock >= cartProduct.quantity) {
+                console.log('tiene stock')
+              // El producto tiene suficiente stock, restar la cantidad del stock
+              productInDB.stock -= cartProduct.quantity;
+              await productInDB.save();
+              productsPurchased.push(cartProduct); // Agregar el producto comprado
+            } else {
+                console.log('no tiene stock')
+              // El producto no tiene suficiente stock, dejarlo en el carrito
+              productsNotPurchased.push(cartProduct);
+            }
+          }
+      
+          // Actualizar el carrito solo con los productos que no pudieron ser comprados
+          cart.products = productsNotPurchased;
+          await cart.save();
+      
+          // Crear un ticket de compra utilizando el servicio de tickets
+          const ticketResult = await ticketService.purchase(purchaser.email, productsPurchased);
+          console.log('ticketResult', ticketResult)
+          const ticketRender = ticketResult.result
+          console.log("ticket Render", ticketRender);
+          const ticketRender3 = ticketResult.result.payload.toObject()
+          console.log('render3', ticketRender3)
+          
+          
+          if (ticketResult.code === 200) {
+            console.log('status 200')
+            return res.render('ticket', { ticket: ticketRender3});
+            // return res.status(200).json({ message: 'Compra exitosa', ticket: ticketResult.result.payload });
+          } else {
+            console.log('status != 200')
+            return res.status(ticketResult.code).json({ error: 'Error en la compra', details: ticketResult.result.message });
+          }
+        } catch (error) {
+            console.log('error catch')
+          console.error(error);
+          return res.status(500).json({ error: 'Error en la compra' });
+        }
+      }
     }
-
 
     module.exports = new CartController();

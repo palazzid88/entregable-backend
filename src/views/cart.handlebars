@@ -7,10 +7,12 @@
   <title>Val di sole</title>
 </head>
 <body>
-
+<br>
+<br>
+<br>
   <div class="d-flex flex-direction-row justify-content-around align-items-center">
     <h1> Carrito de Compras </h1>
-    <a href="/api/products" class="btn btn-primary">Volver a Productos</a>
+    <a href="/api/products" class="btn btn-primary"> << Volver a Productos</a>
   </div>
 
   {{!-- <div class="div-cart-handle">
@@ -54,12 +56,18 @@
         </div>
       </div>
     {{/each}}
-
-    <!-- Mostrar el total del carrito -->
     <h3>Total del Carrito: u$d {{cartTotal}}</h3>
     <br>
+    <button class="btn btn-danger" onclick="deleteProductsInCart()">Eliminarr</button>
+
+    <div class="d-flex flex-direction-row align-items-center justify-content-around">
+      {{!-- <form method="DELETE" action="/api/carts/{{cartId}}">
+        <button type="submit" class="btn btn-danger"> X Vaciar Carro</button>
+      </form> --}}
+      <a href="/api/carts/checkout/{{cart}}" class="btn btn-primary">Continuar con la Compra >></a>
+    </div>
     <br>
-    <a href="/api/carts/checkout/{{cart}}" class="btn btn-primary">Continuar con la Compra</a>
+    <br>
     <br>
     <br>
   {{/if}}
