@@ -53,16 +53,16 @@ class ProductService {
     return data;
   }
 
-  async addProduct(title, description, price, thumbnail, code, stock, status, category) {
+  async addProduct(prod) {
       const productCreated = await productDao.createOne(
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
-        status,
-        category
+        prod.title,
+        prod.description,
+        prod.price,
+        prod.thumbnail,
+        prod.code,
+        prod.stock,
+        prod.status,
+        prod.category
       );
   
       return productCreated;

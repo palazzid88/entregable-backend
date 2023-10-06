@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const ProductService = require('../services/product.service');
+const ProductDao = require('../DAO/mongo/classes/products.dao');
 
 const Products = new ProductService();
 
@@ -40,6 +41,22 @@ class ProductController {
         msg: 'something went wrong :(',
         data: {},
       });
+    }
+  }
+
+  async viewForm(req, res) {
+    try {
+      // const { page, limit, sort, query } = req.query;
+      const result = await Products.getAll();
+      const products = result.products;
+      console.log(products)
+      // const pagination = result.pagination;
+
+      res.status(200).render("add-products", { products});
+      // res.status(200).json({ msg: "entró al viewform" })
+      
+    } catch (error) {
+      res.status(400).json({ msj: "error" })
     }
   }
 
@@ -99,11 +116,14 @@ class ProductController {
         // Verificar si el usuario actual es admin
         const isAdmin = req.user?.isAdmin;
 
+        // Verificar si el usuario actual es premium
+        const isPremium = req.user?.premium;
+
         // Verificar si el usuario actual es el propietario
         const userOwner = req.user?.email;
 
-        // Si el usuario es admin o el propietario, puede eliminar el producto
-        if (isAdmin || userOwner === product.owner) {
+        // Si el usuario es admin, premium o el propietario, puede eliminar el producto
+        if (isAdmin || (isPremium && userOwner === product.owner)) {
             const result = await Products.deleteOne(id);
             const productDeleted = result.productDeleted;
 
@@ -124,6 +144,7 @@ class ProductController {
         });
     }
 }
+
 
 
 

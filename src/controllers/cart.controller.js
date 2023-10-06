@@ -7,6 +7,7 @@ const CartService = require("../services/cart.service");
 const ProductService = require("../services/product.service");
 const TicketService = require("../services/tickets.service");
 const UserService = require("../services/users.service");
+const productsController = require("./products.controller");
 
 const userService = new UserService();
 const productModel = new ProductModel()
@@ -145,9 +146,17 @@ class CartController {
             const cid = req.params.cid.toString();
             const pid = req.params.pid.toString();
             const qty = parseInt(req.body.quantity) || 1;
-    
-            const result = await Carts.addToCart(cid, pid, qty);
-            return res.status(201).json({ message: "producto añadido al carrito", result })
+
+            const userEmail = req.user.email
+
+            const productAdd = await productsController.getProductById(pid);
+
+            if (userEmail !== productAdd.owner) {
+              const result = await Carts.addToCart(cid, pid, qty);
+              return res.status(201).json({ message: "producto añadido al carrito", result });
+          } else {
+              res.status(201).json({ message: "no puede añadir al carrito un producto que haya sido creado por usted! :(" });
+          }         
         } catch (e) {
             console.log(e)
             return res.status(500).json({

@@ -1,5 +1,10 @@
 const socketIO = require('socket.io');
 const ChatModel = require('./DAO/mongo/models/chat.socket.model.js');
+const ProductModel = require('./DAO/mongo/models/products.model.js');
+const ProductService = require('./services/product.service.js');
+const productService = new ProductService()
+
+const productModel = new ProductModel()
 
 function configureSockets(httpServer) {
   const io = socketIO(httpServer);
@@ -9,10 +14,11 @@ function configureSockets(httpServer) {
   
   // Anidir productos a persistencia => recibe desde index.js
     socket.on("newProduct", async (prod) => {
-      const newProduct = await productManager.addProduct(prod)
+      console.log("entro en el on de  configure")
+      const newProduct = await productService.addProduct(prod)
       console.log(newProduct)
       console.log("Nuevo producto recibido:", prod);
-      const updatedProducts = await productManager.getProducts();
+      const updatedProducts = await productService.getAll();
   
   // Retorna todos los productos actualizados al DOM 
       socket.emit("productListUpdated", updatedProducts);
@@ -20,8 +26,8 @@ function configureSockets(httpServer) {
   
   // Eliminar productos de persistencia
     socket.on("deleteProdId", async (id) =>{
-      const deleteProd = await productManager.deleteProduct(id)
-      const updatedProducts = await productManager.getProducts();
+      const deleteProd = await productService.deleteProduct(id)
+      const updatedProducts = await productService.getProducts();
   
   // Retorna todos los productos actualizados al DOM 
       socket.emit("productListUpdated", updatedProducts)

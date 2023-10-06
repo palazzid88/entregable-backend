@@ -1,12 +1,3 @@
-// const { query } = require("express");
-
-
-
-
-
-
-
-
 const socket = io();
 
 // ## APP CHAT ##
@@ -72,7 +63,8 @@ sendProduct.addEventListener("click", (e) => {
     category: document.getElementById("product-category").value
   };
 console.log("prod", prod)
-if (prod.category != "" && prod.code != "" && prod.description != "" && prod.price != "" && prod.status != "" && prod.stock != "" && prod.thumbnail) {
+if (prod.title != "" && prod.description != "" && prod.price != "" && prod.category != "" && prod.code != "" && prod.status != "" && prod.stock != "" && prod.thumbnail !="" ) {
+  console.log("se manda al socket en emit")
   socket.emit("newProduct", prod);  
 } else {
   document.getElementById('err-form').innerHTML = `<p class="p-error" style="color: red">**Debe completar todos los campos</p>`

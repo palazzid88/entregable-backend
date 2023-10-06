@@ -9,9 +9,11 @@ productRouter.get('/', ProductController.getAll);
 
 productRouter.get('/:id', ProductController.getProductById);
 
+productRouter.get('/render/form', isProductCreator, ProductController.viewForm)
+
 productRouter.post('/',productValid, isProductCreator, ProductController.createProduct);
 
-productRouter.delete('/:id', isAdmin, ProductController.deleteProduct);
+productRouter.delete('/:id', isProductCreator, ProductController.deleteProduct);
 
 productRouter.put('/:id', productValid, isAdmin, ProductController.updateProduct);
 
