@@ -11,7 +11,6 @@ const rtpRouter = require('./routes/rpt.socket.router.js')
 const chatRouter = require('./routes/chat.socket.router.js');
 const viewsRouter = require('./routes/views.router.js');
 const authRouter = require('./routes/auth.router.js')
-// const rtpHtmlRouter = require('./routes/rtpHtml.router.js')
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const FileStoreSession = require('session-file-store')(session);

@@ -5,7 +5,6 @@ const Products = new ProductService();
 
 class ProductController {
   async getAll(req, res) {
-    console.log("entró al controller en getAll")
     try {
       const { page, limit, sort, query } = req.query;
       const result = await Products.getAll(page, limit, sort, query);
@@ -28,8 +27,7 @@ class ProductController {
       const { id } = req.params;
       // const objetId = (id)
       const result = await Products.getProductById(id);
-      const product = result.toObject(); // Convierte a objeto literal
-      // const product = result.product;
+      const product = result.toObject();
       if (!result) {
         return res.render('error', { error: 'Producto no encontrado' });
       } else {
@@ -100,11 +98,9 @@ class ProductController {
 
         // Verificar si el usuario actual es admin
         const isAdmin = req.user?.isAdmin;
-        console.log("isAdmin en prod.cont", isAdmin);
 
         // Verificar si el usuario actual es el propietario
         const userOwner = req.user?.email;
-        console.log("userOwner en prod.cont", userOwner);
 
         // Si el usuario es admin o el propietario, puede eliminar el producto
         if (isAdmin || userOwner === product.owner) {

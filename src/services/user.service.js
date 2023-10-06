@@ -6,9 +6,7 @@ const mailer = require('../services/mailing.service'); // Importa tu servicio de
 class UserService {
   async getAllUsers() {
     try {
-      console.log("Ingreso al getAllUsers del servicio");
       const users = await UserModel.find({});
-      console.log("Usuarios en el servicio:", users);
       return users;
     } catch (error) {
       console.error("Error en getAllUsers del servicio:", error);

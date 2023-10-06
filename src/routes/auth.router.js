@@ -10,14 +10,11 @@ authRouter.get('/session/current', AuthController.getSession);
 
 authRouter.get('/register', AuthController.getRegisterPage);
 
-// Utilizamos la función register del servicio AuthService
 authRouter.post('/register', AuthController.postRegister);
-// authRouter.post('/register', AuthService.authenticateLogin, AuthController.postRegister);
 
 
 authRouter.get('/failregister', AuthController.failRegister);
 
-// Rutas sin cambios
 authRouter.get('/login', AuthController.getLoginPage);
 authRouter.post('/login', AuthService.authenticateLogin, AuthController.postLogin);
 authRouter.get('/faillogin', AuthController.failLogin);

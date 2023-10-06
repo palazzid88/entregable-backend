@@ -90,7 +90,6 @@ class ProductService {
   }
 
   async getProductById(id) {
-    console.log("ingreso al findOne")
     const product = await productDao.findById(id);
     return product
   }

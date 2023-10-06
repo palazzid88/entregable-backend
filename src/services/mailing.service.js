@@ -12,7 +12,6 @@ const transporter = nodemailer.createTransport({
 
 // Función para enviar correo de recuperación de contraseña
 async function sendPasswordRecoveryEmail(mail, resetPasswordLink) {
-  console.log("3 er  paso nodemailer")
   try {
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -22,9 +21,7 @@ async function sendPasswordRecoveryEmail(mail, resetPasswordLink) {
              <a href="${resetPasswordLink}">Recuperar contraseña</a>`,
     };
 
-    console.log("3 er paso mailOptions", mailOptions)
     const info = await transporter.sendMail(mailOptions);
-    console.log('Correo de recuperación enviado:', info.response);
   } catch (error) {
     console.error('Error al enviar el correo de recuperación:', error);
   }

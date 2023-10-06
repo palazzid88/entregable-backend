@@ -1,4 +1,3 @@
-// users.router.js
 const express = require('express');
 const userRouter = express.Router();
 const UserController = require('../controllers/users.controller');

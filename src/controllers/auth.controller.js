@@ -2,11 +2,11 @@ const passport = require('passport');
 const { RegisterDTO, LoginDTO, userDTO } = require('../DAO/dto/auth.dto');
 const UserModel = require('../DAO/mongo/models/users.model');
 const crypto = require('crypto');
-const mailer = require('../services/mailing.service'); // Importa tu servicio de envío de correo
+const mailer = require('../services/mailing.service');
 const { createHash } = require('../utils/utils');
 
 
-// para recuperación de contraseña
+// Recuperar la contraseña
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
 
@@ -15,18 +15,18 @@ class AuthController {
     const userId = req.user;
     console.log("userId", userId)
     console.log("entro a getSession")
-    // Comprueba si el usuario está autenticado.
+    // Comprobación de autenticación de usuario.
     if (req.isAuthenticated()) {
       console.log("se autentico")
       // Obtén el ID de usuario almacenado en la sesión.
 
-      // Consulta la base de datos u otro sistema de almacenamiento para obtener los datos completos del usuario.
+      // Consulta en la db para obtener los datos completos del usuario.
       const user = await UserModel.findById(userId);
 
       // Devuelve los datos del usuario en la respuesta.
       return res.status(200).json(user);
     } else {
-      // El usuario no está autenticado, puedes manejarlo de acuerdo a tus necesidades.
+      // El usuario no está autenticado.
       console.log("no se autentico")
       return res.status(401).json({ message: 'Usuario no autenticado' });
     }
@@ -51,7 +51,7 @@ class AuthController {
           return res.redirect('/auth/failregister');
         }
   
-        // Establecer la sesión con los datos del usuario
+        // Establecer la sesión con los datos del user
         req.login(userCreated, (error) => {
           if (error) {
             console.log("Error setting session after registration:", error);
@@ -80,12 +80,11 @@ class AuthController {
     passport.authenticate('login', async (err, user, info) => {
       console.log("user en postLogin auth.controller", user)
       if (err) {
-        // Manejar el error...
         return res.status(500).render('error', { error: 'Error during login' });
       }
   
       if (!user) {
-        // Renderizar la página de inicio de sesión con un mensaje de error...
+        // Renderizar la página de inicio de sesión con un mensaje de error.
         return res.render('login', { error: info.message });
       }
       
@@ -101,16 +100,12 @@ class AuthController {
       user.last_connection = currentDate;
   
       try {
-        // Guardar los cambios en la base de datos
         await user.save();
   
-        // Establecer la sesión del usuario
         req.logIn(user, () => {
-          // Redirigir después de establecer la sesión
           return res.redirect('perfil');
         });
       } catch (saveErr) {
-        // Manejar el error al guardar la fecha de última conexión...
         return res.status(500).render('error', { error: 'Error updating last_connection' });
       }
     })(req, res, next);
@@ -145,7 +140,6 @@ class AuthController {
     try {
       // Aquí accedemos a la información del usuario autenticado a través de req.user
       const user = req.user;
-      console.log("user en getPerfilPage", user)
   
       if (!user) {
         // Si el usuario no está autenticado, redirige a la página de inicio de sesión
@@ -154,7 +148,6 @@ class AuthController {
       
       // Renderiza la página de perfil y pasa los datos del usuario
       const userId = user._id.toString();
-      console.log("userIden getPerfilPage", userId)
       return res.render('perfil', { 
         email: user.email,
         firstName: user.firstName,
@@ -172,9 +165,6 @@ class AuthController {
     }
   }
   
-  
-    
-
   async getAdminPage(req, res) {
     try {
       return res.send('Datos que solo puede ver si es administrador y si es usuario');
@@ -191,10 +181,8 @@ class AuthController {
 
   async renderRecovery(req, res) {
     try {
-      console.log("ingreso al 1er paso")
       return res.render('resetPage');
     } catch (error) {
-      console.error('Error en el restablecimiento de contraseña:', error);
       return res.status(500).json({ error: 'Ha ocurrido un error en el restablecimiento de contraseña.' });
     }
   }
@@ -203,12 +191,10 @@ class AuthController {
 
 async recoverPassword(req, res) {
   try {
-    console.log("ingreso al 2do paso")
     const { email } = req.body;
     const { JWT_SECRET } = process.env;
     const { password, password2 } = req.body
 
-    console.log("user del req body", email)
     if (password !== password2) {
       res.status(404).json({ message: "la contraseña no coincide" })
     }
@@ -243,32 +229,25 @@ async renderResetPasswordPage (req, res){
   const { token } = req.params;
 
   try {
-    console.log("4 to paso")
     const decodedToken = jwt.verify(token, JWT_SECRET);
     const user = await UserModel.findOne({ email: decodedToken.email });
 
     if (!user) {
-      // Aquí puedes manejar el caso si el usuario no existe
+      // el user no existe
       return res.render('resetPassword', { error: 'Usuario no encontrado' });
     }
-    console.log("4to paso render resetpassword")
     // Renderiza la página de restablecimiento de contraseña con el token
     res.render('resetPassword', { token });
   } catch (error) {
-    // Manejo de errores en caso de que el token no sea válido
     res.render('resetPassword', { error: 'Token inválido' });
   }
 };
 
 async resetPassword(req, res) {
   try {
-    console.log("5to paso reset-password luego de cargar la contraseña nueva")
     const { token, newPassword } = req.body;
     const { JWT_SECRET } = process.env;
 
-    console.log("5to token", token);
-    console.log("5to newpass", newPassword);
-    console.log("5to JWT secret", JWT_SECRET)
     // Decodificar el token
     const decodedToken = jwt.verify(token, JWT_SECRET);
     if (decodedToken){
@@ -277,10 +256,8 @@ async resetPassword(req, res) {
     // Buscar al usuario por correo electrónico
     const user = await UserModel.findOne({ email: decodedToken.email });
 
-    console.log("5to paso user", user)
-
     if (!user) {
-      // Manejo si el usuario no existe
+      // si el usuer no existe
       return res.status(400).json({ message: 'Usuario no encontrado.' });
     }
 
@@ -288,11 +265,8 @@ async resetPassword(req, res) {
     user.password = createHash(newPassword);
     await user.save();
 
-    console.log("5to paso user", user)
-
     // Responder con un mensaje de éxito
     return res.render('passwordResetSuccess')
-    // return res.status(200).json({ message: 'Contraseña actualizada exitosamente.' });
   } catch (error) {
     console.error('Error en el restablecimiento de contraseña:', error);
     return res.status(500).json({ error: 'Ha ocurrido un error en el restablecimiento de contraseña.' });

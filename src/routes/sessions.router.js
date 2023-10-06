@@ -11,10 +11,6 @@ sessionsRouter.get('/githubcallback', passport.authenticate('github', { failureR
   res.redirect('/');
 });
 sessionsRouter.get('/current', sessionsController.currentSession)
-// sessionsRouter.get('/current', (req, res) => {
-//   return res.status(200).json({ user: req.session.user })
-// });
-
 
 
 module.exports = sessionsRouter;

@@ -1,5 +1,3 @@
-// const UserModel = require('../DAO/mongo/models/users.model');
-// const { usersDao } = require('../DAO/modelFactory');
 const usersDao = require("../DAO/mongo/classes/users.dao.js");
 
 const { createHash, isValidPassword } = require('../utils/utils.js');
