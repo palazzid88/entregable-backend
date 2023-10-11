@@ -25,16 +25,26 @@ class ProductController {
 
   async getProductById(req, res) {
     try {
-      const { id } = req.params;
-      // const objetId = (id)
-      const result = await Products.getProductById(id);
-      const product = result.toObject();
+      console.log("entró getProdById prod.controller")
+      const { pid } = req.params
+      console.log("id", pid)
+      // const prodId = id.toObject()
+      // console.log("prodId", prodId)
+      const result = await Products.getProductById(pid);
+      console.log("result", result)
+      
+
       if (!result) {
+        console.log("if !result")
         return res.render('error', { error: 'Producto no encontrado' });
       } else {
+        console.log("result si!")
+        const product = result.toObject();
+        console.log("product = result.toObject()", product)
         return res.render('product-detail', { product });
       }
     } catch (e) {
+      console.log("catch")
       console.log(e);
       return res.status(500).json({
         status: 'error',
@@ -42,7 +52,8 @@ class ProductController {
         data: {},
       });
     }
-  }
+}
+
 
   async viewForm(req, res) {
     try {

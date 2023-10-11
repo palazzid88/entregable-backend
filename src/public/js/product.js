@@ -1,11 +1,13 @@
 
 function addProductToCart(productId) {
+    console.log("products", productId)
     // Obtén el cartId usando la función Fetch que obtuviste antes
     fetch('/api/carts/get-cart-id') // Cambia la ruta según donde hayas definido el getCartById
         .then(response => response.json())
         .then(data => {
             const cartId = data.cartId;
             console.log("cartId en product.js", cartId)
+            console.log("prodId", productId)
             // Ahora tienes el cartId y el productId
             // Realiza la llamada Fetch para añadir el producto al carrito
             fetch(`/api/carts/${cartId}/products/${productId}`, {

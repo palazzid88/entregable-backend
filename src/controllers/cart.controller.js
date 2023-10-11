@@ -143,18 +143,26 @@ class CartController {
         
     async addToCart (req, res) {
         try {
+          console.log("ingreso en add To cart")
             const cid = req.params.cid.toString();
-            const pid = req.params.pid.toString();
+            const pid = req.params.pid;
             const qty = parseInt(req.body.quantity) || 1;
+            console.log(cid, pid, qty);
+            console.log("pid", pid)
 
             const userEmail = req.user.email
+            console.log(userEmail)
 
-            const productAdd = await productsController.getProductById(pid);
+            const productAdd = await ProductModel.findOne({ _id: pid })
+          console.log("productAdd", productAdd)
+          console.log("mail owner", productAdd.owner)
 
             if (userEmail !== productAdd.owner) {
+              console.log("owner distinto")
               const result = await Carts.addToCart(cid, pid, qty);
               return res.status(201).json({ message: "producto añadido al carrito", result });
           } else {
+            console.log("owner igual")
               res.status(201).json({ message: "no puede añadir al carrito un producto que haya sido creado por usted! :(" });
           }         
         } catch (e) {
