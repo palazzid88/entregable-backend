@@ -15,6 +15,7 @@ class UserService {
   }
 
   async deleteInactiveUsers() {
+    console.log("ingreso a deleteInactiveUsers en el service")
     try {
       const currentDate = new Date();
 

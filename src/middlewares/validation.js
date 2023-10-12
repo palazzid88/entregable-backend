@@ -8,6 +8,8 @@ const cartService = new CartService()
 const productValid = async (req, res, next) => {
   console.log("ingreso a product valid")
   const product = req.body;
+  console.log("product", product)
+  console.log("1", product.title, "2", product.description,"3", product.price,"4",  product.code,"5", product.category,  product.stock)
   
   // Buscar producto por ID:
   if (await ProductModel.findById(product._id)) {

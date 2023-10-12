@@ -139,6 +139,7 @@ class AuthController {
     try {
       // Aquí accedemos a la información del usuario autenticado a través de req.user
       const user = req.user;
+      console.log("user", user)
   
       if (!user) {
         // Si el usuario no está autenticado, redirige a la página de inicio de sesión
@@ -151,7 +152,8 @@ class AuthController {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        isAdmin: user.role,
+        role: user.role,
+        isAdmin: user.isAdmin,
         userId,
        });
     } catch (e) {

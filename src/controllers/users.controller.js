@@ -21,9 +21,11 @@ class UserController {
   }
 
   async deleteOldUsers (req, res) {
+    console.log("users.controller deleteOldUsers")
     try {
       // Llama al servicio para eliminar usuarios inactivos y obtener la lista de usuarios eliminados
       const deletedUsers = await userService.deleteInactiveUsers();
+      console.log("deletedUsers", deletedUsers)
 
       // Envía una respuesta con la lista de usuarios eliminados
       return res.status(200).json({ message: 'Usuarios inactivos eliminados con éxito', deletedUsers });
@@ -34,6 +36,7 @@ class UserController {
   }
 
   async togglePremiumUser(req, res) {
+    console.log("toogle")
     try {
       const { uid } = req.params;
       const updatedUser = await userService.togglePremiumUser(uid);
@@ -41,8 +44,8 @@ class UserController {
       if (!updatedUser) {
         return res.status(404).json({ error: 'Usuario no encontrado' });
       }
-
-      return res.status(200).json({ message: 'Role actualizado con éxito' });
+      res.render('changeRole', { msg:'Role actualizado con éxito' })
+      // return res.status(200).json({ message: 'Role actualizado con éxito' });
     } catch (error) {
       return res.status(500).json({ error: 'Error al cambiar el rol del usuario' });
     }

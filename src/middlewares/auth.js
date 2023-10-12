@@ -15,33 +15,35 @@ function isAdmin(req, res, next) {
         return next();
     }
     console.log("no es isAdmin")
-    return res.status(403).render('error', { error: 'error de autorización' })
+    // return res.status(403).render('error', { error: 'error de autorización' })
+    return res.status(403).render("invalidCredentials", { msg: "Ops! No tiene privilegios para eliminar usuarios 😢" });
+
 }
 
 function isPremium(req, res, next) {
-    const premium = req.user?.premium;
-    console.log("premium en middleware", premium);
-    if (premium) {
+    const userRole = req.user?.role;
+    console.log("premium en middleware", userRole);
+    if (userRole === "premium") {
         console.log("premium is true");
         return next();
     } else {
     return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });
+    
 }
 }
 
 function isProductCreator(req, res, next) {
-    console.log("ingreso a product creator")
-
-    const isAdmin = req.user?.isAdmin;
-    const isPremium = req.user?.premium;
-
-    if (isAdmin || isPremium) {
-        console.log("creator valid")
-        return next()
-    } else {
-        return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });
+        const userRole = req.user?.role;
+        const isAdmin = req.user?.isAdmin;
+    
+        if (userRole === "premium" || isAdmin) {
+            console.log("Usuario premium o administrador.");
+            return next();
+        } else {
+            console.log("No es usuario premium ni administrador.");
+            return res.status(403).render("invalidCredentials", { msg: "Ops! No tiene privilegios para crear productos 😢" });
+        }
     }
-}
 
 
 module.exports = {

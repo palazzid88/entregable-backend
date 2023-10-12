@@ -1,29 +1,29 @@
-<!-- perfil.hbs - Vista de perfil de usuario -->
-
-<h1>Perfil de usuario</h1>
-<h2>Bienvenido!</h2>
-user: {{firstName}}
-<br>
-userId: {{userId}}
-<br>
-email: {{email}}
-<br />
-isAdmin: {{isAdmin}}
-<h4>Esta es la página de Login del ecommers de Coder House</h4>
-<br />
-<a href='/auth/administracion'>Ver datos super secretos<a>
-<br />
-<a href='/api/products'>ir a los productos</a>
-<br />
-{{#if isAdmin}}
-{{/if}}
-<a href='/api/products/render/form'>añadir productos a la base de datos</a>
-<a href='/api/products/render/form?email={{email}}'>añadir productos a la base de datos nuevo</a>
-
-
-<br />
-<a href='/auth/logout'>Salir!</a>
-
-<!-- Botón "Cargar Documento" -->
-<br />
-<a href='/api/users/{{userId}}/uploadDocument' class='btn btn-primary'>Cargar Documento</a>
+<div class="container mt-20 mb-3">
+  <div class="row border rounded">
+    <div class="col d-flex flex-row align-items-center justify-content-evenly mt-5">
+        <div class="m-2">
+            <img width="300" src="https://i.imgur.com/JR6hdEs.png" href="/api/products" alt="Logo Val di Sole">
+            <h1>Perfil de usuario</h1>
+            <h2>Bienvenido!</h2>
+            <p class="mb-0"><strong>Usuario:</strong> {{firstName}}</p>
+            <p class="mb-0"><strong>userId:</strong> {{userId}}</p>
+            <p class="mb-0"><strong>Email:</strong> {{email}}</p>
+            <p class="mb-0"><strong>Role:</strong> {{role}}</p>
+            <p class="mb-0"><strong>Admin:</strong> {{isAdmin}}</p>
+            <h4>Entrega Final e-commerce</h4>
+            <h6>Comisión 51380 Backend CoderHouse</h6>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-start">
+            <a href='/api/products' class="btn btn-primary mt-2 mb-3">Ir a los productos</a>        
+            <a href='/api/users/{{userId}}/uploadDocument' class="btn btn-primary mt-2 mb-3">Cargar Documento</a>
+            {{#if isAdmin}}
+                <a href='/api/users' class="btn btn-primary mt-2 mb-3">Eliminar Usuarios inactivos</a>
+            {{/if}}
+            <a href='/api/products/render/form?email={{email}}' class="btn btn-primary mt-2 mb-3">Añadir productos a la base de datos</a>
+            <a href='/auth/administracion' class="btn btn-primary mt-2 mb-3">Ver datos super secretos</a>
+            <a href='/api/users/premium/{{userId}}' class="btn btn-primary mt-2 mb-3">Cambiar Role</a>
+            <a href='/auth/logout' class="btn btn-danger">Cerrar Sesión</a>
+        </div>
+    </div>
+  </div>
+</div>

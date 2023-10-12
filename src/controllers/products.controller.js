@@ -149,8 +149,9 @@ class ProductController {
                 data: { productDeleted },
             });
         } else {
-            return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });
-        }
+            // return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });
+            res.status(200).render("invalidCredentials", { msg: "no tiene privilegios para crear productos"});
+          }
     } catch (e) {
         console.log(e);
         return res.status(500).json({
