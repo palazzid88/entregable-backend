@@ -56,6 +56,8 @@ class ProductController {
 
 
   async viewForm(req, res) {
+    const email = req.params.email;
+    console.log("mail en form", email)
     try {
       // const { page, limit, sort, query } = req.query;
       const result = await Products.getAll();
@@ -72,6 +74,7 @@ class ProductController {
   }
 
   async createProduct(req, res) {
+    console.log("ingreso al createProduct de product.controller")
     try {
       const {
         title,
@@ -85,6 +88,7 @@ class ProductController {
       } = req.body;
 
       const owner = req.user.email;
+      console.log("owner", owner)
   
       const result = await Products.addProduct(
         title,
@@ -99,6 +103,7 @@ class ProductController {
       );
   
       const productCreated = result.productCreated;
+      console.log("productCreated en controller", productCreated)
   
       return res.status(201).json({
         status: 'success',

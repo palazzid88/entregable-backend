@@ -15,9 +15,9 @@ function configureSockets(httpServer) {
   // Anidir productos a persistencia => recibe desde index.js
     socket.on("newProduct", async (prod) => {
       console.log("entro en el on de  configure")
-      const newProduct = await productService.addProduct(prod)
-      console.log(newProduct)
       console.log("Nuevo producto recibido:", prod);
+      const newProduct = await productService.addProduct(prod)
+      console.log("desde el service", newProduct)
       const updatedProducts = await productService.getAll();
   
   // Retorna todos los productos actualizados al DOM 

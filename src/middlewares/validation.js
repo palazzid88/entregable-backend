@@ -6,6 +6,7 @@ const cartService = new CartService()
 
 
 const productValid = async (req, res, next) => {
+  console.log("ingreso a product valid")
   const product = req.body;
   
   // Buscar producto por ID:

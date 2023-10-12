@@ -114,7 +114,6 @@ class AuthController {
 
   async failLogin(req, res) {
     return res.render('fail-login')
-    return res.json({ error: 'invalid credentials' });
   }
 
   async logout(req, res) {

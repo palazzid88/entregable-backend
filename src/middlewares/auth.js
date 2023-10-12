@@ -30,11 +30,13 @@ function isPremium(req, res, next) {
 }
 
 function isProductCreator(req, res, next) {
+    console.log("ingreso a product creator")
 
     const isAdmin = req.user?.isAdmin;
     const isPremium = req.user?.premium;
 
     if (isAdmin || isPremium) {
+        console.log("creator valid")
         return next()
     } else {
         return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });

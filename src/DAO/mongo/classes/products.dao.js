@@ -12,8 +12,8 @@ class ProductDao {
     }
   }
 
-  async createOne(title, description, price, thumbnail, code, stock, status, category){
-    const productData = { title, description, price, thumbnail, code, stock, status, category }
+  async createOne(title, description, price, thumbnail, code, stock, status, category, owner){
+    const productData = { title, description, price, thumbnail, code, stock, status, category, owner }
     console.log("ingreso a createOne en products.dao")
     const product = new ProductModel(productData);
     await product.save();

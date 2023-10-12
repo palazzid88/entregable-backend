@@ -3,7 +3,7 @@ const { Router } = require('express');
 const cartRouter = express.Router();
 const CartController = require('../controllers/cart.controller');
 const cartController = require('../controllers/cart.controller');
-const { isUser } = require('../middlewares/auth');
+const { isUser, isProductCreator } = require('../middlewares/auth');
 
 
 // Crea un nuevo carrito

@@ -62,7 +62,8 @@ class ProductService {
         prod.code,
         prod.stock,
         prod.status,
-        prod.category
+        prod.category,
+        prod.owner
       );
   
       return productCreated;

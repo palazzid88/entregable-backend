@@ -52,6 +52,10 @@ const sendProduct = document.getElementById("submit-btn");
 sendProduct.addEventListener("click", (e) => {
   e.preventDefault();
 
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const email = urlParams.get('email');
+
   const prod = {
     title: document.getElementById("product-name").value,
     description: document.getElementById("product-description").value,
@@ -60,22 +64,27 @@ sendProduct.addEventListener("click", (e) => {
     code: document.getElementById("product-code").value,
     stock: document.getElementById("product-stock").value,
     status: document.getElementById("product-status").value,
-    category: document.getElementById("product-category").value
+    category: document.getElementById("product-category").value,
+    owner: email,
   };
-console.log("prod", prod)
-if (prod.title != "" && prod.description != "" && prod.price != "" && prod.category != "" && prod.code != "" && prod.status != "" && prod.stock != "" && prod.thumbnail !="" ) {
-  console.log("se manda al socket en emit")
-  socket.emit("newProduct", prod);  
-} else {
-  document.getElementById('err-form').innerHTML = `<p class="p-error" style="color: red">**Debe completar todos los campos</p>`
-  console.log("error")
-}
+
+  console.log("prod en index", prod);
+  console.log("owner", prod.owner);
+
+  if (prod.title !== "" && prod.description !== "" && prod.price !== "" && prod.category !== "" && prod.code !== "" && prod.status !== "" && prod.stock !== "" && prod.thumbnail !== "") {
+    console.log("Se manda al socket en emit");
+    socket.emit("newProduct", prod);
+  } else {
+    document.getElementById('err-form').innerHTML = `<p class="p-error" style="color: red">**Debe completar todos los campos</p>`;
+    console.log("Error");
+  }
 });
 
 socket.on("productListUpdated", (data) => {
   console.log(JSON.stringify(data));
   updateProductList(data);
 });
+
 
 
 

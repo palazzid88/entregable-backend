@@ -16,15 +16,19 @@ function addProductToCart(productId) {
             })
             .then(response => response.json())
             .then(data => {
-                console.log(`producto ${productId} añadido con exito al carrito ${cartId}`);
-                Swal.fire("¡Producto añadido al carrito!", "El producto ha sido añadido al carrito con éxito.", "success");
-
+                if (data.message === "producto añadido al carrito") {
+                    console.log(`Producto ${productId} añadido con éxito al carrito ${cartId}`);
+                    Swal.fire("¡Producto añadido al carrito!", "El producto ha sido añadido al carrito con éxito.", "success");
+                } else {
+                    console.error('No se pudo agregar el producto al carrito:', data.message);
+                    Swal.fire("Error", "No puede añadir sus propios productos al carrito.", "error");
+                }
             })
             .catch(error => {
                 console.error('Error al añadir producto al carrito:', error);
+                Swal.fire("Error", "Ocurrió un error al intentar agregar el producto al carrito.", "error");
             });
+            
         })
-        .catch(error => {
-            console.error('Error al obtener el cartId:', error);
-        });
-}
+    }
+        
