@@ -167,5 +167,5 @@ app.get('/get-session', (req, res) => {
 
 
 httpServer.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`)
+  console.log(`Example app listening at ${baseUrl}:${port}`);
 })
