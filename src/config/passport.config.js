@@ -12,7 +12,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 require('dotenv').config();
 
-function iniPassport() { 
+function iniPassport() {
   passport.use(
     'github',
     new GitHubStrategy(
@@ -22,7 +22,9 @@ function iniPassport() {
         callbackURL: process.env.GITHUB_CALLBACK_URL,
       },
       async (accessToken, _, profile, done) => {
+        console.log(process.env.GITHUB_CLIENT_ID)
         try {
+          console.log("async")
           const res = await fetch('https://api.github.com/user/emails', {
             headers: {
               Accept: 'application/vnd.github+json',
@@ -30,6 +32,7 @@ function iniPassport() {
               'X-Github-Api-Version': '2022-11-28',
             },
           });
+          console.log("despues")
           const emails = await res.json();
           const emailDetail = emails.find((email) => email.verified == true);
 

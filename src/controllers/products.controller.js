@@ -1,11 +1,11 @@
 const { default: mongoose } = require('mongoose');
 const ProductService = require('../services/product.service');
+const ProductDao = require('../DAO/mongo/classes/products.dao');
 
 const Products = new ProductService();
 
 class ProductController {
   async getAll(req, res) {
-    console.log("entró al controller en getAll")
     try {
       const { page, limit, sort, query } = req.query;
       const result = await Products.getAll(page, limit, sort, query);
@@ -25,17 +25,26 @@ class ProductController {
 
   async getProductById(req, res) {
     try {
-      const { id } = req.params;
-      // const objetId = (id)
-      const result = await Products.getProductById(id);
-      const product = result.toObject(); // Convierte a objeto literal
-      // const product = result.product;
+      console.log("entró getProdById prod.controller")
+      const { pid } = req.params
+      console.log("id", pid)
+      // const prodId = id.toObject()
+      // console.log("prodId", prodId)
+      const result = await Products.getProductById(pid);
+      console.log("result", result)
+      
+
       if (!result) {
+        console.log("if !result")
         return res.render('error', { error: 'Producto no encontrado' });
       } else {
+        console.log("result si!")
+        const product = result.toObject();
+        console.log("product = result.toObject()", product)
         return res.render('product-detail', { product });
       }
     } catch (e) {
+      console.log("catch")
       console.log(e);
       return res.status(500).json({
         status: 'error',
@@ -43,9 +52,29 @@ class ProductController {
         data: {},
       });
     }
+}
+
+
+  async viewForm(req, res) {
+    const email = req.params.email;
+    console.log("mail en form", email)
+    try {
+      // const { page, limit, sort, query } = req.query;
+      const result = await Products.getAll();
+      const products = result.products;
+      console.log(products)
+      // const pagination = result.pagination;
+
+      res.status(200).render("add-products", { products});
+      // res.status(200).json({ msg: "entró al viewform" })
+      
+    } catch (error) {
+      res.status(400).json({ msj: "error" })
+    }
   }
 
   async createProduct(req, res) {
+    console.log("ingreso al createProduct de product.controller")
     try {
       const {
         title,
@@ -59,6 +88,7 @@ class ProductController {
       } = req.body;
 
       const owner = req.user.email;
+      console.log("owner", owner)
   
       const result = await Products.addProduct(
         title,
@@ -73,6 +103,7 @@ class ProductController {
       );
   
       const productCreated = result.productCreated;
+      console.log("productCreated en controller", productCreated)
   
       return res.status(201).json({
         status: 'success',
@@ -100,14 +131,15 @@ class ProductController {
 
         // Verificar si el usuario actual es admin
         const isAdmin = req.user?.isAdmin;
-        console.log("isAdmin en prod.cont", isAdmin);
+
+        // Verificar si el usuario actual es premium
+        const isPremium = req.user?.premium;
 
         // Verificar si el usuario actual es el propietario
         const userOwner = req.user?.email;
-        console.log("userOwner en prod.cont", userOwner);
 
-        // Si el usuario es admin o el propietario, puede eliminar el producto
-        if (isAdmin || userOwner === product.owner) {
+        // Si el usuario es admin, premium o el propietario, puede eliminar el producto
+        if (isAdmin || (isPremium && userOwner === product.owner)) {
             const result = await Products.deleteOne(id);
             const productDeleted = result.productDeleted;
 
@@ -117,8 +149,9 @@ class ProductController {
                 data: { productDeleted },
             });
         } else {
-            return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });
-        }
+            // return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });
+            res.status(200).render("invalidCredentials", { msg: "no tiene privilegios para crear productos"});
+          }
     } catch (e) {
         console.log(e);
         return res.status(500).json({
@@ -128,6 +161,7 @@ class ProductController {
         });
     }
 }
+
 
 
 
@@ -170,7 +204,6 @@ class ProductController {
 
         if (userRole === 'admin') {
             // Si el usuario es admin, puede actualizar cualquier producto
-            // Aquí se realiza la actualización del producto sin restricciones
             const result = await Products.updateProduct(
                 productId,
                 title,

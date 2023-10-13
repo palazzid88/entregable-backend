@@ -12,9 +12,9 @@ class ProductDao {
     }
   }
 
-  async createOne(title, description, price, thumbnail, code, stock, status, category){
-    const productData = { title, description, price, thumbnail, code, stock, status, category }
-    console.log("ingreso a createOne en products.dao")
+  async createOne(title, description, price, thumbnail, code, stock, status, category, owner){
+    const productData = { title, description, price, thumbnail, code, stock, status, category, owner }
+    // console.log("ingreso a createOne en products.dao")
     const product = new ProductModel(productData);
     await product.save();
     return product;
@@ -40,7 +40,9 @@ class ProductDao {
   }
 
   async deleteOne(id) {
+    console.log("delete one dao")
     const productDeleted = await ProductModel.findOneAndRemove({ _id: id });
+    console.log("deleted", productDeleted)
     return productDeleted;
   }
 
@@ -48,6 +50,12 @@ class ProductDao {
     const id = productId.toString()
     const product = await ProductModel.findById(id);
     return product;
+  }
+
+  async find(owner) {
+    console.log("owner en dao", owner)
+    const products = await ProductModel.find(owner);
+    return products;
   }
 }
 

@@ -13,8 +13,11 @@ deleteInactiveUsersButton.addEventListener('click', async () => {
       // Si la eliminación fue exitosa recarga la página y actualizar la lista de usuarios
       location.reload();
     } else {
-      console.error('Error al eliminar usuarios inactivos');
-    }
+      Swal.fire({
+        icon: 'error',
+        title: 'Ops!',
+        text: 'No tiene privilegios para eliminar usuarios 😢',
+    });    }
   } catch (error) {
     console.error('Error al enviar la solicitud de eliminación', error);
   }

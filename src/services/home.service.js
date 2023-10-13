@@ -5,7 +5,6 @@ class HomeService {
     async getProducts() {
         try {
             const products = await productManager.getProducts();
-            console.log(products)
             return products
         }
         catch (e) {

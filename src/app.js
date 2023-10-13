@@ -11,7 +11,6 @@ const rtpRouter = require('./routes/rpt.socket.router.js')
 const chatRouter = require('./routes/chat.socket.router.js');
 const viewsRouter = require('./routes/views.router.js');
 const authRouter = require('./routes/auth.router.js')
-// const rtpHtmlRouter = require('./routes/rtpHtml.router.js')
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const FileStoreSession = require('session-file-store')(session);
@@ -50,10 +49,14 @@ const port = process.env.PORT || 8080;
 
 const httpServer = http.createServer(app);
 
+// llamado a sockets en configure.sockets.js
 configureSockets(httpServer)
 
+// Mongo en utils/utils.js
 connectMongo()
 
+
+// configuración express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
@@ -61,13 +64,16 @@ app.use(express.urlencoded({ extended: true}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// configuración handlebars
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
 
+// configuración static
 app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "public")));
 
+// configuración session
 app.use(
   session({
     store: MongoStore.create({ mongoUrl: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@coder-house.ekzznmk.mongodb.net/`, ttl: 7200 }),
@@ -79,6 +85,7 @@ app.use(
   })
 );
 
+// configuración passport
 iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
@@ -109,7 +116,7 @@ const options = {
   swaggerDefinition,
   apis: [path.join(__dirname, 'utils', 'swagger-config.yaml')], // Utiliza __dirname para obtener la ruta del archivo
 
-  // apis: ['./src/utils/swagger-config.yaml'], // Ajusta la ruta según donde tengas definidas tus rutas
+  // apis: ['./src/utils/swagger-config.yaml'],
 };
 
 // Crea el objeto Swagger JSDoc
@@ -134,7 +141,7 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/homeHandlebars', homeRouter);
 
 // -----Peticiones websocket----------
-app.use('/realTimeProducts', rtpRouter);
+// app.use('/realTimeProducts', rtpRouter);
 app.use('/chat', chatRouter);
 
 // --------------Views-----------------
