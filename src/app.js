@@ -1,7 +1,8 @@
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
-const configureEnvironment = require('./config/config-env'); // Ajusta la ruta según donde esté el archivo
+// const configureEnvironment = require('./config/config-env'); 
+// Ajusta la ruta según donde esté el archivo
 
 
 const productRouter = require('./routes/product.router.js');
@@ -37,7 +38,7 @@ const swaggerUiExpress = require('swagger-ui-express');
 
 
 // llamado a la configuración de variables de entorno
-configureEnvironment()
+// configureEnvironment()
 
 
 const app = express();

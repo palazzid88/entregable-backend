@@ -4,12 +4,9 @@
   "description": "Se crea constructor de la clase ProductManager\r dentro del mismo se llama al método addProduct() que verifica condiciones para añadir el producto al array this.product[].",
   "main": "src/app.js",
   "scripts": {
-    "dev:qa": "cross-env NODE_ENV=qa nodemon ./src/app.js",
-    "start:qa": "cross-env NODE_ENV=qa node -r dotenv/config ./src/app.js",
-    "dev:prod": "cross-env NODE_ENV=production nodemon ./src/app.js",
+    "dev": "nodemon ./src/app.js",
     "start:prod": "node ./src/app.js",
     "qa": "mocha --timeout 20000 ./src/test/supertest2.test.js",
-    "dev": "nodemon ./src/app.js",
     "start-swagger": "nodemon -e yaml,js ./src/app.js"
   },
   "repository": {
