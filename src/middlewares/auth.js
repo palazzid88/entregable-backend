@@ -7,16 +7,13 @@ function isUser (req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-    const isAdmin = req.user?.isAdmin;
-    console.log("isAdmin", isAdmin)
-    console.log("isAdmin", typeof isAdmin)
-    if (isAdmin) {
-        console.log("ingresó en isAdmin")
+    const isAdmin = req.user?.role;
+    if (isAdmin === "admin") {
         return next();
     }
     console.log("no es isAdmin")
     // return res.status(403).render('error', { error: 'error de autorización' })
-    return res.status(403).render("invalidCredentials", { msg: "Ops! No tiene privilegios para eliminar usuarios 😢" });
+    return res.status(403).render("invalidCredentials", { msg: "Ops! No tiene privilegios -debe ser admin- 😢" });
 
 }
 
@@ -34,9 +31,8 @@ function isPremium(req, res, next) {
 
 function isProductCreator(req, res, next) {
         const userRole = req.user?.role;
-        const isAdmin = req.user?.isAdmin;
     
-        if (userRole === "premium" || isAdmin) {
+        if (userRole === "premium" || userRole === "admin") {
             console.log("Usuario premium o administrador.");
             return next();
         } else {
@@ -45,10 +41,18 @@ function isProductCreator(req, res, next) {
         }
     }
 
+    function isUserOrPremium(req, res, next) {
+        if (req.user.role === 'user' || req.user.role === 'premium') {
+            return next();
+        } else {
+            return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });
+        }
+    }
 
 module.exports = {
     isUser,
     isAdmin,
     isPremium,
-    isProductCreator
+    isProductCreator,
+    isUserOrPremium
   };

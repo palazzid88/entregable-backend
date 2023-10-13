@@ -204,7 +204,6 @@ class ProductController {
 
         if (userRole === 'admin') {
             // Si el usuario es admin, puede actualizar cualquier producto
-            // Aquí se realiza la actualización del producto sin restricciones
             const result = await Products.updateProduct(
                 productId,
                 title,

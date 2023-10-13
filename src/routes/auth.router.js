@@ -20,7 +20,7 @@ authRouter.post('/login', AuthService.authenticateLogin, AuthController.postLogi
 authRouter.get('/faillogin', AuthController.failLogin);
 authRouter.get('/logout', AuthController.logout);
 authRouter.get('/perfil', AuthController.getPerfilPage);
-authRouter.get('/administracion',isUser, isAdmin, AuthController.getAdminPage);
+authRouter.get('/administracion', isAdmin, AuthController.getAdminPage);
 
 //proviene del vinculo del email para el restablecimiento -- renderiza la pg de nueva contraseña
 authRouter.get('/reset-password/:token', AuthController.renderResetPasswordPage);

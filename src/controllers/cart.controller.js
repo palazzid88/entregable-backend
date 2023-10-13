@@ -8,6 +8,8 @@ const ProductService = require("../services/product.service");
 const TicketService = require("../services/tickets.service");
 const UserService = require("../services/users.service");
 const productsController = require("./products.controller");
+const mailer = require('../services/mailing.service'); // Importa tu servicio de envío de correo
+
 
 const userService = new UserService();
 const productModel = new ProductModel()
@@ -305,9 +307,12 @@ class CartController {
           // Crear un ticket de compra utilizando el servicio de tickets
           const ticketResult = await ticketService.purchase(purchaser.email, productsPurchased);
           const ticketRender = ticketResult.result.payload.toObject()
-          
+          const userEmail = purchaser.email
           
           if (ticketResult.code === 200) {
+            console.log("cart.controller previo a enviar el correo y render")
+            await mailer.sendPurchaseCompleted(userEmail, productsPurchased, productsNotPurchased);
+
             return res.render('ticket', { ticket: ticketRender});
             // return res.status(200).json({ message: 'Compra exitosa', ticket: ticketResult.result.payload });
           } else {

@@ -43,7 +43,26 @@ async function sendAccountDeletionEmail(mail) {
   }
 }
 
+async function sendPurchaseCompleted(userEmail, productsPurchased) {
+  console.log("entro en mail confirmación de compra")
+  console.log("userMail", userEmail)
+  try {
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: userEmail,
+      subject: 'Confirmación de Compra',
+      html: `<p>Queremos confirmarte la compra de</p>`,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Correo de confirmación de compra:', info.response);
+  } catch (error) {
+    console.error('Error al enviar el correo de confirmación de compra:', error);
+  }
+}
+
 module.exports = {
   sendPasswordRecoveryEmail,
   sendAccountDeletionEmail,
+  sendPurchaseCompleted
 };

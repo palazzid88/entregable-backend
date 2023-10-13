@@ -15,6 +15,6 @@ productRouter.post('/',productValid, isProductCreator, ProductController.createP
 
 productRouter.delete('/:id', isProductCreator, ProductController.deleteProduct);
 
-productRouter.put('/:id', productValid, isAdmin, ProductController.updateProduct);
+productRouter.put('/:id', productValid, isProductCreator, ProductController.updateProduct);
 
 module.exports = productRouter;

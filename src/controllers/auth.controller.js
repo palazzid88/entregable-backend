@@ -145,15 +145,46 @@ class AuthController {
         // Si el usuario no está autenticado, redirige a la página de inicio de sesión
         return res.redirect('/auth/login');
       }
+      // creo una variable condicional para verificar los privilegios del user y pasarlos al render para utilizarlos en un  {{ #if }}
+      let creator;
+      // habilita las opciones de admin el render perfil
+      let admin;
+      let premium;
+      // habilita el enlace para el cambio de role en el render perfil, (no debe ser admin)
+      let notAdmin;
+
+      // bolean para premium
+      if (user.role === "premium") {
+        premium = true
+      } else {
+        premium = false
+      }
+
+      // bolean para admin
+      if (user.role === "admin") {
+        admin = true
+        notAdmin = !admin
+      } else {
+        admin = false
+        notAdmin = !admin
+      }
       
       // Renderiza la página de perfil y pasa los datos del usuario
+      if(user.role === "premium" || user.role === "admin"){
+        creator = true
+      }else{
+        creator = false
+      }
       const userId = user._id.toString();
       return res.render('perfil', { 
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
         role: user.role,
-        isAdmin: user.isAdmin,
+        creator,
+        premium,
+        admin,
+        notAdmin,
         userId,
        });
     } catch (e) {
