@@ -46,6 +46,7 @@ const app = express();
 // --------Llamado a multer---------------
 const multerConfig = require("./multer.config.js");
 
+const baseUrl = process.env.BASE_URL || 'http://localhost';
 const port = process.env.PORT || 8080;
 
 const httpServer = http.createServer(app);
