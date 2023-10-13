@@ -1,13 +1,5 @@
-// const { query } = require("express");
-
-
-
-
-
-
-
-
 const socket = io();
+
 
 // ## APP CHAT ##
 //APP MENSAJERÍA DESDE EL FRONT
@@ -41,25 +33,21 @@ socket.on('chat-back-to-all', (msgs)=> {
   divMsg.innerHTML = messagesHTML;
 })
 
-// ------------Index Page-------------------
-// localhost:8080/api/products
-// Vista de los products con paginación
-
-
-
-
-
-
-
 
 
 // -----------------WEBSOCKETS------------------
 // localhost:8080/realTimeProducts
 // FORMULARIO CARGA DE PRODUCTOS DESDE EL FRONT 
 
+
+
 const sendProduct = document.getElementById("submit-btn");
 sendProduct.addEventListener("click", (e) => {
   e.preventDefault();
+
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const email = urlParams.get('email');
 
   const prod = {
     title: document.getElementById("product-name").value,
@@ -69,15 +57,21 @@ sendProduct.addEventListener("click", (e) => {
     code: document.getElementById("product-code").value,
     stock: document.getElementById("product-stock").value,
     status: document.getElementById("product-status").value,
-    category: document.getElementById("product-category").value
+    category: document.getElementById("product-category").value,
+    owner: email,
   };
-console.log("prod", prod)
-if (prod.category != "" && prod.code != "" && prod.description != "" && prod.price != "" && prod.status != "" && prod.stock != "" && prod.thumbnail) {
-  socket.emit("newProduct", prod);  
-} else {
-  document.getElementById('err-form').innerHTML = `<p class="p-error" style="color: red">**Debe completar todos los campos</p>`
-  console.log("error")
-}
+
+
+  console.log("prod en index", prod);
+  console.log("owner", prod.owner);
+
+  if (prod.title !== "" && prod.description !== "" && prod.price !== "" && prod.category !== "" && prod.code !== "" && prod.status !== "" && prod.stock !== "" && prod.thumbnail !== "") {
+    console.log("Se manda al socket en emit");
+    socket.emit("newProduct", prod);
+  } else {
+    document.getElementById('err-form').innerHTML = `<p class="p-error" style="color: red">**Debe completar todos los campos</p>`;
+    console.log("Error");
+  }
 });
 
 socket.on("productListUpdated", (data) => {
@@ -89,7 +83,9 @@ socket.on("productListUpdated", (data) => {
 
 
 
+
 function updateProductList(products) {
+  console.log("ingresó en updt list ")
   const productListElement = document.getElementById("product-list");
 
   // Crea una cadena de caracteres para almacenar el HTML generado
@@ -109,7 +105,7 @@ function updateProductList(products) {
               <p class="card-text">${product.description}</p>
               <p class="card-text">${product.price}</p>
               <p class="card-text">${product.category}</p>
-              <button type="submit" onclick="deleteProduct('${product.id}')">Eliminar</button>
+              <button class="btn-btn-primary" type="submit" onclick="deleteProduct('${product._id}')">Eliminar</button>
             </div>
           </div>
         </div>
@@ -124,7 +120,30 @@ function updateProductList(products) {
 
 
 function deleteProduct(productId) {
-  console.log(`Eliminar producto con ID: ${productId}`);
-  socket.emit("deleteProdId", productId)
-}
 
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const email = urlParams.get('email');
+
+  console.log("email", email)
+
+  const prod = {
+    title: document.getElementById("product-name").value,
+    description: document.getElementById("product-description").value,
+    price: document.getElementById("product-price").value,
+    thumbnail: document.getElementById("product-image").value,
+    code: document.getElementById("product-code").value,
+    stock: document.getElementById("product-stock").value,
+    status: document.getElementById("product-status").value,
+    category: document.getElementById("product-category").value,
+    owner: email,
+  };
+
+  const owner = prod.owner
+
+
+  console.log(`Eliminar producto con ID: ${productId}`);
+  console.log("owner en front", owner)
+  socket.emit("deleteProdId", productId, owner)
+
+}

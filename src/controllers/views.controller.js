@@ -6,8 +6,6 @@ class ViewsController {
         try {
             const { page, limit, sort, query } = req.query;
             const result = await ViewsServices.getAll(page, limit, sort, query);
-            // const products = result.products;
-            // const pagination = result.pagination;
             res.render("home", { products: result.products, pagination: result.pagination });
         } 
         catch (e) {

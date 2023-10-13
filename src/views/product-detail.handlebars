@@ -10,15 +10,16 @@
 <body>
   <h1>Detalles del Producto</h1>
   <div>
-    <div>
-      <img src="{{product.thumbnail}}" class="card-img-top" alt="...">
+    <div class="m-auto">
+      <img src="{{product.thumbnail}}" class="img-fluid m-auto" alt="imágen principal del producto">
     </div>
     <div>
       <h2>{{product.title}}</h2>
-      <p>{{product.description}}</p>
-      <p>Precio: ${{product.price}}</p>
-      <p>Categoría: {{product.category}}</p>
-      <p>ID: {{product._id}}</p>
+      <p class="mw-450">{{product.description}}</p>
+      <p> <strong>Precio: </strong> u$d {{product.price}}</p>
+      <p> <strong>Categoría: </strong> {{product.category}}</p>
+      {{!-- <p>ID: {{product._id}}</p> --}}
+      <p>Stock Disponible: {{product.stock}} </p>
       <button type="submit" class="btn btn-primary" onclick="addProductToCart('{{product._id}}')">Añadir al carrito</button>
     </div>
   </div>

@@ -3,7 +3,7 @@ const { Router } = require('express');
 const cartRouter = express.Router();
 const CartController = require('../controllers/cart.controller');
 const cartController = require('../controllers/cart.controller');
-const { isUser } = require('../middlewares/auth');
+const { isUser, isProductCreator, isPremium, isUserOrPremium } = require('../middlewares/auth');
 
 
 // Crea un nuevo carrito
@@ -32,22 +32,14 @@ cartRouter.delete("/:cid", CartController.clearCart );
 cartRouter.get("/:cid", CartController.getCartById );
 
 // modificar el contenido de los productos
-// cartRouter.put("/:cid", CartController.updateCart );
 cartRouter.put("/:cid/product/:pid", CartController.updateCart);
 
 // añadir un producto al carro
 cartRouter.put("/:cid/products/:pid", CartController.addProduct );
 
 // 
-cartRouter.post("/:cid/purchase", isUser, cartController.purchaseCart );
+cartRouter.post("/:cid/purchase", isUserOrPremium, cartController.purchaseCart );
 // Rutas para aumentar y disminuir la cantidad de productos en el carrito
-
-// Incrementar cantidad del producto (+)
-// cartRouter.put('/:cartId/products/increase/:productId', cartController.increaseQuantity );
-
-// Decrementar cantidad del producto (-)
-// cartRouter.put('/:cartId/products/decrease/:productId', cartController.decreaseQuantity );
-
 
 
 module.exports = cartRouter

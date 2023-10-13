@@ -18,6 +18,7 @@ class ProductService {
   }
 
   async getAll(page, limit, sort, query) {
+    console.log("ingresó a get all en service")
     const options = {
       page: page || 1,
       limit: limit || 5,
@@ -53,16 +54,17 @@ class ProductService {
     return data;
   }
 
-  async addProduct(title, description, price, thumbnail, code, stock, status, category) {
+  async addProduct(prod) {
       const productCreated = await productDao.createOne(
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
-        status,
-        category
+        prod.title,
+        prod.description,
+        prod.price,
+        prod.thumbnail,
+        prod.code,
+        prod.stock,
+        prod.status,
+        prod.category,
+        prod.owner
       );
   
       return productCreated;
@@ -90,9 +92,16 @@ class ProductService {
   }
 
   async getProductById(id) {
-    console.log("ingreso al findOne")
     const product = await productDao.findById(id);
     return product
+  }
+
+  async getProductsByOwner(prodOwner) {
+    console.log("getProductsByOwner")
+    console.log("owner en el service", prodOwner)
+    const products = await productDao.find({ owner: prodOwner })
+    // console.log("products en service", products);
+    return products
   }
 }
 

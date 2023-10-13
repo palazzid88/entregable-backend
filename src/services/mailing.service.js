@@ -12,7 +12,6 @@ const transporter = nodemailer.createTransport({
 
 // Función para enviar correo de recuperación de contraseña
 async function sendPasswordRecoveryEmail(mail, resetPasswordLink) {
-  console.log("3 er  paso nodemailer")
   try {
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -22,9 +21,7 @@ async function sendPasswordRecoveryEmail(mail, resetPasswordLink) {
              <a href="${resetPasswordLink}">Recuperar contraseña</a>`,
     };
 
-    console.log("3 er paso mailOptions", mailOptions)
     const info = await transporter.sendMail(mailOptions);
-    console.log('Correo de recuperación enviado:', info.response);
   } catch (error) {
     console.error('Error al enviar el correo de recuperación:', error);
   }
@@ -46,7 +43,26 @@ async function sendAccountDeletionEmail(mail) {
   }
 }
 
+async function sendPurchaseCompleted(userEmail, productsPurchased) {
+  console.log("entro en mail confirmación de compra")
+  console.log("userMail", userEmail)
+  try {
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: userEmail,
+      subject: 'Confirmación de Compra',
+      html: `<p>Queremos confirmarte la compra de</p>`,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Correo de confirmación de compra:', info.response);
+  } catch (error) {
+    console.error('Error al enviar el correo de confirmación de compra:', error);
+  }
+}
+
 module.exports = {
   sendPasswordRecoveryEmail,
   sendAccountDeletionEmail,
+  sendPurchaseCompleted
 };
