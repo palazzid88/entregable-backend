@@ -46,6 +46,7 @@ async function sendAccountDeletionEmail(mail) {
 async function sendPurchaseCompleted(userEmail, productsPurchased) {
   console.log("entro en mail confirmación de compra")
   console.log("userMail", userEmail)
+  console.log("productsPurchased", productsPurchased)
   try {
     let productList = "<ul>";
     productsPurchased.forEach((product) => {
