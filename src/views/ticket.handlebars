@@ -5,15 +5,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5 d-flex flex-column justify-center align-items-center ">
+        <div>
+            <img width="250" src="https://i.imgur.com/JR6hdEs.png" href="/api/products" alt="Logo Val di Sole">
+        </div>
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="card-title">Compra Exitosa</h1>
+                        <h1 class="card-title">Compra Exitosa!</h1>
+                        <p>Recibiras un email con la confirmación de la compra</p>
                         <p class="card-text"><strong>Código de Ticket:</strong> {{ticket.code}}</p>
                         <p class="card-text"><strong>Precio Total:</strong> ${{ticket.amount}}</p>
-                        <p class="card-text"><strong>Correo del Comprador:</strong> {{ticket.purchaser}}</p>
+                        <p class="card-text"><strong>Usuario:</strong> {{ticket.purchaser}}</p>
                         <p class="card-text"><strong>Fecha y Hora de Compra:</strong> {{ticket.purchase_datetime}}</p>
                     </div>
                         <a href="/api/products" class="btn btn-primary"> << Volver a Productos</a>

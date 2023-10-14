@@ -50,14 +50,16 @@ async function sendPurchaseCompleted(userEmail, productsPurchased) {
   try {
     let productList = "<ul>";
     productsPurchased.forEach((product) => {
-      productList += `<li>${product.title} - Precio: ${product.price}</li>`;
+      productList += `<li>${product.title} - Precio: $${product.price}</li>`;
     });
     productList += "</ul>";
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: userEmail,
-      subject: 'Confirmación de Compra',
-      html: `<p>Queremos confirmarte la compra de los siguientes productos:</p> ${productList}`,
+      subject: 'Confirmación de Compra!',
+      html: ` <img width="300" src="https://i.imgur.com/JR6hdEs.png" href="/api/products" alt="Logo Val di Sole">
+              <p>Queremos confirmarte la compra de los siguientes productos:</p> ${productList}
+              <p>Gracias por tu compra! El equipo de Val Di Sole Bikes</p>`,
     };
 
     const info = await transporter.sendMail(mailOptions);

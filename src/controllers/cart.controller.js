@@ -281,6 +281,7 @@ class CartController {
           // Filtrar los productos que no pudieron ser comprados
           const productsPurchased = [];
           const productsNotPurchased = [];
+          const productsForMail = [];
       
           for (const cartProduct of cartProducts) {
             const productInDB = await productDao.findById(cartProduct.productId);
@@ -293,7 +294,8 @@ class CartController {
               // El producto tiene suficiente stock, restar la cantidad del stock
               productInDB.stock -= cartProduct.quantity;
               await productInDB.save();
-              productsPurchased.push(productInDB);
+              productsPurchased.push(cartProduct);
+              productsForMail.push(productInDB)
             } else {
               // El producto no tiene suficiente stock, dejarlo en el carrito
               productsNotPurchased.push(cartProduct);
@@ -311,7 +313,7 @@ class CartController {
           
           if (ticketResult.code === 200) {
             console.log("cart.controller previo a enviar el correo y render")
-            await mailer.sendPurchaseCompleted(userEmail, productsPurchased, productsNotPurchased);
+            await mailer.sendPurchaseCompleted(userEmail, productsForMail);
 
             return res.render('ticket', { ticket: ticketRender});
             // return res.status(200).json({ message: 'Compra exitosa', ticket: ticketResult.result.payload });
