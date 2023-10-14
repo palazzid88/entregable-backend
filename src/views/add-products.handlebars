@@ -4,6 +4,12 @@
   <h1>Val di Sole Bikes</h1>
 </div>
 <div>
+
+{{!-- VISTA DE PRODUCTOS --}}
+<div id="product-list">
+  {{!-- respuesta del socket del server --}}
+</div>
+
   <div class="mb-3">
   {{!-- <label for="user-email" class="form-label">Email:</label> --}}
   <input type="hidden" id="user-email" name="email" class="form-control" value="{{email}}" readonly>
@@ -58,10 +64,6 @@
   </div>
 </div>
 
-{{!-- VISTA DE PRODUCTOS --}}
-<div id="product-list">
-  {{!-- respuesta del socket del server --}}
-</div>
   
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script>

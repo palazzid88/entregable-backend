@@ -56,7 +56,7 @@ async function sendPurchaseCompleted(userEmail, productsPurchased) {
       from: process.env.EMAIL_USER,
       to: userEmail,
       subject: 'Confirmación de Compra',
-      html: `<p>Queremos confirmarte la compra de</p>`,
+      html: `<p>Queremos confirmarte la compra de los siguientes productos:</p> ${productList}`,
     };
 
     const info = await transporter.sendMail(mailOptions);

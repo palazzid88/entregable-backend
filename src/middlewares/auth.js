@@ -42,10 +42,10 @@ function isProductCreator(req, res, next) {
     }
 
     function isUserOrPremium(req, res, next) {
-        if (req.user.role === 'user' || req.user.role === 'premium') {
+        if (req.user.role === 'user' || req.user.role === 'premium' ) {
             return next();
         } else {
-            return res.status(403).json({ error: 'No tiene los privilegios para realizar esta operación' });
+            return res.status(403).render("invalidCredentials", { msg: "Ops! No tiene privilegios para realizar compras 😢" });
         }
     }
 
