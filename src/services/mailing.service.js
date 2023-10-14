@@ -44,13 +44,13 @@ async function sendAccountDeletionEmail(mail) {
 }
 
 async function sendPurchaseCompleted(userEmail, productsPurchased) {
-  console.log("entro en mail confirmación de compra")
-  console.log("userMail", userEmail)
-  console.log("productsPurchased", productsPurchased)
+  console.log("entro en mail confirmación de compra");
+  console.log("userMail", userEmail);
+  console.log("productsPurchased", productsPurchased);
   try {
     let productList = "<ul>";
     productsPurchased.forEach((product) => {
-      productList += `<li>${product.name} - Precio: ${product.price}</li>`;
+      productList += `<li>${product.title} - Precio: ${product.price}</li>`;
     });
     productList += "</ul>";
     const mailOptions = {
@@ -66,6 +66,7 @@ async function sendPurchaseCompleted(userEmail, productsPurchased) {
     console.error('Error al enviar el correo de confirmación de compra:', error);
   }
 }
+
 
 module.exports = {
   sendPasswordRecoveryEmail,

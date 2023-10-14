@@ -293,7 +293,7 @@ class CartController {
               // El producto tiene suficiente stock, restar la cantidad del stock
               productInDB.stock -= cartProduct.quantity;
               await productInDB.save();
-              productsPurchased.push(cartProduct);
+              productsPurchased.push(productInDB);
             } else {
               // El producto no tiene suficiente stock, dejarlo en el carrito
               productsNotPurchased.push(cartProduct);
