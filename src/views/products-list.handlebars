@@ -99,18 +99,48 @@
   </div>
   {{/each}}
 </div>
-
-
   <div>
-    <p>Página Actual {{pagination.page}}</p>
+    <div class="d-flex flex-row align-items-center justify-content-center">
+      <p>Página Actual {{pagination.page}}</p>
+    </div>
+    <div class="d-flex flex-row align-items-center justify-content-center">
+      {{#if pagination.hasPrevPage}}
+        <a href="/api/products?page={{pagination.prevPage}}">◀️{{pagination.prevPage}}</a>
+      {{/if}}
+      {{#if pagination.hasNextPage}}
+      <a href="/api/products?page={{pagination.nextPage}}">▶️{{pagination.nextPage}}</a>
+      {{/if}}
+    </div>
   </div>
-  {{#if pagination.hasPrevPage}}
-    <a href="/api/products?page={{pagination.prevPage}}">◀️{{pagination.prevPage}}</a>
-  {{/if}}
-  {{#if pagination.hasNextPage}}
-  <a href="/api/products?page={{pagination.nextPage}}">▶️{{pagination.nextPage}}</a>
-  {{/if}}
 </section>
+<footer class="bg-dark text-center text-white">
+    <div class="container p-4">
+        <section class="mb-4">
+            <p>
+                Esta página ha sido desarrollada en un entorno educativo para el curso de backend de la comisión 51380.
+            </p>
+        </section>
+
+        <section>
+            <a class="btn btn-outline-light m-1" href="https://github.com/palazzid88" role="button" target="_blank">
+                <img src="https://cdn.pixabay.com/photo/2022/01/30/13/33/github-6980894_1280.png" alt="GitHub" width="30" height="30">
+            </a>
+
+            <a class="btn btn-outline-light m-1" href="https://wa.me/543364309084" role="button" target="_blank">
+                <img src="https://c0.klipartz.com/pngpicture/102/349/gratis-png-whatsapp-computer-icons-logo-whatsapp-verde-y-blanco-thumbnail.png" alt="WhatsApp" width="30" height="30">
+            </a>
+
+            <a class="btn btn-outline-light m-1" href="mailto:palazzid88@gmail.com" role="button" target="_blank">
+                <img src="https://cdn4.iconfinder.com/data/icons/social-media-logos-6/512/112-gmail_email_mail-512.png" alt="Gmail" width="30" height="30">
+            </a>
+        </section>
+    </div>
+
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2023 David Ezequiél PALAZZI - Todos los derechos reservados
+    </div>
+</footer>
+
 
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
