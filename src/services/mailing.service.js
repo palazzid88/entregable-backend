@@ -47,6 +47,11 @@ async function sendPurchaseCompleted(userEmail, productsPurchased) {
   console.log("entro en mail confirmación de compra")
   console.log("userMail", userEmail)
   try {
+    let productList = "<ul>";
+    productsPurchased.forEach((product) => {
+      productList += `<li>${product.name} - Precio: ${product.price}</li>`;
+    });
+    productList += "</ul>";
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: userEmail,
