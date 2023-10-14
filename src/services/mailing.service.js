@@ -50,7 +50,7 @@ async function sendPurchaseCompleted(userEmail, productsPurchased) {
   try {
     let productList = "<ul>";
     productsPurchased.forEach((product) => {
-      productList += `<li>${product.title} - Precio: $${product.price}</li>`;
+      productList += `<li><strong>Producto:</strong> ${product.title} - <strong>Precio:</strong> u$d${product.price}</li>`;
     });
     productList += "</ul>";
     const mailOptions = {
