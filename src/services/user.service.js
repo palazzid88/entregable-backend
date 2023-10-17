@@ -1,4 +1,5 @@
 // user.service.js
+const { error } = require('winston');
 const UserModel = require('../DAO/mongo/models/users.model');
 const mailer = require('../services/mailing.service'); // Importa tu servicio de envío de correo
 
@@ -53,21 +54,33 @@ class UserService {
 
   async togglePremiumUser(userId) {
     try {
+      console.log("entro en togglePremiumUser en el servicio");
       const user = await UserModel.findById(userId);
-
+  
       if (!user) {
-        return null;
+        return { user: null, userDocumentCount: null }; // Devuelve tanto el usuario como el recuento de documentos como nulos.
       }
-
-      user.role = user.role === 'user' ? 'premium' : 'user';
-
-      await user.save();
-
-      return user;
+  
+      const userDocuments = user.documents;
+      console.log("userDocuments", userDocuments);
+      const userDocumentCount = userDocuments.length;
+      console.log("userDocumentCount", userDocumentCount);
+  
+      if (userDocumentCount < 3) {
+        console.log("La cantidad de documentos es menor que 3");
+        return { user: null, userDocumentCount }; // Devuelve el usuario como nulo y el recuento de documentos actual.
+      } else {
+        console.log("La cantidad de documentos es mayor o igual a 3");
+        user.role = user.role === 'user' ? 'premium' : 'user';
+        await user.save();
+      }
+  
+      return { user, userDocumentCount }; // Devuelve el usuario actualizado y el recuento de documentos.
     } catch (error) {
       throw error;
     }
   }
+  
 
 }
 

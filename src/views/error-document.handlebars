@@ -1,0 +1,14 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <img src="https://i.imgur.com/8CEDjiz.jpg" alt="Imagen de Error" class="img-fluid">
+            <h4 class="mt-3">debe añadir 3 documentos en la base de datos para poder cambiar el Role de usuario</h4>
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <p>Documentos añadidos: {{ userDocumentCount }}</p>
+                <p>Documentos faltantes: {{ userRegresive }}</p>
+                <a href='/api/users/{{ uid }}/uploadDocument' class="btn btn-primary">Añadir nuevo documento</a>
+                <a href="/auth/login" class="btn btn-primary mt-3">Volver al Login</a>
+            </div>
+        </div>
+    </div>
+</div>

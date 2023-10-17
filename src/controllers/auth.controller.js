@@ -78,7 +78,7 @@ class AuthController {
 
   async postLogin(req, res, next) {
     passport.authenticate('login', async (err, user, info) => {
-      console.log("user en postLogin auth.controller", user)
+      // console.log("user en postLogin auth.controller", user)
       if (err) {
         return res.status(500).render('error', { error: 'Error during login' });
       }
@@ -91,7 +91,7 @@ class AuthController {
       // Guardar cartId en la sesión si el usuario tiene un carrito
       if (user.cart) {
         req.session.cartId = user.cart.toString();
-        console.log("req.session.cartId en Login passport auth.controller", req.session.cartId);
+        // console.log("req.session.cartId en Login passport auth.controller", req.session.cartId);
       }
       
       // Actualizar la fecha de última conexión del usuario
@@ -199,7 +199,7 @@ class AuthController {
   
   async getAdminPage(req, res) {
     try {
-      return res.send('Datos que solo puede ver si es administrador y si es usuario');
+      return res.render('secret');
     }
     catch (e) {
       console.log(e);
@@ -236,7 +236,7 @@ async recoverPassword(req, res) {
     if (!user) {
       // El usuario no existe, muestra un mensaje genérico para evitar revelar información
       // res.render("send-message")
-      return res.status(200).json({ message: 'Se ha enviado un correo de recuperación si el correo es válido.' });
+      return res.status(200).render("invalid-user")
     }
 
     // Genera el token JWT

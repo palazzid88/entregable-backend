@@ -1,5 +1,18 @@
-<div class="container mt-5">
+<div class="container mt-5 d-flex flex-column justify-content-center align-items-center">
+    <div class="d-flex flex-column justify-content-center align-items-center" >
+        <img width="300" src="https://images.blush.design/4871c127b2a8efc3e633dde685a010c1?w=920&auto=compress&cs=srgb" alt="">
         <h2>Documento Cargado con Éxito</h2>
         <p>Tu documento se ha cargado correctamente.</p>
-        <a href="/auth/perfil" class="btn btn-primary">Volver al Perfil</a>
+        <p>Documentos cargados: {{ userDocumentCount }}</p>
+        {{#if changeRoleFalse }}
+        <p>Documentos faltantes: {{ userRegresive }}</p>
+        {{/if}}
     </div>
+        {{!-- {{#if changeRole }}
+            <a href="/api/users/premium/{{ uid }}" class="btn btn-primary">Cambiar Role</a>
+        {{/if}} --}}
+        <br>
+        <a href='/api/users/{{ uid }}/uploadDocument' class="btn btn-primary">Añadir nuevo documento</a>
+        <br>
+        <a href="/auth/perfil" class="btn btn-primary">Volver al Perfil</a>
+</div>

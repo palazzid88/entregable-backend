@@ -36,20 +36,34 @@ class UserController {
   }
 
   async togglePremiumUser(req, res) {
-    console.log("toogle")
+    console.log("entro a toggle en users.controller");
     try {
       const { uid } = req.params;
-      const updatedUser = await userService.togglePremiumUser(uid);
+      const result = await userService.togglePremiumUser(uid);
+      const { user, userDocumentCount } = result;
+      const userRegresive = 3 - userDocumentCount
+      
 
-      if (!updatedUser) {
-        return res.status(404).json({ error: 'Usuario no encontrado' });
+      console.log("userDocumentCount", userDocumentCount)
+  
+      if (!user) {
+        console.log("!user")
+        return res.status(404).render('error-document', { uid, userDocumentCount, userRegresive });
       }
-      res.render('changeRole', { msg:'Role actualizado con éxito' })
-      // return res.status(200).json({ message: 'Role actualizado con éxito' });
+  
+      if (userDocumentCount) {
+        console.log("exito")
+        return res.render('changeRole', { msg: 'Role actualizado con éxito', userDocumentCount });
+      } else {
+        console.log("falta")
+        return res.render('changeRole', { msg: 'La cantidad de documentos es menor que 3', userDocumentCount });
+      }
     } catch (error) {
+      console.log("catch")
       return res.status(500).json({ error: 'Error al cambiar el rol del usuario' });
     }
   }
+  
 
   async uploadForm(req, res) {
     try {
@@ -89,7 +103,20 @@ class UserController {
       // Guarda la actualización en la base de datos
       await user.save();
 
-      res.render('uploaded-succesfully')
+      const result = await userService.togglePremiumUser(uid);
+      const { userDocumentCount } = result;
+      const userRegresive = 3 - userDocumentCount;
+      let changeRole = false
+      let changeRoleFalse = true
+
+      if (userDocumentCount >= 3) {
+        changeRole = true
+        changeRoleFalse = false
+      }
+
+
+
+      res.render('uploaded-succesfully', {uid, userDocumentCount, userRegresive, changeRole, changeRoleFalse} )
     } catch (error) {
       console.error('Error al cargar el documento:', error);
       return res.status(500).json({ error: 'Error al cargar el documento' });
