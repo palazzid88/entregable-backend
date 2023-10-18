@@ -1,7 +1,6 @@
-// user.service.js
 const { error } = require('winston');
 const UserModel = require('../DAO/mongo/models/users.model');
-const mailer = require('../services/mailing.service'); // Importa tu servicio de envío de correo
+const mailer = require('../services/mailing.service');
 
 
 class UserService {
@@ -11,12 +10,11 @@ class UserService {
       return users;
     } catch (error) {
       console.error("Error en getAllUsers del servicio:", error);
-      throw error; // Puedes propagar el error para manejarlo en la capa superior.
+      throw error;
     }
   }
 
   async deleteInactiveUsers() {
-    console.log("ingreso a deleteInactiveUsers en el service")
     try {
       const currentDate = new Date();
 
@@ -37,13 +35,11 @@ class UserService {
         // Envía el correo de eliminación de cuenta al usuario
         try {
           await mailer.sendAccountDeletionEmail(userEmail);
-          console.log(`Correo de eliminación de cuenta enviado a ${userEmail}`);
         } catch (error) {
           console.error(`Error al enviar el correo a ${userEmail}:`, error);
         }
       });
 
-      console.log(`${deletedUsers.deletedCount} usuarios inactivos eliminados y notificados.`);
       return deletedUsers;
     } catch (error) {
       console.error('Error al eliminar usuarios inactivos:', error);
@@ -54,7 +50,6 @@ class UserService {
 
   async togglePremiumUser(userId) {
     try {
-      console.log("entro en togglePremiumUser en el servicio");
       const user = await UserModel.findById(userId);
   
       if (!user) {
@@ -62,15 +57,11 @@ class UserService {
       }
   
       const userDocuments = user.documents;
-      console.log("userDocuments", userDocuments);
       const userDocumentCount = userDocuments.length;
-      console.log("userDocumentCount", userDocumentCount);
   
       if (userDocumentCount < 3) {
-        console.log("La cantidad de documentos es menor que 3");
         return { user: null, userDocumentCount }; // Devuelve el usuario como nulo y el recuento de documentos actual.
       } else {
-        console.log("La cantidad de documentos es mayor o igual a 3");
         user.role = user.role === 'user' ? 'premium' : 'user';
         await user.save();
       }
@@ -80,8 +71,6 @@ class UserService {
       throw error;
     }
   }
-  
-
 }
 
 module.exports = UserService;

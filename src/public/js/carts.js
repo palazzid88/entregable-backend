@@ -4,13 +4,11 @@ function getCartId() {
       .then(response => response.json())
       .then(data => {
           const cartId = data.cartId;
-          console.log("cartId en product.js", cartId);
           return cartId;
       });
 }
 
 function deleteProduct(productId) {
-  console.log("productId", productId);
   
   getCartId()
       .then(cartId => {
@@ -34,7 +32,6 @@ function deleteProduct(productId) {
 
 function updateQuantity(productId) {
   const newQuantity = parseInt(document.getElementById('quantityInput').value);
-  console.log("prod en front", productId)
 
   getCartId()
       .then(cartId => {
@@ -62,12 +59,10 @@ function updateQuantity(productId) {
 
 
 function deleteProductsInCart() {
-console.log("vaciar cart")
   fetch('/api/carts/get-cart-id')
     .then(response => response.json())
     .then(data => {
         const cartId = data.cartId;
-        console.log("cartId en cart.js", cartId)
 
     // Petición DELETE al servidor
         fetch(`/api/carts/${cartId}`, {

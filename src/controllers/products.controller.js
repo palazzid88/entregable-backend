@@ -14,7 +14,7 @@ class ProductController {
 
       res.status(200).render("products-list", { products, pagination });
     } catch (e) {
-      console.log(e);
+      logger.error('Ocurrió un error en la función getAll:', e)
       return res.status(500).json({
         status: 'error',
         msg: 'something went wrong :(',
@@ -25,27 +25,17 @@ class ProductController {
 
   async getProductById(req, res) {
     try {
-      console.log("entró getProdById prod.controller")
       const { pid } = req.params
-      console.log("id", pid)
-      // const prodId = id.toObject()
-      // console.log("prodId", prodId)
-      const result = await Products.getProductById(pid);
-      console.log("result", result)
-      
+
+      const result = await Products.getProductById(pid);    
 
       if (!result) {
-        console.log("if !result")
         return res.render('error', { error: 'Producto no encontrado' });
       } else {
-        console.log("result si!")
         const product = result.toObject();
-        console.log("product = result.toObject()", product)
         return res.render('product-detail', { product });
       }
     } catch (e) {
-      console.log("catch")
-      console.log(e);
       return res.status(500).json({
         status: 'error',
         msg: 'something went wrong :(',
@@ -57,12 +47,10 @@ class ProductController {
 
   async viewForm(req, res) {
     const email = req.params.email;
-    console.log("mail en form", email)
     try {
       // const { page, limit, sort, query } = req.query;
       const result = await Products.getAll();
       const products = result.products;
-      console.log(products)
       // const pagination = result.pagination;
 
       res.status(200).render("add-products", { products});
@@ -74,7 +62,6 @@ class ProductController {
   }
 
   async createProduct(req, res) {
-    console.log("ingreso al createProduct de product.controller")
     try {
       const {
         title,
@@ -88,7 +75,6 @@ class ProductController {
       } = req.body;
 
       const owner = req.user.email;
-      console.log("owner", owner)
   
       const result = await Products.addProduct(
         title,
@@ -102,16 +88,14 @@ class ProductController {
         owner
       );
   
-      const productCreated = result.productCreated;
-      console.log("productCreated en controller", productCreated)
-  
+      const productCreated = result.productCreated; 
       return res.status(201).json({
         status: 'success',
         message: 'Product created',
         data: productCreated,
       });
     } catch (e) {
-      console.log(e);
+      logger.error('Ocurrió un error en la función createProduct:', e)
       return res.status(500).json({
         status: 'error',
         message: 'Something went wrong :(',
@@ -153,7 +137,7 @@ class ProductController {
             res.status(200).render("invalidCredentials", { msg: "no tiene privilegios para crear productos"});
           }
     } catch (e) {
-        console.log(e);
+      logger.error('Ocurrió un error en la función deleteProduct:', e)
         return res.status(500).json({
             status: 'error',
             msg: 'Something went wrong :(',
@@ -232,7 +216,7 @@ class ProductController {
             data: {},
         });
     } catch (e) {
-        console.log(e);
+      logger.error('Ocurrió un error en la función updateProduct:', e)
         return res.status(500).json({
             status: 'error',
             message: 'Something went wrong :(',

@@ -8,7 +8,7 @@ class HomeService {
             return products
         }
         catch (e) {
-            console.log(e);
+            logger.error('Ocurrió un error en la función getProducts:', e)
             throw new Error("Error al traer los productos :(");
         }
     }

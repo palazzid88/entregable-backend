@@ -18,7 +18,6 @@ class ProductService {
   }
 
   async getAll(page, limit, sort, query) {
-    console.log("ingresó a get all en service")
     const options = {
       page: page || 1,
       limit: limit || 5,
@@ -97,10 +96,7 @@ class ProductService {
   }
 
   async getProductsByOwner(prodOwner) {
-    console.log("getProductsByOwner")
-    console.log("owner en el service", prodOwner)
     const products = await productDao.find({ owner: prodOwner })
-    // console.log("products en service", products);
     return products
   }
 }

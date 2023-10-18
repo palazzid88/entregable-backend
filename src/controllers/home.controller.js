@@ -7,6 +7,7 @@ class HomeController {
             return res.render("products", {products})
         }
         catch (e) {
+            logger.error('Ocurrió un error en la función getProducts:', e)
             return res.status(500).json({
             status: "error",
             msg: "something went wrong :(",

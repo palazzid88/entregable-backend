@@ -9,7 +9,7 @@ class ViewsController {
             res.render("home", { products: result.products, pagination: result.pagination });
         } 
         catch (e) {
-            console.log(e);
+            logger.error('Ocurrió un error en la función getAll:', e)
             return res.status(500).json({
             status: "error",
             msg: "something went wrong :(",

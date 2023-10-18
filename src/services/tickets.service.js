@@ -3,18 +3,14 @@ const Product = require('../DAO/mongo/models/products.model');
 
 class TicketService {
   async purchase(purchaser, cartProducts) {
-    console.log("entro al purchase en el service")
-    console.log("cartProducts",cartProducts)
     try {
       let totalAmount = 0;
       let productsInCart = [];
 
       for (const cartProduct of cartProducts) {
         const productInDB = await Product.findById(cartProduct.productId);
-        console.log("productInDB en ticketService",productInDB)
 
         if (!productInDB) {
-          console.log("not prod")
           return {
             code: 404,
             result: {
@@ -25,7 +21,6 @@ class TicketService {
         }
 
         if (productInDB.stock < cartProduct.quantity) {
-          console.log("nonstock")
           return {
             code: 400,
             result: {
@@ -57,7 +52,6 @@ class TicketService {
       }
       
       const randomNumber = generateRandomNumber();
-      console.log(randomNumber);
 
       const ticket = new Ticket ({
         code: randomNumber,
@@ -65,7 +59,6 @@ class TicketService {
         purchaser: purchaser,
         products: productsInCart,
       });
-console.log("ticket final", ticket)
       await ticket.save();
 
       return {
@@ -77,8 +70,6 @@ console.log("ticket final", ticket)
         },
       };
     } catch (error) {
-      console.log("500")
-      console.log(error);
       return {
         code: 500,
         result: {

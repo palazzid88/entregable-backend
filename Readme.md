@@ -2,10 +2,23 @@
 
 Bienvenido al README de Entregables Backend! 🚀
 
+### LEER IMPORTANTE ENTREGA FINAL
+## Entrega Final (para corrección)
+
+- Para poder verificar el acceso como admin comparto la cuenta que ha creado los productos a la db, y tiene privilegios de "admin":
+* email: palazzid88@gmail.com
+* pass: 3535
+
+- el archivo .env se compartirá por mensaje en el link de la entrega
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
 * Número de la última clase: 46 de 46.
 * Desafío en curso: clase 46 - entrega final 💪.
 * Desafío anterior aprobado: clase 41 - Módulos de Testing.
-* Próximo desafío: nada! 😎
+* Próximo desafío: Corrección Proyecto Final! 😎
 
 
 ## Deploy del Proyecto en Render:
@@ -71,11 +84,12 @@ La aplicación estará disponible en: `http://localhost:8080`
 
 
 ## Curso a cargo de:
-    ** Profesor: Guillermo Fergnanni
-    ** Tutora: Laura Acuña
+    * Profesor: Guillermo Fergnanni
+    * Tutora: Laura Acuña
 
 
 
 ## Estado del Proyecto
 
+Se Realiza entrega final para la aprobación del curso Backend en la comisión 51380 (la mejor comisión)
 Este proyecto se encuentra en desarrollo activo y sigue recibiendo actualizaciones y mejoras.

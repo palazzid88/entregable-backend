@@ -4,6 +4,8 @@ const UserModel = require('../DAO/mongo/models/users.model');
 const crypto = require('crypto');
 const mailer = require('../services/mailing.service');
 const { createHash } = require('../utils/utils');
+// const logger = require('../utils/logger');
+
 
 
 // Recuperar la contraseña
@@ -13,11 +15,9 @@ const { JWT_SECRET } = process.env;
 class AuthController {
   async getSession(req, res) {
     const userId = req.user;
-    console.log("userId", userId)
-    console.log("entro a getSession")
+    try {
     // Comprobación de autenticación de usuario.
     if (req.isAuthenticated()) {
-      console.log("se autentico")
       // Obtén el ID de usuario almacenado en la sesión.
 
       // Consulta en la db para obtener los datos completos del usuario.
@@ -27,14 +27,32 @@ class AuthController {
       return res.status(200).json(user);
     } else {
       // El usuario no está autenticado.
-      console.log("no se autentico")
       return res.status(401).json({ message: 'Usuario no autenticado' });
     }
+          
+  } catch (e) {
+    logger.error('Ocurrió un error en la función getSession:', e)
+    return res.status(500).json({
+    status: "error",
+    msg: "something went wrong :(",
+    data: {},
+  });
+  }
   }
 
 
   async getRegisterPage(req, res) {
+    try {  
     return res.render('register', {});
+  }
+  catch (e) {
+    logger.error('Ocurrió un error en la función getRegisterPage:', e)
+    return res.status(500).json({
+    status: "error",
+    msg: "something went wrong :(",
+    data: {},
+  });
+  }
   }
 
   async postRegister(req, res, next) {
@@ -47,21 +65,18 @@ class AuthController {
         const userCreated = await UserModel.findOne({ email: req.body.email });
   
         if (!userCreated) {
-          console.log("User not found after registration");
           return res.redirect('/auth/failregister');
         }
   
         // Establecer la sesión con los datos del user
         req.login(userCreated, (error) => {
           if (error) {
-            console.log("Error setting session after registration:", error);
             return next(error);
           }
-          console.log("Session set after registration:", req.session);
           return res.redirect('/auth/perfil');
         });
       } catch (e) {
-        console.log("Error finding user after registration:", e);
+        logger.error('Ocurrió un error en la función postRegister:', e)
         return res.redirect('/auth/failregister');
       }
     });
@@ -69,16 +84,32 @@ class AuthController {
   
 
   async failRegister(req, res) {
-    return res.render('fail-register')
+    try {
+      return res.render('fail-register')
+    } catch (e) {
+      return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      data: {},
+    });
+    }
   }
 
   async getLoginPage(req, res) {
-    return res.render('login', {});
+    try {
+      return res.render('login', {});
+    } catch (e) {
+      logger.error('Ocurrió un error en la función getLoginPage:', e)
+      return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      data: {},
+    });
+    }
   }
 
   async postLogin(req, res, next) {
     passport.authenticate('login', async (err, user, info) => {
-      // console.log("user en postLogin auth.controller", user)
       if (err) {
         return res.status(500).render('error', { error: 'Error during login' });
       }
@@ -91,7 +122,6 @@ class AuthController {
       // Guardar cartId en la sesión si el usuario tiene un carrito
       if (user.cart) {
         req.session.cartId = user.cart.toString();
-        // console.log("req.session.cartId en Login passport auth.controller", req.session.cartId);
       }
       
       // Actualizar la fecha de última conexión del usuario
@@ -106,6 +136,7 @@ class AuthController {
           return res.redirect('perfil');
         });
       } catch (saveErr) {
+        logger.error('Ocurrió un error en la función postLogin:', e)
         return res.status(500).render('error', { error: 'Error updating last_connection' });
       }
     })(req, res, next);
@@ -113,7 +144,16 @@ class AuthController {
   
 
   async failLogin(req, res) {
-    return res.render('fail-login')
+    try {
+      return res.render('fail-login')
+    } catch (error) {
+      logger.error('Ocurrió un error en la función failLogin:', e)
+      return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      data: {},
+    });
+    }
   }
 
   async logout(req, res) {
@@ -126,7 +166,7 @@ class AuthController {
       })
     }
     catch (e) {
-      console.log(e);
+      logger.error('Ocurrió un error en la función logout:', e)
       return res.status(500).json({
       status: "error",
       msg: "something went wrong :(",
@@ -139,7 +179,6 @@ class AuthController {
     try {
       // Aquí accedemos a la información del usuario autenticado a través de req.user
       const user = req.user;
-      console.log("user", user)
   
       if (!user) {
         // Si el usuario no está autenticado, redirige a la página de inicio de sesión
@@ -188,7 +227,7 @@ class AuthController {
         userId,
        });
     } catch (e) {
-      console.log("Error rendering perfil page:", e);
+      logger.error('Ocurrió un error en la función getPerfilPage:', e)
       return res.status(500).json({
         status: "error",
         msg: "something went wrong :(",
@@ -202,7 +241,7 @@ class AuthController {
       return res.render('secret');
     }
     catch (e) {
-      console.log(e);
+      logger.error('Ocurrió un error en la función getAdminPage:', e)
       return res.status(500).json({
       status: "error",
       msg: "something went wrong :(",
@@ -215,6 +254,7 @@ class AuthController {
     try {
       return res.render('resetPage');
     } catch (error) {
+      logger.error('Ocurrió un error en la función renderRecovery:', e)
       return res.status(500).json({ error: 'Ha ocurrido un error en el restablecimiento de contraseña.' });
     }
   }
@@ -252,7 +292,7 @@ async recoverPassword(req, res) {
 
     // return res.status(200).json({ message: 'Se ha enviado un correo de recuperación si el correo es válido.' });
   } catch (error) {
-    console.error('Error en la recuperación de contraseña:', error);
+    logger.error('Ocurrió un error en la función recoverPassword:', e)
     return res.status(500).json({ error: 'Ha ocurrido un error en la recuperación de contraseña.' });
   }
 }
@@ -271,6 +311,7 @@ async renderResetPasswordPage (req, res){
     // Renderiza la página de restablecimiento de contraseña con el token
     res.render('resetPassword', { token });
   } catch (error) {
+    logger.error('Ocurrió un error en la función renderResetPasswordPage:', e)
     res.render('resetPassword', { error: 'Token inválido' });
   }
 };
@@ -283,7 +324,6 @@ async resetPassword(req, res) {
     // Decodificar el token
     const decodedToken = jwt.verify(token, JWT_SECRET);
     if (decodedToken){
-      console.log("5t paso decodedToken")
     }
     // Buscar al usuario por correo electrónico
     const user = await UserModel.findOne({ email: decodedToken.email });
@@ -300,7 +340,7 @@ async resetPassword(req, res) {
     // Responder con un mensaje de éxito
     return res.render('passwordResetSuccess')
   } catch (error) {
-    console.error('Error en el restablecimiento de contraseña:', error);
+    logger.error('Ocurrió un error en la función resetPassword:', e)
     return res.status(500).json({ error: 'Ha ocurrido un error en el restablecimiento de contraseña.' });
   }
 }

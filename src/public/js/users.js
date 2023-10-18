@@ -1,8 +1,7 @@
-// Escuchar el clic en el botón "Eliminar Usuarios Inactivos"
+// Escucha el clic en el botón "Eliminar Usuarios Inactivos"
 const deleteInactiveUsersButton = document.querySelector('.delete-inactive-users');
 
 deleteInactiveUsersButton.addEventListener('click', async () => {
-    console.log("parte el pedido de eliminar users")
   // Realizar una solicitud POST al endpoint /api/users para eliminar a los usuarios inactivos
   try {
     const response = await fetch('/api/users', {

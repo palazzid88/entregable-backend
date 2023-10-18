@@ -31,8 +31,8 @@ class CartController {
             return res.status(201).json({ message: "se creo un nuevo carrito", result })
         }
         catch (e) {
-            console.log(e);
-            return res.status(500).json({
+          logger.error('Ocurrió un error en la función createCart:', e)
+          return res.status(500).json({
             status: "error",
             msg: "something went wrong :(",
             data: {},
@@ -86,7 +86,8 @@ class CartController {
       
           res.render('cart', { prodToCart: productsWithQuantity, message, cart: cartId, cartTotal });
       
-        } catch (error) {
+        } catch (e) {
+          logger.error('Ocurrió un error en la función viewCart:', e)
           return res.status(500).json({ error: 'An error occurred while viewing the cart.' });
         }
     }
@@ -137,38 +138,30 @@ class CartController {
           }, 0);
     
         return res.render('checkout', { productsWithQuantity, cartId, cartTotal});
-        } catch (error) {
-        console.error('Error en la página de checkout:', error);
+        } catch (e) {
+          logger.error('Ocurrió un error en la función viewCheckout:', e)
         return res.status(500).render('error-500', { msg: "Error en la página de checkout" });
         }
     }
         
     async addToCart (req, res) {
         try {
-          console.log("ingreso en add To cart")
             const cid = req.params.cid.toString();
             const pid = req.params.pid;
             const qty = parseInt(req.body.quantity) || 1;
-            console.log(cid, pid, qty);
-            console.log("pid", pid)
 
             const userEmail = req.user.email
-            console.log(userEmail)
 
             const productAdd = await ProductModel.findOne({ _id: pid })
-          console.log("productAdd", productAdd)
-          console.log("mail owner", productAdd.owner)
 
             if (userEmail !== productAdd.owner) {
-              console.log("owner distinto")
               const result = await Carts.addToCart(cid, pid, qty);
               return res.status(201).json({ message: "producto añadido al carrito", result });
           } else {
-            console.log("owner igual")
               res.status(201).json({ message: "no puede añadir al carrito un producto que haya sido creado por usted! :(" });
           }         
         } catch (e) {
-            console.log(e)
+          logger.error('Ocurrió un error en la función addToCart:', e)
             return res.status(500).json({
                 status: "error",
                 msg: "something went wrong :(",
@@ -186,6 +179,7 @@ class CartController {
     
             return res.status(201).json({ message: "producto eliminado del carrito" })
         } catch (e) {
+          logger.error('Ocurrió un error en la función deleteProductToCart:', e)
             return res.status(500).json({
                 status: "error",
                 msg: "something went wrong :(",
@@ -198,10 +192,10 @@ class CartController {
     async clearCart (req, res) {
         try {
             const cid = req.params.cid
-            console.log(cid)
             const result = await Carts.cleanToCart(cid);
             return res.status(201).json({ message: `se vació el carrito con ID: ${cid}` })
         } catch (e) {
+          logger.error('Ocurrió un error en la función clearCart:', e)
             return res.status(500).json({
                 status: "error",
                 msg: "something went wrong :(",
@@ -223,6 +217,7 @@ class CartController {
             const cartId = userInDB.cart.toString();
             return res.status(201).json({ cartId });
         } catch (e) {
+          logger.error('Ocurrió un error en la función getCartById:', e)
             return res.status(500).json({
                 status: "error",
                 msg: "Algo salió mal",
@@ -239,6 +234,7 @@ class CartController {
             const result = await Carts.updateProductQuantity(cid, product, qty);
             return res.status(201).json({ message: `carro actualizado satisfactoriamente` })
         } catch (e) {
+          logger.error('Ocurrió un error en la función updateCart:', e)
             return res.status(500).json({
                 status: "error",
                 msg: "Algo salió mal",
@@ -255,6 +251,7 @@ class CartController {
             const result = await Carts.addProduct(cid, pid, qty);
             return res.status(201).json({ message: `carro actualizado satisfactoriamente` })
         } catch (e) {
+          logger.error('Ocurrió un error en la función addProduct:', e)
             return res.status(500).json({
                 status: "error",
                 msg: "Algo salió mal",
@@ -312,7 +309,6 @@ class CartController {
           const userEmail = purchaser.email
           
           if (ticketResult.code === 200) {
-            console.log("cart.controller previo a enviar el correo y render")
             await mailer.sendPurchaseCompleted(userEmail, productsForMail);
 
             return res.render('ticket', { ticket: ticketRender});
@@ -321,7 +317,7 @@ class CartController {
             return res.status(ticketResult.code).json({ error: 'Error en la compra', details: ticketResult.result.message });
           }
         } catch (error) {
-          console.error(error);
+          logger.error('Ocurrió un error en la función purchaseCart:', e)
           return res.status(500).json({ error: 'Error en la compra' });
         }
       }

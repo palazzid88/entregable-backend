@@ -14,7 +14,7 @@ class CartService {
             const cart = await  cartDao.create({});
             return cart;
         } catch (e) {
-            console.log(e);
+            logger.error('Ocurrió un error en la función createOne:', e)
             throw new Error("Error al crear un carro :(");
         }
     }
@@ -42,7 +42,7 @@ class CartService {
             await cart.save();
             return cart;
         } catch (e) {
-            console.log(e);
+            logger.error('Ocurrió un error en la función addToCart:', e)
             throw new Error("No se pudo eliminar producto del carro :(");
         };
     }
@@ -64,7 +64,7 @@ class CartService {
             return cart; 
         }
         catch (e) {
-            console.log(e);
+            logger.error('Ocurrió un error en la función delProdToCart:', e)
             throw new Error("No se pudo eliminar producto del carro :(");
         };
     }
@@ -81,7 +81,7 @@ class CartService {
             return cart;
         }
         catch (e) {
-            console.log(e);
+            logger.error('Ocurrió un error en la función cleanToCart:', e)
             throw new Error("No se pudo eliminar el carro :(");
         }
     }
@@ -101,7 +101,7 @@ class CartService {
             return cart;
         }
         catch (e) {
-            console.log(e);
+            logger.error('Ocurrió un error en la función updateProductQuantity:', e)
             throw new Error("No se pudo modificar la cantidad del producto :(");
         }        
     }
@@ -116,7 +116,7 @@ class CartService {
             return cart
         }
         catch (e) {
-            console.log(e);
+            logger.error('Ocurrió un error en la función getCartById:', e)
             throw new Error("No se pudo encontrar carro con ese ID :(");
         }        
     }
@@ -127,7 +127,6 @@ class CartService {
             const cart = await cartDao.findById(cid);
 
             if (!cart) {
-                console.log('!cart')
                 throw (`no existe carro con ID: ${cid}`)
             }
             cart.products = productUpdate
@@ -136,7 +135,7 @@ class CartService {
             return cart
         }
         catch (e) {
-            console.log(e);
+            logger.error('Ocurrió un error en la función updateCart:', e)
             throw new Error("No se pudo actualizar carro :(");
         }      
     }
@@ -162,7 +161,7 @@ class CartService {
             return  cart ;
         }
         catch (e) {
-            console.log(e);
+            logger.error('Ocurrió un error en la función addProduct:', e)
             throw new Error("No se pudo añadir producto al carro :(");
         }      
     }
@@ -172,7 +171,7 @@ class CartService {
             const cart = await cartDao.findById(cartId);
             return cart;
         } catch (error) {
-            console.log(error);
+            logger.error('Ocurrió un error en la función getCartWithProducts:', e)
             throw new Error("No se pudo obtener el carrito :(");
         }
     }
@@ -215,7 +214,7 @@ class CartService {
             }
             return res.status(200).json({ message: 'Compra exitosa' });
         } catch (error) {
-            console.error(error);
+            logger.error('Ocurrió un error en la función purchaseCart:', e)
             return res.status(500).json({ error: 'Error en la compra' });
         }
     }

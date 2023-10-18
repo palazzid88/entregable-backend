@@ -37,16 +37,12 @@ async function sendAccountDeletionEmail(mail) {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Correo de eliminación de cuenta enviado:', info.response);
   } catch (error) {
-    console.error('Error al enviar el correo de eliminación de cuenta:', error);
+    logger.error('Ocurrió un error en la función sendPasswordRecoveryEmail:', e)
   }
 }
 
 async function sendPurchaseCompleted(userEmail, productsPurchased) {
-  console.log("entro en mail confirmación de compra");
-  console.log("userMail", userEmail);
-  console.log("productsPurchased", productsPurchased);
   try {
     let productList = "<ul>";
     productsPurchased.forEach((product) => {
@@ -63,9 +59,8 @@ async function sendPurchaseCompleted(userEmail, productsPurchased) {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Correo de confirmación de compra:', info.response);
   } catch (error) {
-    console.error('Error al enviar el correo de confirmación de compra:', error);
+    logger.error('Ocurrió un error en la función sendPurchaseCompleted:', e)
   }
 }
 

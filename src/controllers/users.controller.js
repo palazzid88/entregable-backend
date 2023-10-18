@@ -21,11 +21,9 @@ class UserController {
   }
 
   async deleteOldUsers (req, res) {
-    console.log("users.controller deleteOldUsers")
     try {
       // Llama al servicio para eliminar usuarios inactivos y obtener la lista de usuarios eliminados
       const deletedUsers = await userService.deleteInactiveUsers();
-      console.log("deletedUsers", deletedUsers)
 
       // Envía una respuesta con la lista de usuarios eliminados
       return res.status(200).json({ message: 'Usuarios inactivos eliminados con éxito', deletedUsers });
@@ -36,30 +34,23 @@ class UserController {
   }
 
   async togglePremiumUser(req, res) {
-    console.log("entro a toggle en users.controller");
     try {
       const { uid } = req.params;
       const result = await userService.togglePremiumUser(uid);
       const { user, userDocumentCount } = result;
       const userRegresive = 3 - userDocumentCount
-      
-
-      console.log("userDocumentCount", userDocumentCount)
-  
+        
       if (!user) {
-        console.log("!user")
         return res.status(404).render('error-document', { uid, userDocumentCount, userRegresive });
       }
   
       if (userDocumentCount) {
-        console.log("exito")
         return res.render('changeRole', { msg: 'Role actualizado con éxito', userDocumentCount });
       } else {
-        console.log("falta")
         return res.render('changeRole', { msg: 'La cantidad de documentos es menor que 3', userDocumentCount });
       }
-    } catch (error) {
-      console.log("catch")
+    } catch (e) {
+      logger.error('Ocurrió un error en la función togglePremiumUser:', e)
       return res.status(500).json({ error: 'Error al cambiar el rol del usuario' });
     }
   }
@@ -70,8 +61,8 @@ class UserController {
       const { uid } = req.params;
       const userId = uid;
       res.render('upload-documents', { userId })
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      logger.error('Ocurrió un error en la función uploadForm:', e)
     }
   }
 
@@ -91,7 +82,6 @@ class UserController {
 
       // Encuentra al usuario por su ID
       const user = await UserModel.findById(uid);
-      console.log("user", user)
 
       if (!user) {
         return res.status(404).json({ error: 'Usuario no encontrado' });
@@ -113,12 +103,9 @@ class UserController {
         changeRole = true
         changeRoleFalse = false
       }
-
-
-
       res.render('uploaded-succesfully', {uid, userDocumentCount, userRegresive, changeRole, changeRoleFalse} )
-    } catch (error) {
-      console.error('Error al cargar el documento:', error);
+    } catch (e) {
+      logger.error('Ocurrió un error en la función uploadDocument:', e)
       return res.status(500).json({ error: 'Error al cargar el documento' });
     }
   }

@@ -21,7 +21,6 @@ cartRouter.get('/checkout/:cartId', cartController.viewCheckout);
 // Añade un producto al carrito por body
 cartRouter.put("/:cid/products/:pid", CartController.addToCart );
 
-
 // Eliminar un producto del carrito
 cartRouter.delete("/:cid/product/:pid", CartController.deleteProductToCart );
 
@@ -37,9 +36,7 @@ cartRouter.put("/:cid/product/:pid", CartController.updateCart);
 // añadir un producto al carro
 cartRouter.put("/:cid/products/:pid", CartController.addProduct );
 
-// 
 cartRouter.post("/:cid/purchase", isUserOrPremium, cartController.purchaseCart );
-// Rutas para aumentar y disminuir la cantidad de productos en el carrito
 
 
 module.exports = cartRouter
