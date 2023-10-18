@@ -7,11 +7,11 @@
   <title>Val di sole</title>
 </head>
 <body>
+  <br>
   <div class="container">
-    <div class="d-flex flex-direction-row justify-content-between align-items-center">
+    <div class="d-flex flex-direction-row justify-content-evenly align-items-center">
       <h1>Resumen de Compra</h1>
       <a href="/api/carts/view-cart" class="btn btn-primary">volver atrás</a>
-
     </div>
     <br>
     <br>
@@ -27,8 +27,6 @@
               <p class="card-text">Precio por unidad: u$d{{product.price}}</p>
               <p class="card-text">Cantidad: {{quantity}}</p>
               <p class="card-text">Total por Producto: u$d{{total}}</p>
-
-              {{!-- <p class="card-text">Subtotal: {{quantity * product.price}}</p> --}}
             </div>
           </div>
         </div>
@@ -43,9 +41,6 @@
         </form>
       </div>
     </div>
-    <br />
-    <br />
-    <br />
     <br />
     <!-- Botón "Finalizar compra" -->
   </div>

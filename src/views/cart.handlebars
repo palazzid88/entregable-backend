@@ -8,69 +8,63 @@
 </head>
 <body>
 <br>
-<br>
-<br>
-  <div class="d-flex flex-direction-row justify-content-around align-items-center">
-    <h1> Carrito de Compras </h1>
-    <a href="/api/products" class="btn btn-primary"> << Volver a Productos</a>
-  </div>
-
-  {{!-- <div class="div-cart-handle">
-    <div>
-      <h1>Carrito de Compras</h1>
-      <p>cartId: {{ cart }}</p>
+  <div class="d-flex flex-column justify-content-around align-items-center">
+    <div class="d-flex flex-direction-row justify-content-around align-items-center">
+      <h1 style="margin-right: 20px;"> Carrito de Compras </h1>
+      <a href="/api/products" class="btn btn-primary"> << Volver </a>
     </div>
-  </div> --}}
-  
-  {{ log 1 }}
-  {{ log prodToCart }}
-  {{ log 2 }}
+    
+    {{ log 1 }}
+    {{ log prodToCart }}
+    {{ log 2 }}
 
-  {{#if message}}
-    <p>{{message}}</p>
-  {{else}}
-    {{#each prodToCart}}
-      <div class="card mb-3" style="">
-        <div class="row g-0">
-          <div class="col-md-4">
-            <img src="{{product.thumbnail}}" class="img-fluid rounded-start" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h6 class="card-title">Producto: {{product.title}}</h6>
-              <p class="card-text">Precio por Unidad: u$d {{product.price}}</p>
-              <p class="card-text">Cantidad: {{quantity}}</p>
-              
-              <div class="input-sm mb-3">
-                <div class="col-3">
-                  <input type="number" id="quantityInput" class="form-control" value="{{quantity}}" min="1">
+    {{#if message}}
+      <p>{{message}}</p>
+    {{else}}
+      {{#each prodToCart}}
+        <div class="card mb-3" style="">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="{{product.thumbnail}}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h6 class="card-title">Producto: {{product.title}}</h6>
+                <p class="card-text">Precio por Unidad: u$d {{product.price}}</p>
+                <p class="card-text">Cantidad: {{quantity}}</p>
+                
+                <div class="input-sm mb-3">
+                  <div class="col-3">
+                    <input type="number" id="quantityInput" class="form-control" value="{{quantity}}" min="1">
+                  </div>
                 </div>
-              </div>
-              <button class="btn btn-primary" onclick="updateQuantity('{{product._id}}')">Actualizar Cantidad</button>
-              <button class="btn btn-danger" onclick="deleteProduct('{{product._id}}')">Eliminar</button>
+                <button class="btn btn-primary" onclick="updateQuantity('{{product._id}}')">Actualizar Cantidad</button>
+                <button class="btn btn-danger" onclick="deleteProduct('{{product._id}}')">Eliminar</button>
 
-              <!-- Mostrar el total por producto -->
-              <p class="card-text">Total por Producto: u$d{{total}}</p>
+                <!-- Mostrar el total por producto -->
+                <p class="card-text">Total por Producto: u$d{{total}}</p>
+              </div>
             </div>
           </div>
         </div>
+      {{/each}}
+      <div class="d-flex flex-column align-items-center justify-content-around">
+        <h3>Total del Carrito: u$d {{cartTotal}}</h3>
+        <br>
+        <button class="btn btn-danger" onclick="deleteProductsInCart()"> >>Vaciar Carrito<< </button>
+        <br>
+        <a href="/api/carts/checkout/{{cart}}" class="btn btn-primary">Finalizar la Compra >></a>
+        <br>
+        <a href="/api/products" class="btn btn-primary"> << Añadir más productos </a>
       </div>
-    {{/each}}
-    <h3>Total del Carrito: u$d {{cartTotal}}</h3>
-    <br>
-    <button class="btn btn-danger" onclick="deleteProductsInCart()">Eliminarr</button>
 
-    <div class="d-flex flex-direction-row align-items-center justify-content-around">
-      {{!-- <form method="DELETE" action="/api/carts/{{cartId}}">
-        <button type="submit" class="btn btn-danger"> X Vaciar Carro</button>
-      </form> --}}
-      <a href="/api/carts/checkout/{{cart}}" class="btn btn-primary">Continuar con la Compra >></a>
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-  {{/if}}
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+    {{/if}}
+  </div>
 </body>
 </html>
 <script src="/socket.io/socket.io.js"></script>
