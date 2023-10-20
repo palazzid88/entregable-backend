@@ -178,3 +178,9 @@
 2023-09-27T09:05:02.117Z info: User already exists
 2023-09-27T09:05:22.198Z info: User already exists
 2023-09-28T08:45:10.356Z info: User Registration successful
+2023-10-14T07:54:44.892Z debug: Debug message
+2023-10-14T07:54:44.902Z http: HTTP request
+2023-10-14T07:54:44.904Z info: Info message
+2023-10-14T07:54:44.907Z warning: Warning message
+2023-10-14T07:54:44.907Z error: Error message
+2023-10-18T15:22:01.831Z info: User Registration successful

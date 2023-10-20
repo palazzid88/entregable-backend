@@ -67,6 +67,10 @@ class AuthController {
         if (!userCreated) {
           return res.redirect('/auth/failregister');
         }
+        // Establecer la primera conexión del usuario durante el registro
+        const currentDate = new Date();
+        userCreated.last_connection = currentDate;
+        await userCreated.save();
   
         // Establecer la sesión con los datos del user
         req.login(userCreated, (error) => {
