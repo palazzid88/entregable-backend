@@ -1,6 +1,27 @@
-<h1>RECUPERAR CONTRASEÑA</h1>
-<form action='/auth/recovery' method='POST'>
-  <input type='text' name='email' placeholder='email' />
-  <input type='submit' value='recuperar!' />
-</form>
-<a href='/auth/login'>Volver al login!</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Recuperar Contraseña</title>
+</head>
+<body>
+  <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card col-md-6 p-4">
+      <h1 class="text-center">Recuperar Contraseña</h1>
+      <form action='/auth/recovery' method='POST' class="mt-4">
+        <div class="form-group">
+          <input type='email' class="form-control" name='email' placeholder='email' required />
+        </div>
+        <input type='submit' class="btn btn-primary" value='Recuperar!' />
+      </form>
+      <a href='/auth/login' class="btn btn-link d-block text-center mt-3">Volver al login!</a>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
